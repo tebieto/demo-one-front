@@ -74,6 +74,22 @@
     background: #FF7043
 }
 
+.bullet-image {
+    background-size: cover;
+  }
+
+.image-one {
+    background-image: url('/assets/images/cards/1.png');
+}
+
+.image-two {
+    background-image: url('/assets/images/cards/2.png');
+}
+
+.image-three {
+    background-image: url('/assets/images/cards/3.png');
+}
+
 @media only screen and (max-width: 600px) {
 
     .sub-card {

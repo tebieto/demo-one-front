@@ -1,7 +1,8 @@
 <mat-toolbar color="primary" class="fixed-header mat-elevation-z4">
     <mat-toolbar-row>
-      <span>LSTEF</span>
+      <span class="welcome-logo"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
       <span class="flexer"></span>
-      <button mat-button>Get Started</button>
+      <button mat-button [routerLink]="['/login']" class="login-button">Login</button>
+      <button mat-button [routerLink]="['/register']">Register</button>
     </mat-toolbar-row>
 </mat-toolbar>

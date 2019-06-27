@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "LSETF": {
+    "SMEHUB": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/LSETF",
+            "outputPath": "dist/SMEHUB",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -59,18 +59,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "LSETF:build"
+            "browserTarget": "SMEHUB:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "LSETF:build:production"
+              "browserTarget": "SMEHUB:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "LSETF:build"
+            "browserTarget": "SMEHUB:build"
           }
         },
         "test": {
@@ -104,7 +104,7 @@
         }
       }
     },
-    "LSETF-e2e": {
+    "SMEHUB-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -113,11 +113,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "LSETF:serve"
+            "devServerTarget": "SMEHUB:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "LSETF:serve:production"
+              "devServerTarget": "SMEHUB:serve:production"
             }
           }
         },
@@ -133,5 +133,5 @@
       }
     }
   },
-  "defaultProject": "LSETF"
+  "defaultProject": "SMEHUB"
 }

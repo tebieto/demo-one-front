@@ -1,7 +1,10 @@
 <app-welcome-header></app-welcome-header>
 
+  <div class="welcome-content-three">
 
-  <div class="welcome-content-two mat-elevation-z1">
+
+  </div>
+  <div class="welcome-content-two">
 
 
   </div>
@@ -11,105 +14,168 @@
         <h6>Looking for investors for your ideas?</h6>
         <h5>SMEHUB is helping Idea Owners in Lagos State find investors.</h5>
       </div>
+
+      <div class="main-welcome-card mat-elevation-z2">
+
+          <div class="title long-title">
+            <h1>We already made tremendous impacts</h1>
+          </div>
+
+      </div>
+
+      <div class="main-welcome-card mat-elevation-z2">
+
+        <div class="title">
+          <h1>How It works</h1>
+        </div>
+
+        <div class="sub-card-row row">
+        <mat-card class="sub-card col-xs-4 mat-elevation-z0">
+            <img mat-card-image src="/assets/images/cards/1.png" alt="₦12,000 Monthly for 3 months">
+            <mat-card-header>
+                <mat-card-title>Ideation Stage</mat-card-title>
+                <mat-card-subtitle>₦12,000 Monthly for 3 months</mat-card-subtitle>
+              </mat-card-header>
+            <mat-card-content>
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-one"></div>
+                    <mat-card-title>Post Idea</mat-card-title>
+                    <mat-card-subtitle>Users who have completed registration can post their ideas on SMEHUB</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-one"></div>
+                    <mat-card-title>Ideas are scored</mat-card-title>
+                    <mat-card-subtitle>Ideas will be judged and scored by SMEHUB authorised Judges</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-one"></div>
+                    <mat-card-title>Ideation Activated</mat-card-title>
+                    <mat-card-subtitle>When an idea score over 70% Idea owners will gain access to SMEHUB Ideation stage.</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-one"></div>
+                    <mat-card-title>Ideation Reward</mat-card-title>
+                    <mat-card-subtitle>Idea owner will receive ₦12,000 Monthly for 3 months</mat-card-subtitle>
+                </mat-card-header>
+
+            </mat-card-content>
+            <mat-card-actions>
+            </mat-card-actions>
+        </mat-card>
+
+
+        <mat-card class="sub-card col-xs-4 mat-elevation-z0">
+            <img mat-card-image src="/assets/images/cards/2.png" alt="₦20,000 Monthly for 6 months">
+            <mat-card-header>
+                <mat-card-title>Concept Stage</mat-card-title>
+                <mat-card-subtitle>₦20,000 Monthly for 6 months</mat-card-subtitle>
+              </mat-card-header>
+            <mat-card-content>
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-two"></div>
+                    <mat-card-title>Qualify for Concept Stage</mat-card-title>
+                    <mat-card-subtitle>Idea Owners who performed well during Ideation period will get automatic qualification to Concept Stage.</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-two"></div>
+                    <mat-card-title>Concept Stage Reward</mat-card-title>
+                    <mat-card-subtitle>Idea owner will receive ₦20,000 Monthly for 6 months</mat-card-subtitle>
+                </mat-card-header>
+
+            </mat-card-content>
+            <mat-card-actions>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="sub-card col-xs-4 mat-elevation-z0">
+            <img mat-card-image src="/assets/images/cards/3.png" alt="₦150,000 Monthly for 12 months">
+            <mat-card-header>
+                <mat-card-title>Market Traction Stage</mat-card-title>
+                <mat-card-subtitle>₦150,000 Monthly for 12 months</mat-card-subtitle>
+              </mat-card-header>
+            <mat-card-content>
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-three"></div>
+                    <mat-card-title>Qualify for Market Traction Stage</mat-card-title>
+                    <mat-card-subtitle>Idea Owners who performed well during Ideation period will get automatic qualification to Concept Stage.</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-header>
+                    <div mat-card-avatar class="bullet-image image-three"></div>
+                    <mat-card-title>Market Traction Stage Reward</mat-card-title>
+                    <mat-card-subtitle>Idea owner will receive ₦150,000 Monthly for 12 Months</mat-card-subtitle>
+                </mat-card-header>
+
+            </mat-card-content>
+            <mat-card-actions>
+            </mat-card-actions>
+        </mat-card>
+
+        </div>
+
+      </div>
+
+      <div class="main-welcome-card mat-elevation-z2">
+
+          <div class="title long-title">
+            <h1>SMEHUB Realtime Online Mentorship</h1>
+          </div>
+  
+      </div>
+
+      <div class="main-welcome-card mat-elevation-z2">
+
+          <div class="title long-title">
+            <h1>This is what people are saying about SMEHUB</h1>
+          </div>
+  
+      </div>
+
+
+  <div class="main-welcome-card partners-card mat-elevation-z2">
+
+      <div class="title long-title">
+          <h1>Trusted by the largest companies in Nigeria</h1>
+      </div>
+
+      <div class="partner-logos row">
+
+       <div *ngFor="let item of partnerLogo"  class="col-xs-4 partner-logo">
+          <img  [src]="item.url" alt="">
+       </div>
+      
+      </div>
+
+    </div>
+
+    
+  
+      <div class="footer ">
+
+          <div class="get-started-bottom row">
+              <div class="left col-xs-6"></div>
+              
+              <div class="right col-xs-6">
+                <h1>Join SMEHUB Today</h1>
+                <button mat-button [routerLink]="['/register']">Get Started</button>
+              </div>
+            </div>
+  
+      </div>
+
+     
+
+      <div class="footer main-footer">
+
+        <div class="center-adjust">
+
+         Contact Us . About Us . Partners . Careers . Products . Mission . Terms of Service . Privacy Policy . Cookies Policy
+        </div>
+      </div>
+
   </div>
-
-  <div class="main-welcome-card mat-elevation-z2">
-
-    <div class="title">
-      <h1>How It works</h1>
-    </div>
-
-    <div class="sub-card-row row">
-    <mat-card class="sub-card col-xs-4 mat-elevation-z0">
-        <img mat-card-image src="/assets/images/cards/1.png" alt="₦12,000 Monthly for 3 months">
-        <mat-card-header>
-            <mat-card-title>Ideation Stage</mat-card-title>
-            <mat-card-subtitle>₦12,000 Monthly for 3 months</mat-card-subtitle>
-          </mat-card-header>
-        <mat-card-content>
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-one"></div>
-                <mat-card-title>Post Idea</mat-card-title>
-                <mat-card-subtitle>Users who have completed registration can post their ideas on SMEHUB</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-one"></div>
-                <mat-card-title>Ideas are scored</mat-card-title>
-                <mat-card-subtitle>Ideas will be judged and scored by SMEHUB authorised Judges</mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-one"></div>
-                <mat-card-title>Ideation Activated</mat-card-title>
-                <mat-card-subtitle>When an idea score over 70% Idea owners will gain access to SMEHUB Ideation stage.</mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-one"></div>
-                <mat-card-title>Ideation Reward</mat-card-title>
-                <mat-card-subtitle>Idea owner will receive ₦12,000 Monthly for 3 months</mat-card-subtitle>
-            </mat-card-header>
-
-        </mat-card-content>
-        <mat-card-actions>
-        </mat-card-actions>
-    </mat-card>
-
-
-    <mat-card class="sub-card col-xs-4 mat-elevation-z0">
-        <img mat-card-image src="/assets/images/cards/2.png" alt="₦20,000 Monthly for 6 months">
-        <mat-card-header>
-            <mat-card-title>Concept Stage</mat-card-title>
-            <mat-card-subtitle>₦20,000 Monthly for 6 months</mat-card-subtitle>
-          </mat-card-header>
-        <mat-card-content>
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-two"></div>
-                <mat-card-title>Qualify for Concept Stage</mat-card-title>
-                <mat-card-subtitle>Idea Owners who performed well during Ideation period will get automatic qualification to Concept Stage.</mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-two"></div>
-                <mat-card-title>Concept Stage Reward</mat-card-title>
-                <mat-card-subtitle>Idea owner will receive ₦20,000 Monthly for 6 months</mat-card-subtitle>
-            </mat-card-header>
-
-        </mat-card-content>
-        <mat-card-actions>
-        </mat-card-actions>
-    </mat-card>
-
-    <mat-card class="sub-card col-xs-4 mat-elevation-z0">
-        <img mat-card-image src="/assets/images/cards/3.png" alt="₦150,000 Monthly for 12 months">
-        <mat-card-header>
-            <mat-card-title>Market Traction Stage</mat-card-title>
-            <mat-card-subtitle>₦150,000 Monthly for 12 months</mat-card-subtitle>
-          </mat-card-header>
-        <mat-card-content>
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-three"></div>
-                <mat-card-title>Qualify for Market Traction Stage</mat-card-title>
-                <mat-card-subtitle>Idea Owners who performed well during Ideation period will get automatic qualification to Concept Stage.</mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-header>
-                <div mat-card-avatar class="bullet-image image-three"></div>
-                <mat-card-title>Market Traction Stage Reward</mat-card-title>
-                <mat-card-subtitle>Idea owner will receive ₦150,000 Monthly for 12 Months</mat-card-subtitle>
-            </mat-card-header>
-
-        </mat-card-content>
-        <mat-card-actions>
-        </mat-card-actions>
-    </mat-card>
-
-    </div>
-
-  </div>
-
-  <div class="main-welcome-card mat-elevation-z2">
-
-    </div>
   
 

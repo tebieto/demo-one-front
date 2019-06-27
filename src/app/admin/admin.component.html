@@ -1,5 +1,3 @@
-<app-header></app-header>
+<app-admin-login *ngIf="hasRegistered"></app-admin-login>
 
-<p>
-  admin works!
-</p>
+<app-admin-registration *ngIf="!hasRegistered"></app-admin-registration>

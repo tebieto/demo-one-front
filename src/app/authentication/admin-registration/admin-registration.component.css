@@ -1,0 +1,33 @@
+.register-form-container {
+    position: relative;
+    top:15px;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    padding:20px;
+    border-radius:25px;
+}
+
+
+.register-form-container button {
+    background: #03A9F4;
+    color:#fff;
+}
+
+
+.register-auth-logo {
+    position: relative !important;
+    top: 25px !important;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    
+    .register-form-container {
+       
+        width: 90%;
+    }
+
+  }

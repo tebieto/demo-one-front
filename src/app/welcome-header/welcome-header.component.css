@@ -1,4 +1,19 @@
 mat-toolbar-row button {
-    background: #03A9F4;;
+    background: #03A9F4;
     color: #fff;
+    margin: 5px;
+}
+
+mat-toolbar-row span {
+    cursor: pointer;
+}
+
+.login-button {
+    background: transparent !important;
+    color: #03A9F4 !important;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+
 }

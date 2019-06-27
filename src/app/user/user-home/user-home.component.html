@@ -1,0 +1,7 @@
+<div *ngIf="!isConnecting">
+  <p>
+  {{user['full_name']}}
+  </p>
+<button mat-button (click)="logUserOut('You logged out')">Logout</button>
+</div>
+

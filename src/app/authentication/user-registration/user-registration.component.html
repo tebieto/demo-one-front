@@ -1,0 +1,79 @@
+<div class="auth-logo register-auth-logo" [routerLink]="['/']"><mat-icon>wifi_tethering</mat-icon></div>
+
+<div class="register-form-container mat-elevation-z0" >
+
+    <mat-form-field appearance="outline">
+      <mat-label>Full Name</mat-label>
+
+      <button mat-button matPrefix mat-icon-button aria-label="Clear">
+            <mat-icon>person</mat-icon>
+        </button>
+      <input matInput placeholder="Enter your full name" [formControl]="full_name" (keyup.enter)="onSubmit()"  required>
+      
+      <button mat-button *ngIf="this.full_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.full_name.setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-error *ngIf="full_name.invalid">{{getFullNameErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email Address</mat-label>
+
+      <button mat-button matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>email</mat-icon>
+      </button>
+      
+      <input matInput placeholder="Enter Email" name="email" [formControl]="email" (keyup.enter)="onSubmit()"  required>
+
+      <button mat-button *ngIf="this.email.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+
+      <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+
+      <button mat-button matPrefix mat-icon-button aria-label="Clear">
+          <mat-icon>how_to_reg</mat-icon>
+      </button>
+      
+      <input matInput placeholder="Enter Username" name="username" [formControl]="username" (keyup.enter)="onSubmit()"  required>
+
+      <button mat-button *ngIf="this.username.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.username.setValue('')">
+          <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <button mat-button matPrefix mat-icon-button aria-label="Clear">
+            <mat-icon>lock</mat-icon>
+        </button>
+        <input matInput placeholder="Enter Password" [type]="hidePassword ? 'password' : 'text'"  [formControl]="password" (keyup.enter)="onSubmit()"  required>
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="email.invalid">{{getPasswordErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                    <mat-icon>lock</mat-icon>
+            </button>
+            <input matInput placeholder="Confirm Password" [type]="hideConfirm ? 'password' : 'text'" [errorStateMatcher]="matcher" [formControl]="confirm_password" (keyup.enter)="onSubmit()"  required>
+            <mat-icon matSuffix (click)="hideConfirm= !hideConfirm">{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="email.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            <mat-error *ngIf="!passwordMismatch">{{getConfirmPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+     <br>
+     <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+        </mat-spinner></mat-icon><span *ngIf="!persistingData">Register</span></button>
+      <br>
+      <button class="form-suffice"><span [routerLink]="['/login']">Already have an account?</span></button>
+      <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span></button>
+
+</div>
+

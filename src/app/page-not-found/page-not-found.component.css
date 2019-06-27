@@ -1,0 +1,41 @@
+.page-not-found {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background: #03A9F4;
+    color:#fff;
+}
+
+
+.page-not-found button, .page-not-found div {
+    position: relative;
+    display:block;
+    margin: auto;
+    top: 100px;
+}
+
+.page-not-found div {
+    width: 400px;
+    max-width:100%;
+    padding-left:5px;
+    font-size: 25px;
+}
+
+.page-not-found button {
+    background: #FFC107;
+    width:80%;
+    top: 150px;
+    border-radius: 0px;
+    padding:0px;
+}
+
+.page-not-found .error-page-footer {
+    position:relative;
+    width: 150px;
+    font-size:15px;
+    font-weight: bold;
+    color:#000;
+    top: 80%;
+}

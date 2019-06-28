@@ -94,3 +94,7 @@ html, body {
   .form-button mat-spinner circle {
     stroke: #fff !important;
   }
+
+  .page-loading mat-spinner circle {
+    stroke: #FF7043 !important;
+  }

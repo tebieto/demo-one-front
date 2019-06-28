@@ -69,7 +69,8 @@
             <mat-error *ngIf="!passwordMismatch">{{getConfirmPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
      <br>
-      <button mat-button class="form-button" (click)="onSubmit()">register</button>
+     <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+      </mat-spinner></mat-icon><span *ngIf="!persistingData">Register</span></button>
       <br>
       <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span></button>
 

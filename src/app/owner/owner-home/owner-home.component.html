@@ -1,3 +1,8 @@
-<p>
-  owner-home works!
-</p>
+<div *ngIf="!isConnecting && user">
+    <p>
+    {{user['full_name']}}
+    </p>
+  <button mat-button (click)="logUserOut('You logged out')">Logout</button>
+</div>
+  
+  

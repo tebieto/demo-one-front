@@ -105,12 +105,61 @@ storeToken(token: string){
 
 redirectUser(role:any) {
  if(role[0]) {
-   this.gotoClassifiedPage()
+   // It is an array
+      this.redirectByArray(role)
+      return
  } else if (role.code == 0){
+   //Redirect to user page
    this.gotoUserPage()
+   return
+
+ }else if (role.code == 77 || role.code == 66 || role.code == 55){
+  //Redirect to classified page
+  this.gotoClassifiedPage()
+  return
+
+} else {
+   // User should not login
+  this.loginNotAllowed()
  }
 
  return
+}
+
+redirectByArray(role: any){
+  let isInvestor = role.find(x=>{
+    return x.code === 77
+  })
+
+  let isMentor = role.find(x=>{
+    return x.code === 66
+  })
+
+  let isJudge = role.find(x=>{
+    return x.code === 55
+  })
+
+  let isUser = role.find(x=>{
+    return x.code === 0
+  })
+
+if(isInvestor || isMentor || isJudge){
+  // go to classified user page
+  this.gotoClassifiedPage()
+} else if(isUser){
+  this.gotoUserPage()
+} else {
+  // User should not login
+  this.loginNotAllowed()
+}
+}
+
+loginNotAllowed(){
+  localStorage.removeItem('token')
+  let notification = 'You are not allowed to view this page'
+    this.openSnackBar(notification, 'snack-error')
+    return
+
 }
 
 gotoClassifiedPage(){

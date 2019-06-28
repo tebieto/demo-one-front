@@ -18,6 +18,12 @@ export class CustomErrorHandler {
     
         }
 
+        else if(error.status==403 && error.body){
+
+            return error.body
+      
+          }
+
         else if(error.status==401 && error.body){
 
           return error.body

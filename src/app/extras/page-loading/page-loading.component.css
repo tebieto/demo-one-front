@@ -1,0 +1,26 @@
+.page-loading {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background: #fff;
+}
+
+
+.page-loading button, .page-loading div {
+    position: relative;
+    display:block;
+    margin: auto;
+    top: 100px;
+}
+
+
+.page-loading button {
+    background: transparent;
+    width:80%;
+    top: 150px;
+    border:none;
+    border-radius: 0px;
+    padding:0px;
+}

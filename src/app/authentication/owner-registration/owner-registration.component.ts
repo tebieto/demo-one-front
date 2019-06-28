@@ -3,7 +3,9 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { MatSnackBar, ErrorStateMatcher } from '@angular/material';
 import { Title } from '@angular/platform-browser';
-
+import { Router } from '@angular/router';
+import { RegisterService } from 'src/app/shared/authentication/register.service';
+import { CustomErrorHandler as errorMessage } from 'src/app/custom-error-handler';
 
 let showConfirmError= false
 
@@ -31,8 +33,14 @@ export class OwnerRegistrationComponent implements OnInit {
   
 
   matcher = new MyErrorStateMatcher();
+  persistingData: boolean;
 
-  constructor(private snackBar: MatSnackBar, private titleService:Title) { }
+  constructor(
+    private snackBar: MatSnackBar, 
+    private titleService:Title,
+    private router: Router,
+    private registerService: RegisterService
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle('SMEHUB|Admin Registration')
@@ -67,8 +75,6 @@ export class OwnerRegistrationComponent implements OnInit {
         '';
   }
   
-
-
   getConfirmPasswordErrorMessage() {
 
     if (this.confirm_password.value != this.password.value){
@@ -102,7 +108,8 @@ export class OwnerRegistrationComponent implements OnInit {
     "password": this.password.value.trim(),
     "confirmation": this.confirm_password.value.trim(),
     "username": this.username.value.trim(),
-    "full_name": this.full_name.value
+    "full_name": this.full_name.value,
+    "role": 999
   }
 
   this.persistData(data)
@@ -112,7 +119,89 @@ export class OwnerRegistrationComponent implements OnInit {
   }
 
   persistData(data: Object){
-    console.log(data)
+    this.persistingData = true
+    this.registerService.newOwner(data)
+    .subscribe(
+      (res)=>{
+        this.persistingData = false
+      
+      if(res.code != 200) {
+        res['status']= res['code']
+        this.showErrorMessage(res)
+      }
+
+      if(res.code==200) {
+       if (this.storeToken(res.token)){
+         this.redirectUser(res.body.role)
+       }
+      }
+    },
+      (error)=>{
+        this.persistingData = false
+        
+        let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+      }
+    )
+  }
+
+  
+  storeToken(token: string){
+    localStorage.setItem('token', token)
+    return true
+  }
+
+  redirectUser(role:any) {
+    if(role[0]) {
+      // It is an array
+         this.redirectByArray(role)
+         return
+    } else if (role.code == 999){
+      //Redirect to user page
+      this.gotoOwnerPage()
+      return
+   
+    }else {
+      // User should not login
+     this.loginNotAllowed()
+    }
+   
+    return
+   }
+   
+   redirectByArray(role: any){
+     let isOwner = role.find(x=>{
+       return x.code === 999
+     })
+   
+   if(isOwner){
+     this.gotoOwnerPage()
+   } else {
+     // User should not login
+     this.loginNotAllowed()
+   }
+   }
+   
+   loginNotAllowed(){
+     localStorage.removeItem('token')
+     let notification = 'You are not allowed to view this page'
+       this.openSnackBar(notification, 'snack-error')
+       return
+   
+   }
+
+
+  gotoOwnerPage(){
+    this.router.navigateByUrl('/owner/home')
+  }
+  
+  showErrorMessage(error: object){
+    this.persistingData = false;
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
   }
 
   openSnackBar(message, panelClass) {

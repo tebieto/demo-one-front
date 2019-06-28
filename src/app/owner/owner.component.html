@@ -1,3 +1,7 @@
-<app-owner-login *ngIf="hasRegistered"></app-owner-login>
+<app-owner-login *ngIf="hasRegistered && !hasError && !isConnecting"></app-owner-login>
 
-<app-owner-registration *ngIf="!hasRegistered"></app-owner-registration>
+<app-owner-registration *ngIf="!hasRegistered && !hasError && !isConnecting"></app-owner-registration>\
+
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+
+<app-page-loading *ngIf="isConnecting"></app-page-loading>

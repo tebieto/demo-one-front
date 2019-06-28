@@ -33,9 +33,41 @@ export class UserService {
 
   }
 
-  validate(){
+  validateUser(){
    
-    this.baseUrl = Config.api + 'user/validate'
+    this.baseUrl = Config.api + 'token/validate'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  superAdmin(){
+    this.baseUrl = Config.api + 'admin/super/exist'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  appOwner(){
+    this.baseUrl = Config.api + 'owner/exist'
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

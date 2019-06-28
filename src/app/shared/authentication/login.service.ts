@@ -34,6 +34,40 @@ export class LoginService {
 
   }
 
+  admin(data: object){
+    this.baseUrl = Config.api+ 'admin/login'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  owner(data: object){
+    this.baseUrl = Config.api+ 'admin/login'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   getCommonHeaders(){
     let headers = new Headers();
     headers.append("content-type", "application/json");

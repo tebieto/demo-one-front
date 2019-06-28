@@ -124,7 +124,7 @@ export class UserRegistrationComponent implements OnInit {
     this.registerService.newUser(data)
     .subscribe(
       (res)=>{
-        console.log(res)
+        
         this.persistingData = false
         if(res.code != 200) {
           res['status']= res['code']
@@ -153,14 +153,44 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   redirectUser(role:any) {
-   if(role[0]) {
-     this.gotoClassifiedPage()
-   } else if (role.code == 0){
-     this.gotoUserPage()
+    if(role[0]) {
+      // It is an array
+         this.redirectByArray(role)
+         return
+    } else if (role.code == 0){
+      //Redirect to user page
+      this.gotoUserPage()
+      return
+   
+    }else {
+      // User should not login
+     this.loginNotAllowed()
+    }
+   
+    return
    }
-
-   return
-  }
+   
+   redirectByArray(role: any){
+   
+    let isUser = role.find(x=>{
+       return x.code === 0
+     })
+   
+   if(isUser){
+     this.gotoUserPage()
+   } else {
+     // User should not login
+     this.loginNotAllowed()
+   }
+   }
+   
+   loginNotAllowed(){
+     localStorage.removeItem('token')
+     let notification = 'You are not allowed to view this page'
+       this.openSnackBar(notification, 'snack-error')
+       return
+   
+   }
 
   gotoClassifiedPage(){
     this.router.navigateByUrl('/classified')

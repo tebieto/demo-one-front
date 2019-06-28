@@ -27,7 +27,7 @@ export class UserHomeComponent implements OnInit {
 
   validateUser(){
     this.isConnecting= true
-    this.userService.validate()
+    this.userService.validateUser()
     .subscribe(
       (res)=>{
         this.isConnecting=false
@@ -44,7 +44,7 @@ export class UserHomeComponent implements OnInit {
     },
     (error)=>{
       this.isConnecting=false;
-      let message ='An error occoured, Login Again'
+      let message ='An error occured, Login Again'
       this.logUserOut(message);
   
     });

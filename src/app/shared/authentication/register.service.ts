@@ -30,6 +30,56 @@ export class RegisterService {
 
       catchError(this.handleErrors)
     );
+  }
+
+  newAdmin(data: object){
+    this.baseUrl = Config.api+ 'admin/register'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  newOwner(data: object){
+    this.baseUrl = Config.api+ 'owner/register'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  newSpecial(data: object){
+    this.baseUrl = Config.api+ 'special/register'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
 
   }
 

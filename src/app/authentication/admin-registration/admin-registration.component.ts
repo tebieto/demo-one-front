@@ -3,6 +3,9 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { MatSnackBar, ErrorStateMatcher } from '@angular/material';
 import { Title } from '@angular/platform-browser';
+import { RegisterService } from 'src/app/shared/authentication/register.service';
+import { Router } from '@angular/router';
+import { CustomErrorHandler as errorMessage } from 'src/app/custom-error-handler';
 
 
 let showConfirmError= false
@@ -19,7 +22,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-admin-registration',
   templateUrl: './admin-registration.component.html',
-  styleUrls: ['./admin-registration.component.css']
+  styleUrls: ['./admin-registration.component.css'],
+  providers: [RegisterService]
 })
 export class AdminRegistrationComponent implements OnInit {
 
@@ -30,8 +34,14 @@ export class AdminRegistrationComponent implements OnInit {
   
 
   matcher = new MyErrorStateMatcher();
+  persistingData: boolean;
 
-  constructor(private snackBar: MatSnackBar, private titleService:Title) { }
+  constructor(
+    private snackBar: MatSnackBar, 
+    private titleService:Title,
+    private registerService: RegisterService,
+    private router: Router,
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle('SMEHUB|Admin Registration')
@@ -101,7 +111,8 @@ export class AdminRegistrationComponent implements OnInit {
     "password": this.password.value.trim(),
     "confirmation": this.confirm_password.value.trim(),
     "username": this.username.value.trim(),
-    "full_name": this.full_name.value
+    "full_name": this.full_name.value,
+    "role": 99
   }
 
   this.persistData(data)
@@ -111,7 +122,89 @@ export class AdminRegistrationComponent implements OnInit {
   }
 
   persistData(data: Object){
-    console.log(data)
+    this.persistingData = true
+    this.registerService.newAdmin(data)
+    .subscribe(
+      (res)=>{
+        this.persistingData = false
+      
+      if(res.code != 200) {
+        res['status']= res['code']
+        this.showErrorMessage(res)
+      }
+
+      if(res.code==200) {
+       if (this.storeToken(res.token)){
+         this.redirectUser(res.body.role)
+       }
+      }
+    },
+      (error)=>{
+        this.persistingData = false
+        
+        let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+      }
+    )
+  }
+
+  
+  storeToken(token: string){
+    localStorage.setItem('token', token)
+    return true
+  }
+
+  redirectUser(role:any) {
+    if(role[0]) {
+      // It is an array
+         this.redirectByArray(role)
+         return
+    } else if (role.code == 99){
+      //Redirect to user page
+      this.gotoAdminPage()
+      return
+   
+    }else {
+      // User should not login
+     this.loginNotAllowed()
+    }
+   
+    return
+   }
+   
+   redirectByArray(role: any){
+     let isSuperAdmin = role.find(x=>{
+       return x.code === 99
+     })
+   
+   if(isSuperAdmin){
+     this.gotoAdminPage()
+   } else {
+     // User should not login
+     this.loginNotAllowed()
+   }
+   }
+   
+   loginNotAllowed(){
+     localStorage.removeItem('token')
+     let notification = 'You are not allowed to view this page'
+       this.openSnackBar(notification, 'snack-error')
+       return
+   
+   }
+
+
+  gotoAdminPage(){
+    this.router.navigateByUrl('/admin/home')
+  }
+  
+  showErrorMessage(error: object){
+    this.persistingData = false;
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
   }
 
   openSnackBar(message, panelClass) {

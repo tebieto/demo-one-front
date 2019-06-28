@@ -5,12 +5,16 @@ import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInpu
 import { SnackbarComponent } from '../extras/snackbar/snackbar.component';
 import { DialogComponent } from '../extras/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ErrorOccuredComponent } from '../extras/error-occured/error-occured.component';
+import { PageLoadingComponent } from '../extras/page-loading/page-loading.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     SnackbarComponent,
-    DialogComponent
+    DialogComponent,
+    ErrorOccuredComponent,
+    PageLoadingComponent
   ],
   entryComponents: [
     SnackbarComponent, DialogComponent,
@@ -31,6 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     SnackbarComponent,
     DialogComponent,
+    ErrorOccuredComponent,
+    PageLoadingComponent,
     MatIconModule,
     MatToolbarModule,
     MatCardModule,

@@ -1,0 +1,42 @@
+.error-occured {
+    position: fixed;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background: #03A9F4;
+    color:#fff;
+}
+
+
+.error-occured button, .error-occured div {
+    position: relative;
+    display:block;
+    margin: auto;
+    top: 100px;
+}
+
+.error-occured div {
+    width: 300px;
+    max-width:100%;
+    padding-left:5px;
+    font-size: 25px;
+}
+
+.error-occured button {
+    background: transparent;
+    width:30%;
+    top: 150px;
+    border:none;
+    border-radius: 0px;
+    padding:0px;
+}
+
+.error-occured .error-page-footer {
+    position:relative;
+    width: 150px;
+    font-size:15px;
+    font-weight: bold;
+    color:#000;
+    top: 80%;
+}

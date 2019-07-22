@@ -22,6 +22,7 @@ const routes: Routes = [
   {"path": 'judge', loadChildren: './classified/judge/judge.module#JudgeModule', data: { preload: true, delay: false },},
   {"path": 'investor', loadChildren: './classified/investor/investor.module#InvestorModule', data: { preload: true, delay: false },},
   {"path": 'mentor', loadChildren: './classified/mentor/mentor.module#MentorModule', data: { preload: true, delay: false },},
+  {"path": 'mentee', loadChildren: './classified/mentee/mentee.module#MenteeModule', data: { preload: true, delay: false },},
   {"path": '**', component:PageNotFoundComponent}
 ];
 

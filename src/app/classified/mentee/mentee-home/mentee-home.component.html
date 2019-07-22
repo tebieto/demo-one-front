@@ -1,0 +1,413 @@
+<mat-toolbar color="primary" class="fixed-header mat-elevation-z0 special-top">
+  <mat-toolbar-row>
+    <span class="special-logo"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
+    <span class="flexer"></span>
+    <div [routerLink]="['/']" class="logout" title="Logout"><mat-icon>logout</mat-icon> </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="app-card mat-elevation-z4" (mouseenter)="hideChatMenus()">
+
+
+  <!--Conversation Left Side-->
+
+  <div class="left-side chat">
+
+    <div class="left-side-top">
+        <div class="infos">
+          <img src="/assets/images/cards/5.png" alt="">
+          <span class="right-icons">
+            <mat-icon title="Forum" (click)="gotoForum()">forum</mat-icon>
+            <mat-icon>more_vert</mat-icon>
+          </span>
+        </div>
+        <div class="search">
+          <mat-form-field appearance="outline" class="page-search-input">
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                <mat-icon>search</mat-icon>
+            </button>
+          <input matInput (keyup)="applyFilter($event.target.value)" name="search" [(ngModel)]="searchText" placeholder="Search conversations" autocomplete="off">
+          <button *ngIf="searchText" (click)="searchText=''" mat-button matSuffix mat-icon-button aria-label="Clear">
+            <mat-icon>close</mat-icon>
+        </button>
+        </mat-form-field>
+        </div>
+    </div>
+
+    <!--When Search is Off-->
+    <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+      <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
+      <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.sender.id)">
+        
+        <div class="col-xs-6 user-avatar">
+          <img [src]="item.sender.avatar" alt="">
+        </div> 
+        
+        <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
+          <span class="user-name">
+              {{item.sender.name}}
+          </span> 
+          <span class="latest-time">
+            {{getLocalTime(item.latest.created_at)}}
+          </span>
+          <br>
+          <span class="user-message">
+           {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
+           <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+          </span>
+          <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+          <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+          <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
+          <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+
+          <mat-menu #menu="matMenu" class="mat-menu">
+              <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                  <span  class="more-option">Unpin Chat</span>
+              </button>
+              <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                  <span class="more-option">Pin Chat</span>
+              </button>
+          </mat-menu>
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!--When Search is On-->
+    <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+        <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
+        <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.sender.id)">
+          
+          <div class="col-xs-6 user-avatar">
+            <img [src]="item.sender.avatar" alt="">
+          </div> 
+          
+          <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
+            <span class="user-name" [innerHTML]="replaceMatch(item.sender.name)">
+            </span> 
+            <span class="latest-time">
+              {{getLocalTime(item.latest.created_at)}}
+            </span>
+            <br>
+            <span class="user-message">
+                {{item.latest.message.slice(0, 35)}} 
+                <span *ngIf="item.latest.message.length>35">...</span>
+                <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+              </span>
+              <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
+              <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+    
+              <mat-menu #menu="matMenu" class="mat-menu">
+                  <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                      <span  class="more-option">Unpin Chat</span>
+                  </button>
+                  <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                      <span class="more-option">Pin Chat</span>
+                  </button>
+              </mat-menu>
+          </div>
+          
+        </div>
+  
+      </div>
+
+  </div>
+
+
+
+  <!--Forum Left Side-->
+
+  <div class="left-side forum" [class.expand-left]="toForum">
+
+      <div class="left-side-top">
+          <div class="infos">
+            <span class="left-icons">
+              <mat-icon title="Go back" (click)="gotoConversation()">arrow_back</mat-icon>
+            </span>
+
+            <span class="page-title">
+                Forum
+            </span>
+            <span class="right-icons">
+              <mat-icon>more_vert</mat-icon>
+            </span>
+          </div>
+          <div class="search">
+            <mat-form-field appearance="outline" class="page-search-input">
+              <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                  <mat-icon>search</mat-icon>
+              </button>
+            <input matInput (keyup)="applyFilter($event.target.value)" name="search" [(ngModel)]="searchText" placeholder="Search Forum" autocomplete="off">
+            <button *ngIf="searchText" (click)="searchText=''" mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+          </div>
+      </div>
+  
+      <!--When Search is Off-->
+      <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+        <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
+        <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.sender.id)">
+          
+          <div class="col-xs-6 user-avatar">
+            <img [src]="item.sender.avatar" alt="">
+          </div> 
+          
+          <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
+            <span class="user-name">
+                {{item.sender.name}}
+            </span> 
+            <span class="latest-time">
+              {{getLocalTime(item.latest.created_at)}}
+            </span>
+            <br>
+            <span class="user-message">
+             {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
+             <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
+                  <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                  <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+            </span>
+            <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
+            <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+  
+            <mat-menu #menu="matMenu" class="mat-menu">
+                <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                    <span  class="more-option">Unpin Chat</span>
+                </button>
+                <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                    <span class="more-option">Pin Chat</span>
+                </button>
+            </mat-menu>
+          </div>
+          
+        </div>
+  
+      </div>
+  
+      <!--When Search is On-->
+      <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+          <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
+          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.sender.id)">
+            
+            <div class="col-xs-6 user-avatar">
+              <img [src]="item.sender.avatar" alt="">
+            </div> 
+            
+            <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
+              <span class="user-name" [innerHTML]="replaceMatch(item.sender.name)">
+              </span> 
+              <span class="latest-time">
+                {{getLocalTime(item.latest.created_at)}}
+              </span>
+              <br>
+              <span class="user-message">
+                  {{item.latest.message.slice(0, 35)}} 
+                  <span *ngIf="item.latest.message.length>35">...</span>
+                  <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
+                  <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                  <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+                </span>
+                <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
+                <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+      
+                <mat-menu #menu="matMenu" class="mat-menu">
+                    <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                        <span  class="more-option">Unpin Chat</span>
+                    </button>
+                    <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                        <span class="more-option">Pin Chat</span>
+                    </button>
+                </mat-menu>
+            </div>
+            
+          </div>
+    
+        </div>
+  
+    </div>
+
+  
+
+  <div class="right-side" *ngIf="activeConversation">
+    <div class="right-side-top">
+      <div class="infos" >
+        <span class="sender-details">
+          <img [src]="activeConversation.sender.avatar" alt="">
+          <span class="sender-name">{{activeConversation.sender.name}}</span>
+        </span>
+          <span class="right-icons">
+            <mat-icon>more_vert</mat-icon>
+          </span>
+        </div>
+
+        
+        <div *ngIf="pinnedTime.length>0" class="group-time pinned-time">
+            <button mat-button>{{pinnedTime}}</button>
+        </div>
+
+    </div>
+
+      <div class="right-side-body" (scroll)="onScroll($event)" (keydown)="focusInput($event)" #scrollToBottom tabindex="1">
+
+        <div class="chat-message" *ngFor="let message of activeConversation.conversation">
+
+            <div class="unread-messages" *ngIf="message.showUnread && showUnread && message.desparity">
+              <div #unreadMessages>
+                {{activeConversation['unread']}} Unread 
+                <span *ngIf="activeConversation['unread']==1">Message</span>
+                <span *ngIf="activeConversation['unread']>1">Messages</span> 
+              </div>
+            </div>
+
+            <div class="group-time" *ngIf="message.groupTime" [class.group-margin]="!message.desparity">
+              <button mat-button>{{getGroupTime(message.created_at)}}</button>
+            </div>
+
+            <div class="message-right message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender_id == authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity">
+              
+              <div class="reply" *ngIf="message.parent>0">
+                <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
+                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">{{message['parent_info']['sender']['name']}}</div>
+                  <div *ngIf="message['parent_info']['sender']['id']==authUser.id">You</div>
+                  {{message['parent_info']['message']}}
+                </div>
+              </div>
+              
+              {{message.message}}
+              
+              <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="more-option" [matMenuTriggerFor]="messageMenu" (click)="messageMenuOpened(message.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+
+
+              <span class="message-timing">
+                <span class="message-status" *ngIf="message.starred"> <mat-icon>star</mat-icon> </span>
+                <span class="message-time">{{getChatTime(message.created_at)}}</span>
+                <span class="message-status" *ngIf="message.status=='sent'"> <mat-icon>check</mat-icon> </span>
+                <span class="message-status" *ngIf="message.status=='delivered'"> <mat-icon>done_all</mat-icon> </span>
+                <span class="message-status" *ngIf="message.status=='pending' && message.sender_id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
+              </span>
+              
+              <mat-menu #messageMenu="matMenu" class="mat-menu">
+                  <button mat-button  (click)="replyMessage(message.id)">
+                      <span  class="more-option">Reply Message</span>
+                  </button>
+                  <button mat-button *ngIf="message.starred"  (click)="unstarMessage(message.id)">
+                      <span  class="more-option">Unstar Message</span>
+                  </button>
+                  <button mat-button *ngIf="!message.starred" (click)="starMessage(message.id)">
+                      <span class="more-option">Star Message</span>
+                  </button>
+              </mat-menu>
+
+            </div>
+
+            <div class="message-left message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender_id != authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity">
+                
+              <div class="reply" *ngIf="message.parent>0">
+                <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
+                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">{{message['parent_info']['sender']['name']}}</div>
+                  <div *ngIf="message['parent_info']['sender']['id']==authUser.id">You</div>
+                  {{message['parent_info']['message']}}
+                </div>
+              </div>
+              
+              {{message.message}} 
+
+                <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                <div class="more-option" [matMenuTriggerFor]="messageMenu" (click)="messageMenuOpened(message.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                
+                <span class="message-timing">
+                  <span class="message-status" *ngIf="message.starred"> <mat-icon>star</mat-icon> </span>
+                  <span class="message-time">{{getChatTime(message.created_at)}}</span>
+                  <span class="message-status" *ngIf="message.status=='sent' && message.sender_id==authUser.id"> <mat-icon>check</mat-icon> </span>
+                  <span class="message-status" *ngIf="message.status=='delivered' && message.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                  <span class="message-status" *ngIf="message.status=='pending' && message.sender_id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
+          
+                </span>
+
+
+                <mat-menu #messageMenu="matMenu" class="mat-menu">
+                    <button mat-button  (click)="replyMessage(message.id)">
+                        <span  class="more-option">Reply Message</span>
+                    </button>
+                    <button mat-button *ngIf="message.starred"  (click)="unstarMessage(message.id)">
+                        <span  class="more-option">Unstar Message</span>
+                    </button>
+                    <button mat-button *ngIf="!message.starred" (click)="starMessage(message.id)">
+                        <span class="more-option">Star Message</span>
+                    </button>
+                </mat-menu>
+
+            </div>
+
+
+        </div>
+
+        <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        
+      </div>
+    <div class="right-side-bottom">
+      
+        <div class="reply-message" *ngIf="parentMessage.id">
+
+           <div class="message">
+             <div>{{parentMessage.sender.name}}</div>
+             {{parentMessage.message}}
+           </div>
+
+            <button mat-button matPrefix mat-icon-button aria-label="Clear" (click)="cancelReply()">
+                <mat-icon>close</mat-icon>
+            </button>
+
+        </div>
+
+
+        <div class="send-message">
+            
+          <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                <mat-icon>insert_emoticon</mat-icon>
+          </button>
+            
+          <mat-form-field appearance="outline" class="page-search-input">
+            
+              <input #sendMessage matInput (keyup)="applyFilter($event.target.value)" name="search" [(ngModel)]="typedMessage" placeholder="Type a message" autocomplete="off" (keyup.enter)="submitMessage()" autofocus>
+            
+          </mat-form-field>
+
+          
+          <button mat-button matPrefix mat-icon-button aria-label="Clear" (click)="submitMessage()">
+              <mat-icon *ngIf="typedMessage.length==0">send</mat-icon>
+              <mat-icon *ngIf="typedMessage.length>0" class="active-send-button">send</mat-icon>
+          </button>
+
+          </div>
+
+    </div>
+
+  </div>
+
+  <div class="right-side chat-welcome" *ngIf="!activeConversation">
+
+    <div class="chat-landing-image"></div>
+    <div class="chat-introduction">
+      <h3>Learn, Share Ideas, Raise Funds</h3><br><br>
+      <mat-divider></mat-divider>
+    </div>
+  
+  </div>
+
+</div> 

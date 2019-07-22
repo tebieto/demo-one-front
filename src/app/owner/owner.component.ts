@@ -23,7 +23,6 @@ export class OwnerComponent implements OnInit {
     .subscribe(
       (res)=>{
         this.isConnecting = false
-        console.log(res)
         if(res.code==200){
             if(res.user){
               this.hasRegistered = true

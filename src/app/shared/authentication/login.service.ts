@@ -52,7 +52,7 @@ export class LoginService {
   }
 
   owner(data: object){
-    this.baseUrl = Config.api+ 'admin/login'
+    this.baseUrl = Config.api+ 'owner/login'
     return this.http.post(
       this.baseUrl,
       data,

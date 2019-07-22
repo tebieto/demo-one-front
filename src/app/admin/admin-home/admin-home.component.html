@@ -1,8 +1,9 @@
 <div *ngIf="!isConnecting && user">
     <p>
-    {{user['full_name']}}
+    {{user.full_name}}
     </p>
   <button mat-button (click)="logUserOut('You logged out')">Logout</button>
   </div>
-  
-  
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+
+<app-page-loading *ngIf="isConnecting"></app-page-loading>

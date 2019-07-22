@@ -14,6 +14,7 @@ export class AdminHomeComponent implements OnInit {
   isConnecting: boolean;
 
   user: object;
+  hasError: boolean;
 
   constructor(
     private userService: UserService,
@@ -32,17 +33,18 @@ export class AdminHomeComponent implements OnInit {
       (res)=>{
         this.isConnecting=false
         if(res.code != 200) {
+          this.hasError = true
           let message ='Invalid Session, Login Again.'
           this.logUserOut(message);
         }
   
         if(res.code==200) {
           this.user = res.body.user
-
          }
   
     },
     (error)=>{
+      this.hasError = true
       this.isConnecting=false;
       let message ='An error occured, Login Again'
       this.logUserOut(message);

@@ -17,6 +17,7 @@ import { RecoverPasswordComponent } from './authentication/recover-password/reco
 import { ClassifiedComponent } from './classified/classified.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [
     AppComponent,

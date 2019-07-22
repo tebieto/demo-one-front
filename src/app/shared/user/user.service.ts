@@ -11,8 +11,6 @@ export class UserService {
 
   baseUrl: string
   locationUrl: string
-  token = localStorage.getItem('token')
-  bearer = Config.bearer+''+this.token
 
   constructor(
     private http: Http, 
@@ -34,7 +32,6 @@ export class UserService {
   }
 
   validateUser(){
-   
     this.baseUrl = Config.api + 'token/validate'
     return this.http.get(
       this.baseUrl,
@@ -83,9 +80,11 @@ export class UserService {
   }
 
   getCommonHeaders(){
+    let token = localStorage.getItem('token')
+    let bearer = Config.bearer+''+token
     let headers = new Headers();
     headers.append("content-type", "application/json");
-    headers.append("authorization", this.bearer);
+    headers.append("authorization", bearer);
     return headers
   }
 

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { JudgeHomeComponent } from './judge-home/judge-home.component';
 
 const routes: Routes = [
+  {"path": '', component: JudgeHomeComponent},
   {"path": 'home', component: JudgeHomeComponent},
 ];
 

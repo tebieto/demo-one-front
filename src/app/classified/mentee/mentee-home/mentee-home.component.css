@@ -35,6 +35,7 @@ mat-toolbar-row span {
     margin-left: auto;
     height:91%;
     background:#fff;
+    overflow: hidden;
     z-index: 2 !important;
 }
 
@@ -139,6 +140,7 @@ mat-toolbar-row span {
     width: 100%;
     height: 40px !important;
     border: none !important;
+    color: #757575 !important;
 }
 
 .search input {
@@ -609,14 +611,15 @@ mat-toolbar-row span {
 
 .forum {
     left: -500px !important;
-    visibility: hidden;
     overflow: hidden;
+    transition: left .2s;
+    transition-delay: .1s;
 }
 
 .expand-left {
-    visibility: visible;
     left: 0px !important;
-    transition: left .3s ease-in-out;
+    transition: left .2s;
+    transition-delay: .1s;
  }
 
 .forum .left-side-top {
@@ -644,6 +647,15 @@ mat-toolbar-row span {
     color: #fff !important;
     cursor: pointer;
   }
+
+.add-button {
+    background: #03A9F4 !important;
+}
+
+.add-text {
+    position: relative;
+    top: 12px;
+}
 
 @keyframes fadeIn{
     0% {

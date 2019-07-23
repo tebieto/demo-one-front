@@ -37,7 +37,7 @@
     <!--When Search is Off-->
     <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
       <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
-      <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.sender.id)">
+      <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
         
         <div class="col-xs-6 user-avatar">
           <img [src]="item.sender.avatar" alt="">
@@ -63,10 +63,10 @@
           <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
 
           <mat-menu #menu="matMenu" class="mat-menu">
-              <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+              <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
                   <span  class="more-option">Unpin Chat</span>
               </button>
-              <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+              <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
                   <span class="more-option">Pin Chat</span>
               </button>
           </mat-menu>
@@ -79,7 +79,7 @@
     <!--When Search is On-->
     <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
         <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
-        <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.sender.id)">
+        <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
           
           <div class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
@@ -105,10 +105,10 @@
               <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
     
               <mat-menu #menu="matMenu" class="mat-menu">
-                  <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                  <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
                       <span  class="more-option">Unpin Chat</span>
                   </button>
-                  <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                  <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
                       <span class="more-option">Pin Chat</span>
                   </button>
               </mat-menu>
@@ -154,8 +154,25 @@
   
       <!--When Search is Off-->
       <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
-        <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
-        <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.sender.id)">
+
+          <div class="user-list row" (click)="newForum()">
+          
+              <div class="col-xs-6 user-avatar">
+                <button mat-fab class="add-button">
+                    <mat-icon>add</mat-icon>
+                </button>
+              </div> 
+              
+              <div class="col-xs-6 user-content">
+                <span class="user-name add-text">
+                    New Forum
+                </span> 
+              </div>
+
+          </div>
+
+        <div class="not-available" *ngIf="forums.length==0">No active conversation</div>
+        <div class="user-list row" *ngFor="let item of forums" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
           
           <div class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
@@ -181,10 +198,10 @@
             <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
   
             <mat-menu #menu="matMenu" class="mat-menu">
-                <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
                     <span  class="more-option">Unpin Chat</span>
                 </button>
-                <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
                     <span class="more-option">Pin Chat</span>
                 </button>
             </mat-menu>
@@ -197,7 +214,7 @@
       <!--When Search is On-->
       <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
           <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
-          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.sender.id)">
+          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
             
             <div class="col-xs-6 user-avatar">
               <img [src]="item.sender.avatar" alt="">
@@ -223,10 +240,10 @@
                 <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
       
                 <mat-menu #menu="matMenu" class="mat-menu">
-                    <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.sender.id)">
+                    <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
                         <span  class="more-option">Unpin Chat</span>
                     </button>
-                    <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.sender.id)">
+                    <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
                         <span class="more-option">Pin Chat</span>
                     </button>
                 </mat-menu>
@@ -384,7 +401,7 @@
             
           <mat-form-field appearance="outline" class="page-search-input">
             
-              <input #sendMessage matInput (keyup)="applyFilter($event.target.value)" name="search" [(ngModel)]="typedMessage" placeholder="Type a message" autocomplete="off" (keyup.enter)="submitMessage()" autofocus>
+              <input #sendMessage matInput name="message" [(ngModel)]="typedMessage" placeholder="Type a message" autocomplete="off" (keyup.enter)="submitMessage()" autofocus>
             
           </mat-form-field>
 

@@ -36,10 +36,15 @@ export class MenteeHomeComponent implements OnInit {
   noContentError: boolean;
   desparity: number;
   sibling: number;
-  active: number
+  xActive: number;
+  active: number;
+  activeForum: number;
+  activeIdea: number;
   searchResult = []
   activeConversation: object;
   conversations = [];
+  forums= []
+  ideas= []
   pinnedConversations = [];
   typedMessage = ''
   parentMessage = {}
@@ -108,6 +113,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 5,
       conversation: [
         {
           id: 1,
@@ -159,6 +165,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 5,
       conversation: [ 
         {
           id: 4,
@@ -199,7 +206,6 @@ export class MenteeHomeComponent implements OnInit {
       pinned: true,
       type: 'forum'
     },
-
     {
       sender: {
         id: 10,
@@ -211,6 +217,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 5,
       conversation: [ 
         {
           id: 12,
@@ -243,7 +250,7 @@ export class MenteeHomeComponent implements OnInit {
           status: 'delivered',
           unread: true,
           starred: false,
-          parent: 7,
+          parent: 0,
           type: 'forum'
         }
       ],
@@ -266,7 +273,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
-
+      owner: 2,
       conversation: [ 
         {
           sender_id: 1,
@@ -368,6 +375,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 3,
       conversation: [ 
         {
           id: 3,
@@ -391,7 +399,6 @@ export class MenteeHomeComponent implements OnInit {
       pinned: false,
       type: 'chat'
     },
-
     {
       sender: {
         id: 4,
@@ -403,6 +410,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 4,
       conversation: [ 
         {
           id: 4,
@@ -438,6 +446,7 @@ export class MenteeHomeComponent implements OnInit {
         name: "Terry Ebieto",
         avatar: "/assets/images/cards/5.png"
       },
+      owner: 5,
       conversation: [ 
         {
           id: 5,
@@ -543,8 +552,9 @@ export class MenteeHomeComponent implements OnInit {
 
 
         ngOnInit() {
-          this.manipulateDatas(this.datas)
-          this.populateSource()
+          this.manipulateDatas('chat', this.datas)
+          this.manipulateDatas('forum', this.forumDatas)
+          this.populateSource('chat')
 
           this.initFakeData()
 
@@ -662,15 +672,24 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-        manipulateDatas(datas: object[]){
+        manipulateDatas(type:string, datas: object[]){
           
           let manipulated = []
           if(manipulated = this.refineDatas(datas)) {
 
             try {
-            this.conversations = manipulated
-            this.sortData(this.conversations);
-            this.conversations = this.fixPinned(this.conversations)
+
+            if(type=='chat') {
+              this.conversations = manipulated
+              this.sortData(this.conversations);
+              this.conversations = this.fixPinned(this.conversations)
+            } else if(type=='forum') {
+              this.forums = manipulated
+              this.sortData(this.forums);
+              this.forums = this.fixPinned(this.forums)
+            } else {
+              return
+            }
 
           } catch(err) { 
             console.log(err)
@@ -930,8 +949,14 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-        populateSource(){
-          this.dataSource.data = this.conversations
+        populateSource(type: string){
+          if(type=="chat") {
+            this.dataSource.data = this.conversations
+          } else if(type=="forum") {
+            this.dataSource.data = this.forums
+          } else {
+            return
+          }
         }
 
 
@@ -965,33 +990,78 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-        openChat(id: number) {
-            this.typedMessage = ''
-            this.parentMessage = {}
-            this.desparity =  0
-            this.scrollHeight = 0
-            this.scrollTop = 0
+        openChat(type:string, id: number) {
+            this.typedMessage = '';
+            this.parentMessage = {};
+            this.desparity =  0;
+            this.scrollHeight = 0;
+            this.scrollTop = 0;
+            let activeChat = [];
+            let activateChat = [];
 
+            if(type=="chat") {
+              this.xActive = this.active
+            } else if(type=="forum") {
+              this.xActive = this.activeForum
+            } else {
+              return
+            }
+            
 
           // deactivate active chat
-              if(this.active) {
 
-                    let activeChat  = this.conversations.find((x)=> {
-                      return x.sender.id == this.active
-                    });
+          // Active Deactivation 
+          
+          if(this.activeConversation) {   
+            this.activeConversation['active'] = false;
+          }
 
+          // Global deactivation
 
-                    if(activeChat) {
-                      activeChat['active'] = false;
-                    } 
+              if(this.xActive) {
+
+                if (type=='chat') {
+
+                   activeChat  = this.conversations.find((x)=> {
+                    return x.sender.id == this.active
+                  });
+
+                  if(activeChat) {
+                    activeChat['active'] = false;
+                  } 
+
+                } else if (type=='forum') {
+
+                   activeChat  = this.forums.find((x)=> {
+                    return x.sender.id == this.activeForum
+                  });
+
+                  if(activeChat) {
+                    activeChat['active'] = false;
+                  } 
+
+                } else {
+                  return
+                }
 
               }
 
           // Activate clicked chat
-              let activateChat  = this.conversations.find((x)=> {
-                return x.sender.id == id
-              });
 
+          if(type =='chat') {
+
+             activateChat  = this.conversations.find((x)=> {
+              return x.sender.id == id
+
+            });
+          } else if(type=='forum') {
+
+             activateChat  = this.forums.find((x)=> {
+              return x.sender.id == id
+            });
+
+
+          }
 
 
           if(activateChat) {
@@ -1004,10 +1074,10 @@ export class MenteeHomeComponent implements OnInit {
                 let unread = 0;
                 let compareTime = ''
                 
-                let descendingOrder = this.reverseSortData(activateChat.conversation);
-                activateChat.conversation = descendingOrder;
+                let descendingOrder = this.reverseSortData(activateChat['conversation']);
+                activateChat['conversation'] = descendingOrder;
 
-                activateChat.conversation.forEach(message=>{
+                activateChat['conversation'].forEach(message=>{
 
                   if(message.parent>0) {
                     
@@ -1065,12 +1135,16 @@ export class MenteeHomeComponent implements OnInit {
                 //message['unread_count'] is to track before a conversation is clicked
                 this.activeConversation['unread_count'] = 0;
 
+                this.focusInput('')
 
           } 
 
 
-          
-            this.active = id
+            if(type=="chat") {
+              this.active = id
+            } else if(type=="forum") {
+              this.activeForum = id
+            }
 
             if(!this.showUnread){
               setTimeout(()=>{
@@ -1148,31 +1222,74 @@ export class MenteeHomeComponent implements OnInit {
         }
 
 
-        pinChat(id: number) {
+        pinChat(type: string, id: number) {
           
-          let c  = this.conversations.find((x)=> {
-            return x.sender.id == id
-          });
+          let c = {}
+
+          if(type == 'chat') {
+
+             c  = this.conversations.find((x)=> {
+              return x.sender.id == id
+            });
+
+          } else if(type == 'forum') {
+
+             c  = this.forums.find((x)=> {
+              return x.sender.id == id
+            });
+          }
+          
 
           if(!c) {return}
 
           c['pinned'] = true;
 
-          this.sortData(this.conversations)
-          this.conversations = this.fixPinned(this.conversations)
+          if(type=='chat') {
+
+            this.sortData(this.conversations)
+            this.conversations = this.fixPinned(this.conversations)
+            
+          } else if(type=="forum") {
+
+            this.sortData(this.forums)
+            this.forums = this.fixPinned(this.forums)
+            
+          }
 
         }
 
-        unPinChat(id: number) {
-          let c  = this.conversations.find((x)=> {
-            return x.sender.id == id
-          });
+        unPinChat(type: string, id: number) {
+          
+          let c = {}
+
+          if(type == 'chat') {
+
+             c  = this.conversations.find((x)=> {
+              return x.sender.id == id
+            });
+
+          } else if(type == 'forum') {
+
+             c  = this.forums.find((x)=> {
+              return x.sender.id == id
+            });
+          }
 
           if(!c) {return}
 
           c['pinned'] = false;
-          this.sortData(this.conversations)
-          this.conversations = this.fixPinned(this.conversations)
+
+          if(type=='chat') {
+
+            this.sortData(this.conversations)
+            this.conversations = this.fixPinned(this.conversations)
+
+          } else if(type=="forum") {
+
+            this.sortData(this.forums)
+            this.forums = this.fixPinned(this.forums)
+            
+          }
         }
 
         starMessage(id: number) {
@@ -1235,8 +1352,6 @@ export class MenteeHomeComponent implements OnInit {
           if(e.key=='ArrowUp' || e.key=='ArrowDown') {
             return
           }
-
-          console.log(e)
           this.sendMessage.nativeElement.focus()
         }
 
@@ -1378,15 +1493,31 @@ export class MenteeHomeComponent implements OnInit {
 
 
       newToConversation(data: object){
+        
+        let available = false
 
-        let available = this.conversations.find(c=>{
+        if(this.activeConversation['type'] == 'chat') {
+          this.xActive = this.active
+          this.activeForum = 0
+          available = this.conversations.find(c=>{
             return (c.sender.id == data['recipient_id'] && c.recipient.id==data['sender_id']);
         });
 
+        } else if(this.activeConversation['type'] == 'forum') {
+          this.xActive = this.activeForum
+          available = this.forums.find(c=>{
+            return (c.sender.id == data['recipient_id'] && c.recipient.id==data['sender_id']);
+        });
+
+        } else {
+          return;
+        }
+        
+
         if(available){
 
-            // Too Late
-            if(this.getGroupTime(data['created_at'])!='Today') {return}
+          // Too Late
+          if(this.getGroupTime(data['created_at'])!='Today') {return}
 
           //Check if latest data was sent same day as the latest
           if(this.getGroupTime(available['latest']['created_at']) != this.getGroupTime(data['created_at'])) {
@@ -1395,9 +1526,10 @@ export class MenteeHomeComponent implements OnInit {
             data['groupTime'] = false;
           }
           
+
           
           // if data is going into opened chat 
-          if(data['recipient_id']==this.active){
+          if(data['recipient_id']==this.xActive){
             
             data['unread'] = false;
 
@@ -1424,8 +1556,22 @@ export class MenteeHomeComponent implements OnInit {
           if(available['latest'] = data){
             available['latest']['time'] = this.getLocalTime(available['latest']['created_at']);
             available['created_at'] = available['latest']['created_at'];
+
+            
+            if(this.activeConversation['type'] == 'chat') {
+
             this.sortData(this.conversations);
             this.conversations = this.fixPinned(this.conversations);
+    
+            } else if(this.activeConversation['type'] == 'forum') {
+      
+            this.sortData(this.forums);
+            this.forums = this.fixPinned(this.forums);
+    
+            } else {
+              return
+            }
+            
           }
 
           if(data['parent']>0) {
@@ -1475,16 +1621,23 @@ export class MenteeHomeComponent implements OnInit {
       gotoForum (){
         this.toForum = true;
         this.toIdea = false;
+        this.populateSource('forum')
       }
 
       gotoIdea (){
         this.toForum = false;
         this.toIdea = true;
+        this.populateSource('idea')
       }
 
       gotoConversation() {
         this.toForum = false;
         this.toIdea = false;
+        this.populateSource('chat')
+      }
+
+      newForum(){
+
       }
 
 

@@ -9,7 +9,7 @@ import { UserService } from '../shared/user/user.service';
 })
 export class AdminComponent implements OnInit {
 
-  hasRegistered: boolean;
+  public hasRegistered: boolean;
   hasError: boolean;
   isConnecting: boolean;
   
@@ -17,33 +17,26 @@ export class AdminComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.finSuperAdmin()
+    this.finSuperAdmin();
   }
 
-  finSuperAdmin(){
+  finSuperAdmin() {
     this.isConnecting = true
     this.userService.superAdmin()
-    .subscribe(
-      (res)=>{
+    .subscribe((res) => {
         this.isConnecting = false
-        
-        if(res.code==200){
-            if(res.user){
-              this.hasRegistered = true
-              return
+        if (res.code === 200){
+            if (res.user) {
+              this.hasRegistered = true;
             } else {
               this.hasRegistered = false;
-              return
             }
         } else {
-          this.hasError = true
-          return
+          this.hasError = true;
         }
-      },
-      (error)=> {
+      }, (error) => {
         this.isConnecting = false;
-        
-        this.hasError=true
+        this.hasError = true;
       }
     )
   }

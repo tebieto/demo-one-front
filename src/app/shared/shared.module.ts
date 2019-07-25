@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
-import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule} from '@angular/material';
+import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule} from '@angular/material';
 import { SnackbarComponent } from '../extras/snackbar/snackbar.component';
 import { DialogComponent } from '../extras/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -32,7 +32,9 @@ import { PageLoadingComponent } from '../extras/page-loading/page-loading.compon
     MatProgressSpinnerModule,
     MatDividerModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatSlideToggleModule
   ],
   exports:[
     HeaderComponent,
@@ -52,7 +54,9 @@ import { PageLoadingComponent } from '../extras/page-loading/page-loading.compon
     MatProgressSpinnerModule,
     MatDividerModule,
     MatTableModule,
-    MatMenuModule
+    MatMenuModule,
+    MatStepperModule,
+    MatSlideToggleModule
   ],
 })
 export class SharedModule { }

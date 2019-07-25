@@ -17,8 +17,9 @@
         <div class="infos">
           <img src="/assets/images/cards/5.png" alt="">
           <span class="right-icons">
+            <mat-icon title="Idea" class="idea">wb_sunny</mat-icon>
             <mat-icon title="Forum" (click)="gotoForum()">forum</mat-icon>
-            <mat-icon>more_vert</mat-icon>
+            <mat-icon title="More">more_vert</mat-icon>
           </span>
         </div>
         <div class="search">
@@ -155,7 +156,7 @@
       <!--When Search is Off-->
       <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
 
-          <div class="user-list row" (click)="newForum()">
+          <div class="user-list row" (click)="gotoNewForum()">
           
               <div class="col-xs-6 user-avatar">
                 <button mat-fab class="add-button">
@@ -213,7 +214,7 @@
   
       <!--When Search is On-->
       <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
-          <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
+          <div class="not-available" *ngIf="searchText && searchResult.length==0">Forum not found</div>
           <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
             
             <div class="col-xs-6 user-avatar">
@@ -255,6 +256,77 @@
   
     </div>
 
+
+    <!--New Forum Left Side-->
+
+  <div class="left-side forum new-forum" [class.expand-left]="toNewForum">
+
+    <div class="left-side-top">
+        <div class="infos">
+          <span class="left-icons">
+            <mat-icon title="Go back" (click)="gotoForum()">arrow_back</mat-icon>
+          </span>
+
+          <span class="page-title">
+              New Forum
+          </span>
+        </div>
+    </div>
+
+    <!--New Forum Body-->
+    <div class="left-side-body">
+
+      <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Topic</ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label>Forum Topic</mat-label>
+                    <input matInput placeholder="Topic" formControlName="topic" required autocomplete="off">
+                    <mat-error *ngIf="firstFormGroup.get('topic').invalid">Minimum Character is 10</mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Message</ng-template>
+              <mat-form-field appearance="outline">
+                  <mat-label>Message</mat-label>
+                  <textarea matInput placeholder="Type a message" rows="4" formControlName="message" required></textarea>
+                  <mat-error *ngIf="secondFormGroup.get('message').invalid">Minimum Character is 20</mat-error>
+              </mat-form-field>
+              <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext>Next</button>
+              </div>
+          </form>
+      </mat-step>
+
+      <mat-step>
+          <ng-template matStepLabel>Post</ng-template>
+          <div class="slider-div">
+              <mat-slide-toggle  class="example-margin" color="primary" checked="true" (change)="getSliderChange($event)">
+                <span *ngIf="newForumStatus">Public. Everyone can view this post</span>
+                <span *ngIf="!newForumStatus">Restricted. Only users authorised by this<br>platform can view this post</span>
+              </mat-slide-toggle>
+          </div>
+
+          <div>
+              <button mat-button matStepperPrevious>Review</button>
+              <button mat-button (click)="postNewForum(); stepper.reset()">Post</button>
+          </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+
+    </div>
+
+  </div>
+
   
 
   <div class="right-side" *ngIf="activeConversation">
@@ -276,6 +348,8 @@
 
     </div>
 
+    <!--Main Conversation Body-->
+
       <div class="right-side-body" (scroll)="onScroll($event)" (keydown)="focusInput($event)" #scrollToBottom tabindex="1">
 
         <div class="chat-message" *ngFor="let message of activeConversation.conversation">
@@ -292,7 +366,7 @@
               <button mat-button>{{getGroupTime(message.created_at)}}</button>
             </div>
 
-            <div class="message-right message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender_id == authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity">
+            <div class="message-right message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender.id == authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity" [class.void]="message.void">
               
               <div class="reply" *ngIf="message.parent>0">
                 <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
@@ -301,7 +375,7 @@
                   {{message['parent_info']['message']}}
                 </div>
               </div>
-              
+              <div class="sender-name you" *ngIf="message.type=='forum'">You</div>
               {{message.message}}
               
               <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -330,7 +404,7 @@
 
             </div>
 
-            <div class="message-left message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender_id != authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity">
+            <div class="message-left message" [id]="'chat' +message.id" [title]="getGroupTime(message.created_at)" *ngIf="message.sender.id != authUser.id" [class.sibling]="message.sibling" [class.desparity]="message.desparity">
                 
               <div class="reply" *ngIf="message.parent>0">
                 <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
@@ -339,7 +413,7 @@
                   {{message['parent_info']['message']}}
                 </div>
               </div>
-              
+              <div class="sender-name" *ngIf="message.type=='forum'" (click)="startDirectConversation(message.sender.id)">{{message.sender.name}}</div>
               {{message.message}} 
 
                 <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>

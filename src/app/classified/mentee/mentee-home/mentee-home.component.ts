@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,14 +13,18 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 export class MenteeHomeComponent implements OnInit {
- 
+  
   @ViewChild('unreadMessages') unreadMessages: ElementRef;
   @ViewChild('sendMessage') sendMessage: ElementRef;
   @ViewChild('scrollToBottom') private bottomChat: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
   toForum = false;
+  toNewForum = false;
   toIdea= false;
   senderMenu= 0;
   conversationMenu = 0
@@ -48,7 +52,7 @@ export class MenteeHomeComponent implements OnInit {
   pinnedConversations = [];
   typedMessage = ''
   parentMessage = {}
-
+  newForumStatus = true
  
 
 
@@ -276,6 +280,7 @@ export class MenteeHomeComponent implements OnInit {
       owner: 2,
       conversation: [ 
         {
+          id: 31,
           sender_id: 1,
           recipient_id: 2,
           sender: {
@@ -293,6 +298,7 @@ export class MenteeHomeComponent implements OnInit {
         },
 
         {
+          id: 32,
           sender_id: 2,
           recipient_id: 1,
           sender: {
@@ -309,6 +315,7 @@ export class MenteeHomeComponent implements OnInit {
           type: 'chat'
         },
         {
+          id: 3,
           sender_id: 2,
           recipient_id: 1,
           sender: {
@@ -399,42 +406,6 @@ export class MenteeHomeComponent implements OnInit {
       pinned: false,
       type: 'chat'
     },
-    {
-      sender: {
-        id: 4,
-        name: "Ufo South",
-        avatar: "/assets/images/cards/3.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 4,
-      conversation: [ 
-        {
-          id: 4,
-          sender_id: 4,
-          recipient_id: 1,
-          sender: {
-            id: 4,
-            name: "Ufo South",
-            avatar: "/assets/images/cards/3.png"
-          },
-          message: "Ufo South: Hey bruh",
-          created_at: "2019-07-7 14:27:07",
-          status: "delivered",
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-      ],
-      active: false,
-      pinned: true,
-      type: 'chat'
-    },
-
     {
       sender: {
         id: 5,
@@ -546,17 +517,16 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-  constructor() { }
-
-
+  constructor(private _formBuilder: FormBuilder) { }
 
 
         ngOnInit() {
-          this.manipulateDatas('chat', this.datas)
-          this.manipulateDatas('forum', this.forumDatas)
-          this.populateSource('chat')
+          this.manipulateDatas('chat', this.datas);
+          this.manipulateDatas('forum', this.forumDatas);
+          this.populateSource('chat');
 
-          this.initFakeData()
+          this.initFakeData();
+          this.activateFormGroups();
 
         }
 
@@ -1051,7 +1021,7 @@ export class MenteeHomeComponent implements OnInit {
           if(type =='chat') {
 
              activateChat  = this.conversations.find((x)=> {
-              return x.sender.id == id
+              return x.sender.id == id;
 
             });
           } else if(type=='forum') {
@@ -1135,7 +1105,9 @@ export class MenteeHomeComponent implements OnInit {
                 //message['unread_count'] is to track before a conversation is clicked
                 this.activeConversation['unread_count'] = 0;
 
-                this.focusInput('')
+                setTimeout(()=>{
+                  this.focusInput('')
+                },1)
 
           } 
 
@@ -1470,7 +1442,7 @@ export class MenteeHomeComponent implements OnInit {
                   unread: true,
                   starred: false,
                   parent: parentId,
-                  type: 'chat'
+                  type: this.activeConversation['type']
             }
 
         this.newToConversation(newMessage)
@@ -1605,7 +1577,6 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       replyMessage(id: number) {
-
         this.sendMessage.nativeElement.focus()
 
         let message  = this.activeConversation['conversation'].find((x)=> {
@@ -1619,6 +1590,7 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       gotoForum (){
+        this.toNewForum = false;
         this.toForum = true;
         this.toIdea = false;
         this.populateSource('forum')
@@ -1636,10 +1608,165 @@ export class MenteeHomeComponent implements OnInit {
         this.populateSource('chat')
       }
 
-      newForum(){
+      gotoNewForum() {
+        this.toNewForum = true;
+      }
+
+      activateFormGroups() {
+
+        this.firstFormGroup = this._formBuilder.group({
+          topic: ['', [Validators.required, Validators.minLength(10)]]
+        });
+        this.secondFormGroup = this._formBuilder.group({
+          message: ['', [Validators.required, Validators.minLength(20)]]
+        });
+      }
+
+      getSliderChange(e) {
+        this.newForumStatus=e['checked'];
+      }
+
+      postNewForum() {
+
+        let  now = this.utcNow();
+
+        let data = {
+          'topic': this.firstFormGroup.controls['topic'].value,
+          'message': this.secondFormGroup.controls['message'].value,
+          'status': this.newForumStatus
+        }
+
+        let forumData = {
+          sender: {
+            id: null,
+            name: data.topic,
+            avatar: "/assets/images/cards/1.png"
+          },
+          recipient: {
+            id: this.authUser.id,
+            name: this.authUser.name,
+            avatar: this.authUser.avatar
+          },
+          owner: this.authUser.id,
+          conversation: [
+            {
+              id: null,
+              sender_id: null,
+              recipient_id: this.authUser.id,
+              sender: {
+                id: this.authUser.id,
+                name: this.authUser.name,
+                avatar: this.authUser.avatar
+              },
+              message: data.message,
+              created_at: now,
+              status: "pending",
+              unread: false,
+              starred: false,
+              parent: 0,
+              type: 'forum'
+            }
+        ],
+          active: false,
+          pinned: true,
+          type: 'forum'
+        }
+
+        
+        this.pushToData('forum', forumData)
+        this.gotoForum();
+        this.clearFormData();
 
       }
 
+      pushToData(type:string, data: any) {
+
+        if(type=='forum') {
+          this.forumDatas.push(data);
+          this.manipulateDatas('forum', this.forumDatas);
+          this.populateSource('forum');
+        } else if(type=='chat') {
+          this.datas.push(data);
+          this.manipulateDatas('chat', this.datas);
+          this.populateSource('chat');
+        }
+
+      }
+
+      clearFormData() {
+        this.firstFormGroup.get('topic').setValue('');
+        this.secondFormGroup.get('message').setValue('');
+        this.newForumStatus = true;
+      }
+
+
+      startDirectConversation(id: number) {
+        let isValid = this.activeConversation['conversation'].find((x)=> {
+          return x.sender.id == id
+        });
+
+        if(!isValid) {return}
+
+        let isStarted = this.conversations.find((x)=> {
+          return x.sender.id == id
+        });
+
+        if(isStarted) {
+          this.openChat('chat', id)
+        } else if(!isStarted) {
+          
+          this.startNewDirect(isValid)
+      
+        }
+      }
+
+
+      startNewDirect(data: object) {
+        let now = this.utcNow()
+        let newDirect = {
+          sender: {
+            id: data['sender'].id,
+            name: data['sender'].name,
+            avatar: data['sender'].avatar
+          },
+          recipient: {
+            id: this.authUser.id,
+            name: this.authUser.name,
+            avatar: this.authUser.avatar
+          },
+          owner: data['sender'].id,
+          conversation: [
+            {
+              id: this.authUser.id,
+              sender_id: this.authUser.id,
+              recipient_id: this.authUser.id,
+              sender: {
+                id: this.authUser.id,
+                name: this.authUser.name,
+                avatar: this.authUser.avatar
+              },
+              message: "Start Chat with "+ data['sender'].name,
+              created_at: now,
+              status: 'void',
+              void: true,
+              unread: false,
+              starred: false,
+              parent: 0,
+              type: 'chat'
+            },
+          ],
+          active: false,
+          pinned: false,
+          type: 'chat'
+        }
+
+        this.pushToData('chat', newDirect)
+
+        setTimeout(()=>{  
+          this.openChat('chat', data['sender'].id)
+          },1);
+
+      }
 
 
 

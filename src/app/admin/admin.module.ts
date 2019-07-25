@@ -26,6 +26,7 @@ import { AdminRegistrationComponent } from '../authentication/admin-registration
     AdminHomeComponent,
     AdminLoginComponent,
     AdminRegistrationComponent,
-  ]
+  ],
+  providers: []
 })
 export class AdminModule { }

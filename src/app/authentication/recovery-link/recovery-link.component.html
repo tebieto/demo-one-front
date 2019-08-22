@@ -1,0 +1,44 @@
+<div *ngIf="!isConnecting">
+<div class="auth-logo " [routerLink]="['/']"><mat-icon>wifi_tethering</mat-icon></div>
+
+<div class="recovery-form-container mat-elevation-z0" >
+    
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <button mat-button matPrefix mat-icon-button aria-label="Clear">
+            <mat-icon>lock</mat-icon>
+        </button>
+        <input matInput placeholder="Enter Password" [type]="hidePassword ? 'password' : 'text'"  [formControl]="password" (keyup.enter)="onSubmit()"  required>
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                    <mat-icon>lock</mat-icon>
+            </button>
+            <input matInput placeholder="Confirm Password" [type]="hideConfirm ? 'password' : 'text'" [errorStateMatcher]="matcher" [formControl]="confirm_password" (keyup.enter)="onSubmit()"  required>
+            <mat-icon matSuffix (click)="hideConfirm= !hideConfirm">{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            <mat-error *ngIf="!passwordMismatch">{{getConfirmPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <br>
+      <button mat-button class="form-button" (click)="onSubmit()">
+          <mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+            </mat-spinner></mat-icon>
+            <span *ngIf="!persistingData">
+                Change Password
+            </span>
+          </button>
+      <br>
+      <button class="form-suffice"><span [routerLink]="['/']">Home Page</span></button>
+      <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span></button>
+
+</div>
+</div>
+
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+
+<app-page-loading *ngIf="isConnecting"></app-page-loading>
+

@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { RegisterService } from 'src/app/shared/authentication/register.service';
 import { Router } from '@angular/router';
-
+import { Config as config} from 'src/app/config';
 
 let showConfirmError= false
 
@@ -26,7 +26,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   providers: [RegisterService]
 })
 export class UserRegistrationComponent implements OnInit {
-
+  isPublic = config.isPublic
   hasString = /^[a-zA-Z]+$/;
   usernameRegex = /^[a-zA-Z0-9_]+$/;
   hideConfirm = true;
@@ -43,6 +43,11 @@ export class UserRegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('SMEHUB|Registration')
+
+    if(!this.isPublic) {
+      this.gotoPageNotFound()
+    }
+
   }
 
 
@@ -198,6 +203,10 @@ export class UserRegistrationComponent implements OnInit {
 
   gotoUserPage(){
     this.router.navigateByUrl('/user/home')
+  }
+
+  gotoPageNotFound(){
+    this.router.navigateByUrl('/pageNotFound')
   }
   
   showErrorMessage(error: object){

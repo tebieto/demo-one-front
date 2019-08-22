@@ -10,7 +10,7 @@
       
       <input matInput placeholder="Enter Email Address or Username" [formControl]="email" (keyup.enter)="onSubmit()"  required>
 
-      <button mat-button *ngIf="this.email.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
+      <button mat-button *ngIf="this.email.value" tabindex="-1" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
           <mat-icon>close</mat-icon>
       </button>
 
@@ -18,7 +18,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <button mat-button matPrefix mat-icon-button aria-label="Clear">
+        <button mat-button tabindex="-1" matPrefix mat-icon-button aria-label="Clear">
             <mat-icon>lock</mat-icon>
         </button>
         <input matInput placeholder="Enter password" [type]="hidePassword ? 'password' : 'text'"  [formControl]="password" (keyup.enter)="onSubmit()"  required>

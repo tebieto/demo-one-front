@@ -79,11 +79,219 @@ export class UserService {
 
   }
 
+  createMultiUser(data) {
+    this.baseUrl = Config.api + 'admin/invite/csv'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getUploadHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  uploadImage(data) {
+    this.baseUrl = Config.api + 'upload/image'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getUploadHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  uploadFile(data) {
+    this.baseUrl = Config.api + 'upload/document'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getUploadHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  industries() {
+    this.baseUrl = Config.api + 'industry'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  createSingleUser(data) {
+    this.baseUrl = Config.api + 'admin/invite'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  idea(data) {
+    this.baseUrl = Config.api + 'ideas/create'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  forum(data) {
+    this.baseUrl = Config.api + 'forums/create'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  forumMessage(data) {
+    this.baseUrl = Config.api + 'forums/conversation'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  hasPendingIdea() {
+    this.baseUrl = Config.api + 'ideas/post/wait'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  userIdeas() {
+    this.baseUrl = Config.api + 'ideas/user'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  userForums() {
+    this.baseUrl = Config.api + 'forums/all'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  forumMessages(id: number) {
+    this.baseUrl = Config.api + 'forums/conversations/'+id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   getCommonHeaders(){
     let token = localStorage.getItem('token')
     let bearer = Config.bearer+''+token
     let headers = new Headers();
     headers.append("content-type", "application/json");
+    headers.append("authorization", bearer);
+    return headers
+  }
+
+  
+  getUploadHeaders(){
+    let token = localStorage.getItem('token')
+    let bearer = Config.bearer+''+token
+    let headers = new Headers();
     headers.append("authorization", bearer);
     return headers
   }

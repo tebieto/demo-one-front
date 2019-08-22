@@ -55,7 +55,7 @@
         </button>
         <input matInput placeholder="Enter Password" [type]="hidePassword ? 'password' : 'text'"  [formControl]="password" (keyup.enter)="onSubmit()"  required>
         <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-        <mat-error *ngIf="email.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -65,7 +65,7 @@
             </button>
             <input matInput placeholder="Confirm Password" [type]="hideConfirm ? 'password' : 'text'" [errorStateMatcher]="matcher" [formControl]="confirm_password" (keyup.enter)="onSubmit()"  required>
             <mat-icon matSuffix (click)="hideConfirm= !hideConfirm">{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-error *ngIf="email.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
             <mat-error *ngIf="!passwordMismatch">{{getConfirmPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
      <br>

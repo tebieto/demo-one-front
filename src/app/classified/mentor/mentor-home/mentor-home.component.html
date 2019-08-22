@@ -1,3 +1,82 @@
-<p>
-  mentor-home works!
-</p>
+<div>
+
+    <input class="hidden" #csvUpload name="csvUrl" type="file" accept=".csv" (change)="onChooseCSV($event)" />
+    <mat-toolbar color="primary" class="fixed-header main-header">
+        <mat-toolbar-row>
+          <span class="welcome-logo" [routerLink]="['/mentor/home']"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
+          <span class="flexer"></span>
+    
+          <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
+            Menu 
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+    
+           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+    
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]="['/mentor/home']">
+                My Mentees
+              </button>
+              <button mat-menu-item [routerLink]="['/mentor/view/profile']">
+                View Profile
+              </button>
+              <button mat-menu-item [routerLink]="['/mentor/edit/profile']">
+                Edit Profile
+              </button>
+              <button mat-menu-item (click) = "logUserOut('You Logged out')">
+                Logout
+              </button>
+            </mat-menu>
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    
+    <!--View-->
+    
+    <div class="settings" *ngIf="page=='ideas'">
+    
+         <h3 class="sub-title">My Mentees</h3>
+    
+          <mat-form-field >
+            <input #searchInput matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Mentees">
+          </mat-form-field>
+          
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+            <!-- Position Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> Idea Title </th>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline"> {{element.title}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Short Description </th>
+              <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.description}} </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>  </th>
+              <td mat-cell *matCellDef="let element"> 
+                  <button mat-button class="fab-button mat-elevation-z0"  aria-label="Menu">
+                      Profile
+                  </button>
+    
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+    </div>
+    
+    <!-- END OF VIEW-->
+    
+    </div>
+    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+    <app-page-loading *ngIf="isConnecting"></app-page-loading>
+    
+    

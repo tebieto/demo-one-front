@@ -1,0 +1,79 @@
+<div *ngIf="!isConnecting && user">
+    <mat-toolbar color="primary" class="fixed-header main-header">
+        <mat-toolbar-row>
+          <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
+          <span class="welcome-logo"> Edit Profile</span>
+          <span class="flexer"></span>
+    
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <br>
+    <div class="login-form-container mat-elevation-z0" >
+        <h3>Update Profile Information</h3><br>
+        <mat-form-field appearance="outline">
+            <mat-label>Full Name</mat-label>
+      
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                  <mat-icon>person</mat-icon>
+              </button>
+            <input matInput placeholder="Enter your full name" [formControl]="full_name" (keyup.enter)="onSubmit()"  required>
+            
+            <button mat-button *ngIf="this.full_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.full_name.setValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
+      
+            <mat-error *ngIf="full_name.invalid">{{getFullNameErrorMessage()}}</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field appearance="outline">
+            <mat-label>Email Address</mat-label>
+      
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                <mat-icon>email</mat-icon>
+            </button>
+            
+            <input matInput placeholder="Enter Email" name="email" [formControl]="email" (keyup.enter)="onSubmit()"  required>
+      
+            <button mat-button *ngIf="this.email.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
+      
+            <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+      
+            <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                <mat-icon>how_to_reg</mat-icon>
+            </button>
+            
+            <input matInput placeholder="Enter Username" name="username" [formControl]="username" (keyup.enter)="onSubmit()"  required>
+      
+            <button mat-button *ngIf="this.username.value" matSuffix mat-icon-button aria-label="Clear" (click)="this.username.setValue('')">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
+          </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>About Me</mat-label>
+          
+          <textarea matInput placeholder="About Me" [formControl]="about"  rows="6" (keyup.enter)="onSubmit()"  required></textarea>
+    
+          <mat-error *ngIf="about.invalid">{{getAboutErrorMessage()}}</mat-error>
+        </mat-form-field>
+          <br>
+          <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+            </mat-spinner></mat-icon><span *ngIf="!persistingData">Update and Continue</span>
+          </button>
+    
+    </div>
+    </div>
+    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+        
+    <app-page-loading *ngIf="isConnecting"></app-page-loading>
+    
+    

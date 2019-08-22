@@ -5,11 +5,17 @@ import { MentorRoutingModule } from './mentor-routing.module';
 import { MentorComponent } from './mentor.component';
 import { MentorHomeComponent } from './mentor-home/mentor-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { SpecialSetupComponent } from './special-setup/special-setup.component';
 
 @NgModule({
   declarations: [
     MentorComponent,
     MentorHomeComponent,
+    ViewProfileComponent,
+    EditProfileComponent,
+    SpecialSetupComponent,
   ],
   imports: [
     CommonModule,
@@ -20,6 +26,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     MentorComponent,
     MentorHomeComponent,
+    EditProfileComponent,
+    ViewProfileComponent,
+    SpecialSetupComponent
   ]
 })
 export class MentorModule { }

@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LoginService } from 'src/app/shared/authentication/login.service';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Router } from '@angular/router';
+import { Config as config} from 'src/app/config';
 
 @Component({
   selector: 'app-user-login',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 
 export class UserLoginComponent implements OnInit {
 
-  
+  isPublic = config.isPublic
   hidePassword= true;
   persistingData: boolean;
 
@@ -108,16 +109,18 @@ redirectUser(role:any) {
    // It is an array
       this.redirectByArray(role)
       return
- } else if (role.code == 0){
+ } else if (role.code == 55){
    //Redirect to user page
-   this.gotoUserPage()
+   this.gotoMenteePage()
    return
 
- }else if (role.code == 77 || role.code == 66 || role.code == 55){
+ }else if (role.code == 88 || role.code == 77 || role.code == 66){
   //Redirect to classified page
   this.gotoClassifiedPage()
   return
 
+} else if(role.code == 55) {
+  this.gotoMenteePage()
 } else {
    // User should not login
   this.loginNotAllowed()
@@ -127,7 +130,11 @@ redirectUser(role:any) {
 }
 
 redirectByArray(role: any){
-  let isInvestor = role.find(x=>{
+  let isAdmin = role.find(x=>{
+    return x.code === 88
+  })
+
+  let isCommittee = role.find(x=>{
     return x.code === 77
   })
 
@@ -135,20 +142,17 @@ redirectByArray(role: any){
     return x.code === 66
   })
 
-  let isJudge = role.find(x=>{
+  let isMentee = role.find(x=>{
     return x.code === 55
   })
 
-  let isUser = role.find(x=>{
-    return x.code === 0
-  })
-
-if(isInvestor || isMentor || isJudge){
+if(isAdmin || isCommittee || isMentor){
   // go to classified user page
   this.gotoClassifiedPage()
-} else if(isUser){
-  this.gotoUserPage()
-} else {
+} else if(isMentee) {
+  //gotoMenteePage
+  this.gotoMenteePage()
+}  else {
   // User should not login
   this.loginNotAllowed()
 }
@@ -168,6 +172,10 @@ gotoClassifiedPage(){
 
 gotoUserPage(){
   this.router.navigateByUrl('/user/home')
+}
+
+gotoMenteePage(){
+  this.router.navigateByUrl('/mentee')
 }
 
 showErrorMessage(error: object){

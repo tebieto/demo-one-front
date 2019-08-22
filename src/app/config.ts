@@ -1,7 +1,11 @@
+import { environment } from 'src/environments/environment';
+
+environment
 export class Config {
      static currentYear = 2019;
      static appName = "SMEHUB";
-     static api = 'http://172.30.40.45:6700/v1/';
+     static api = environment.apiUrl
      static ipChecker = 'http://ip-api.com/json/';
      static bearer = 'atala,'
+     static isPublic = false;
 }

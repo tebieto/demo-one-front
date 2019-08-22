@@ -1,0 +1,118 @@
+<div *ngIf="!isConnecting || user">
+
+    <mat-toolbar color="primary" class="fixed-header main-header">
+        <mat-toolbar-row>
+         <span class="welcome-logo"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
+        <span class="flexer"></span>
+    
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+<br>
+<div class="login-form-container mat-elevation-z0" >
+    <h3>Quick Setup For New Mentors</h3><br>
+
+    <mat-vertical-stepper linear #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+              <ng-template matStepLabel>Basic Information</ng-template>
+            
+                <mat-form-field appearance="outline">
+                    <mat-label>Contact Number</mat-label>
+            
+                    <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                        <mat-icon>phone</mat-icon>
+                    </button>
+            
+                    <input matInput placeholder="e.g. 08059384928" type="number" formControlName="phone" (keyup.enter)="onSubmit()"  required>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('phone').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('phone')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('phone').invalid">{{getPhoneErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>About Me</mat-label>
+            
+                    <textarea matInput placeholder="About me" type="text" formControlName="about" rows="3" required></textarea>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('about').invalid">{{getAboutErrorMessage()}}</mat-error>
+                  </mat-form-field>
+      
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+              <ng-template matStepLabel>Mentorship Programme Setup</ng-template>
+            
+              <mat-form-field appearance="outline">
+                  <mat-label>Programme Name</mat-label>
+          
+                  <input matInput placeholder="Programme Name" type="text" formControlName="pname" (keyup.enter)="onSubmit()"  required>
+            
+                  <button mat-button *ngIf="this.secondFormGroup.get('pname').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('pname')">
+                      <mat-icon>close</mat-icon>
+                  </button>
+                  
+                  <mat-error *ngIf="secondFormGroup.get('pname').invalid">{{getPnameErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Programme Description</mat-label>
+            
+                    <textarea matInput placeholder="Programme Description" type="text" formControlName="pdescription" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.secondFormGroup.get('pdescription').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('pdescription')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdescriptionErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                      <mat-label>Programme Duration</mat-label>
+                      <mat-select formControlName="pduration" name="pduration">
+                          <mat-option value="">
+                              Programme Duration
+                            </mat-option>
+                          <mat-option *ngFor="let item of programmeDurations" [value]="item.duration">
+                            {{item.duration}}
+                          </mat-option>
+                      </mat-select>
+                      
+                      <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdurationErrorMessage()}}</mat-error>
+                    </mat-form-field>
+      
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+      
+        <mat-step>
+            <ng-template matStepLabel>Save Details</ng-template>
+            <br>
+            <div>
+                <button mat-button matStepperPrevious>Review</button>
+               
+                <button mat-button class="form-button" (click)="onSubmit()">Save Setup</button>
+            </div>
+        </mat-step>
+
+      </mat-vertical-stepper> 
+
+</div>
+</div>
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+<app-page-loading *ngIf="isConnecting"></app-page-loading>
+

@@ -17,6 +17,8 @@ import { RecoverPasswordComponent } from './authentication/recover-password/reco
 import { ClassifiedComponent } from './classified/classified.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { RecoveryLinkComponent } from './authentication/recovery-link/recovery-link.component';
+import { SpecialLoginComponent } from './authentication/special-login/special-login.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { HttpModule } from '@angular/http';
     SpecialRegistrationComponent,
     RecoverPasswordComponent,
     ClassifiedComponent,
+    RecoveryLinkComponent,
+    SpecialLoginComponent,
   ],
   imports: [
     BrowserModule,

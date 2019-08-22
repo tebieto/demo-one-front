@@ -34,6 +34,74 @@ export class LoginService {
 
   }
 
+  recovery(data: object){
+    this.baseUrl = Config.api+ 'user/password/reset'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  recover(data: object){
+    this.baseUrl = Config.api+ 'user/password/reset/change'
+    return this.http.put(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  verifyCode(data: object){
+    this.baseUrl = Config.api+ 'user/password/code/validate'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  verifyInviteCode(data: object){
+    this.baseUrl = Config.api+ 'invite/validate'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   admin(data: object){
     this.baseUrl = Config.api+ 'admin/login'
     return this.http.post(
@@ -53,6 +121,23 @@ export class LoginService {
 
   owner(data: object){
     this.baseUrl = Config.api+ 'owner/login'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  acceptInvite(data: object){
+    this.baseUrl = Config.api+ 'invite/accept'
     return this.http.post(
       this.baseUrl,
       data,

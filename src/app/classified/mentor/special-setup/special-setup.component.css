@@ -1,0 +1,48 @@
+.login-form-container {
+    position: relative;
+    top:50px;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    padding:20px;
+    border-radius:25px;
+}
+
+.login-form-container form{
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form-container button {
+    background: #03A9F4;
+    color:#fff;
+    margin: 5px;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+
+}
+
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.main-header mat-icon {
+    color: #fff !important;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    
+    .login-form-container {
+       
+        width: 100%;
+    }
+
+  }

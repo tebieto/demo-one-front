@@ -29,7 +29,7 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('Welcome to SMEHUB')
 
-    this.fetchUserLocation();
+    //this.fetchUserLocation();
   }
 
   fetchUserLocation(){

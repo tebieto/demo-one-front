@@ -1,0 +1,47 @@
+.main-content {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    background: #fff;
+    margin: auto;
+    top: 50px;
+    min-height: 400px;
+}
+
+.main-content .fake-avatar-big {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background: #eee;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.main-content .user-name {
+    position: relative;
+    top: 10px;
+    left: 20px;
+    width: 100%;
+    margin: auto;
+}
+
+.fake-avatar-big .icon {
+    position: relative;
+    top: 40px;
+    width: 25px;
+    margin: auto;
+}
+
+.classified-links {
+    margin-top: 20px;
+ }
+.classified-links button {
+    display: block;
+    width: 100%;
+    margin: auto;
+    color: #03A9F4;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #03A9F4;
+    margin-top: 10px;
+}

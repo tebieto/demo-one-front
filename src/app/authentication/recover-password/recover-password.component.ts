@@ -3,6 +3,11 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
+import { LoginService } from 'src/app/shared/authentication/login.service';
+import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
+import { Subscription } from 'rxjs';
+import {Location} from '@angular/common';
+
 
 @Component({
   selector: 'app-recover-password',
@@ -12,19 +17,25 @@ import { Title } from '@angular/platform-browser';
 export class RecoverPasswordComponent implements OnInit {
 
   hidePassword= true;
+  persistingData: boolean;
+  subscription: Subscription;
 
-  constructor(private snackBar: MatSnackBar, private titleService:Title) { }
+  constructor(
+    private snackBar: MatSnackBar, 
+    private titleService:Title,
+    private loginService: LoginService,
+    private location: Location
+    ) { }
 
   ngOnInit() {
     this.titleService.setTitle('SMEHUB|Recover Password')
   }
 
-  email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20) ]);
+  email = new FormControl('', [Validators.required, Validators.maxLength(100) ]);
 
   getEmailErrorMessage() {
     return this.email.hasError('required') ? 'Email is required' :
-        this.email.hasError('minlength') ? 'Minimum length is 6' :
-        this.email.hasError('maxlength') ? 'Maximum length is 20' :
+        this.email.hasError('maxlength') ? 'Maximum length is 100' :
             '';
   }
 
@@ -32,7 +43,7 @@ export class RecoverPasswordComponent implements OnInit {
   
 
 
-  onSubmit(){
+onSubmit(){
   if(this.email.invalid){
     let notification = "You have errors in your form"
     this.openSnackBar(notification, 'snack-error')
@@ -48,15 +59,56 @@ export class RecoverPasswordComponent implements OnInit {
 }
 
 persistData(data: Object){
-  console.log(data)
+  this.persistingData = true;
+  const subscription = this.loginService.recovery(data)
+    this.subscription = subscription
+    .subscribe(
+      (res)=>{
+        this.persistingData = false
+      
+      if(res.code != 200) {
+        res['status']= res['code']
+        this.showErrorMessage(res)
+      }
+
+      if(res.code==200) {
+        let notification = res['body']
+        this.openSnackBar(notification, 'snack-success')
+        this.clearForm()
+      }
+    },
+      (error)=>{
+        this.persistingData = false
+        
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+        return
+      }
+    );
+}
+
+showErrorMessage(error: object){
+  this.persistingData = false;
+    let notification = errorMessage.ConnectionError(error)
+    this.openSnackBar(notification, 'snack-error')
+    return
+
 }
 
   openSnackBar(message, panelClass) {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: message,
       panelClass: [panelClass],
-      duration: 2000
+      duration: 4000
     })
+  }
+
+  clearForm() {
+    this.email.setValue('');
+  }
+
+  goBack(){
+    this.location.back();
   }
 
 }

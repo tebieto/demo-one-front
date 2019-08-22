@@ -91,7 +91,7 @@ html, body {
     font-size: 10px !important; 
   }
 
-  .form-button mat-spinner circle {
+  .form-button mat-spinner circle, .add-new mat-spinner circle {
     stroke: #fff !important;
   }
 
@@ -99,3 +99,20 @@ html, body {
     stroke: #FF7043 !important;
   }
 
+  .bold {
+    font-weight: bold;
+  }
+
+  .custom-grey {
+    color: #9E9E9E;
+    font-size: 14px;
+  }
+
+  .underline:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .hidden {
+    display: none !important;
+  }

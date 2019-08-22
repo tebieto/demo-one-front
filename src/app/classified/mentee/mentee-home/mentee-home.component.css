@@ -474,7 +474,6 @@ mat-toolbar-row span {
 
 .mat-menu button {
     width: 100% !important; 
-    min-width:200px !important; 
     border-radius: 0 !important;
 }
 
@@ -716,8 +715,78 @@ mat-toolbar-row span {
     text-decoration: none !important;
 }
 
+.left-side-body .title-text {
+    font-size: 22px !important;
+}
+
 .void {
     display: none !important;
+}
+
+.right-side-body-idea {
+    background: #fff !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-left: 1px solid #eee;
+    padding: 5px;
+}
+
+.right-side-body .item-title {
+    width: 90%;
+    margin: 10px;;
+    color: #757575;
+    word-wrap: break-word;
+}
+
+.right-side-body .item-description {
+    width: 90%;
+    margin: 10px;
+    font-style: italic;
+}
+
+.right-side-body mat-divider{
+    margin: 20px 0px 20px 0px;
+}
+
+.right-side-body .item-summary {
+    font-style: normal
+}
+
+.doc-upload-div .upload{
+    width: 150px;
+    height: 150px;
+    background: #eee;
+    margin: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.doc-upload-div .upload button{
+    position: relative;
+    top:20px;
+    width: 100%;
+    background: transparent;
+    border: none;
+}
+
+.doc-upload-div .upload:hover{
+    background: rgba(0, 0, 0, 0.199);
+}
+
+.save-button {
+    background: #03A9F4 !important;
+    color: #fff !important;
+    margin: 10px !important;
+}
+
+.fake-avatar {
+}
+.fake-avatar button {
+    background: #fff !important;
+    color: #000 !important;
+    height: 50px !important;
+    width: 50px !important;
+
 }
 
 

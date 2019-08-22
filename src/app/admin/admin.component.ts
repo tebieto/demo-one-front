@@ -17,10 +17,10 @@ export class AdminComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.finSuperAdmin();
+    this.findSuperAdmin();
   }
 
-  finSuperAdmin() {
+  findSuperAdmin() {
     this.isConnecting = true
     this.userService.superAdmin()
     .subscribe((res) => {

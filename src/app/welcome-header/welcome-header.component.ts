@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Config as config} from '../config';
 
 @Component({
   selector: 'app-welcome-header',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome-header.component.css']
 })
 export class WelcomeHeaderComponent implements OnInit {
+
+  isPublic = config.isPublic;
 
   constructor() { }
 

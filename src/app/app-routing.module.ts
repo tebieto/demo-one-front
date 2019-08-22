@@ -8,21 +8,26 @@ import { UserRegistrationComponent } from './authentication/user-registration/us
 import { SpecialRegistrationComponent } from './authentication/special-registration/special-registration.component';
 import { RecoverPasswordComponent } from './authentication/recover-password/recover-password.component';
 import { ClassifiedComponent } from './classified/classified.component';
+import { RecoveryLinkComponent } from './authentication/recovery-link/recovery-link.component';
+import { SpecialLoginComponent } from './authentication/special-login/special-login.component';
 
 const routes: Routes = [
   {"path": '', component: WelcomeComponent},
   {"path": 'recover/password', component: RecoverPasswordComponent},
+  {"path": 'password/forget/:email/:code', component: RecoveryLinkComponent},
+  {"path": 'special/registration/:email/:role/:code', component: SpecialRegistrationComponent},
+  {"path": 'special/login/:email/:role/:code', component: SpecialLoginComponent},
   {"path": 'login', component: UserLoginComponent},
   {"path": 'register', component: UserRegistrationComponent},
-  {"path": 'special/signup/:type/:email/:code', component: SpecialRegistrationComponent},
   {"path": 'user', loadChildren: './user/user.module#UserModule', data: { preload: true, delay: false },},
-  {"path": 'admin', loadChildren: './admin/admin.module#AdminModule', data: { preload: true, delay: true },},
-  {"path": 'owner', loadChildren: './owner/owner.module#OwnerModule', data: { preload: true, delay: true },},
+  {"path": 'admin', loadChildren: './admin/admin.module#AdminModule', data: { preload: false, delay: true },},
+  {"path": 'owner', loadChildren: './owner/owner.module#OwnerModule', data: { preload: false, delay: true },},
   {"path": 'classified', component: ClassifiedComponent},
-  {"path": 'judge', loadChildren: './classified/judge/judge.module#JudgeModule', data: { preload: true, delay: false },},
-  {"path": 'investor', loadChildren: './classified/investor/investor.module#InvestorModule', data: { preload: true, delay: false },},
-  {"path": 'mentor', loadChildren: './classified/mentor/mentor.module#MentorModule', data: { preload: true, delay: false },},
-  {"path": 'mentee', loadChildren: './classified/mentee/mentee.module#MenteeModule', data: { preload: true, delay: false },},
+  {"path": 'judge', loadChildren: './classified/judge/judge.module#JudgeModule', data: { preload: true, delay: true },},
+  {"path": 'investor', loadChildren: './classified/investor/investor.module#InvestorModule', data: { preload: true, delay: true },},
+  {"path": 'mentor', loadChildren: './classified/mentor/mentor.module#MentorModule', data: { preload: true, delay: true },},
+  {"path": 'mentee', loadChildren: './classified/mentee/mentee.module#MenteeModule', data: { preload: true, delay: true },},
+  {"path": 'committee', loadChildren: './classified/committee/committee.module#CommitteeModule', data: { preload: true, delay: true },},
   {"path": '**', component:PageNotFoundComponent}
 ];
 

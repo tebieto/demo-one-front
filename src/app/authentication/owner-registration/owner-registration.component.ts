@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RegisterService } from 'src/app/shared/authentication/register.service';
 import { CustomErrorHandler as errorMessage } from 'src/app/custom-error-handler';
+import { Subscription } from 'rxjs';
 
 let showConfirmError= false
 
@@ -30,6 +31,7 @@ export class OwnerRegistrationComponent implements OnInit {
   usernameRegex = /^[a-zA-Z0-9_]+$/;
   hideConfirm = true;
   hidePassword = true;
+  subscription: Subscription;
   
 
   matcher = new MyErrorStateMatcher();
@@ -120,7 +122,8 @@ export class OwnerRegistrationComponent implements OnInit {
 
   persistData(data: Object){
     this.persistingData = true
-    this.registerService.newOwner(data)
+    const subscription = this.registerService.newOwner(data)
+    this.subscription = subscription
     .subscribe(
       (res)=>{
         this.persistingData = false
@@ -210,6 +213,11 @@ export class OwnerRegistrationComponent implements OnInit {
       panelClass: [panelClass],
       duration: 2000
     })
+  }
+
+  ngOnDestroy(): void {
+    if(!this.subscription) {return}
+    this.subscription.unsubscribe()
   }
 
 }

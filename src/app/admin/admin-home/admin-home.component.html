@@ -1,9 +1,154 @@
 <div *ngIf="!isConnecting && user">
-    <p>
-    {{user.full_name}}
-    </p>
-  <button mat-button (click)="logUserOut('You logged out')">Logout</button>
+
+<input class="hidden" #csvUpload name="csvUrl" type="file" accept=".csv" (change)="onChooseCSV($event)" />
+<mat-toolbar color="primary" class="fixed-header main-header">
+    <mat-toolbar-row>
+      <span class="welcome-logo" [routerLink]="['/admin/home']"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
+      <span class="flexer"></span>
+
+      <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
+        Menu  
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+
+      <button mat-button (click)="logUserOut('You logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/admin/settings/admin']">
+            Admin Settings
+          </button>
+          <button mat-menu-item [routerLink]="['/admin/settings/committee']">
+            Committee Settings
+          </button>
+          <button mat-menu-item [routerLink]="['/admin/settings/mentor']">
+            Mentor Settings
+          </button>
+          <button mat-menu-item [routerLink]="['/admin/settings/mentee']">
+            Mentee Settings
+          </button>
+        </mat-menu>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<!--View-->
+
+<div class="settings" *ngIf="page=='settings'">
+
+     <h3 class="sub-title">{{title}}s</h3>
+      <button mat-button class="add-new" [routerLink]="['/admin/new/'+sub]"><mat-icon>person_add</mat-icon> Add New {{title}}</button>
+
+      <mat-form-field >
+        <input #searchInput matInput (keyup)="applyFilter($event.target.value)" [placeholder]="'Search ' +title+ 's'">
+      </mat-form-field>
+      
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+        <!-- Position Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element"> 
+              <button mat-fab class="fab-button mat-elevation-z0" [matMenuTriggerFor]="action" aria-label="Menu">
+                  <mat-icon>more_vert</mat-icon>
+              </button>
+
+              <mat-menu #action="matMenu">
+                  <button mat-menu-item>
+                    Cancel Invite
+                  </button>
+                  <button mat-menu-item>
+                    Resend Invite
+                  </button>
+                </mat-menu>
+
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>
+
+<!-- END OF VIEW-->
+
+
+<!--DATA INPUT-->
+
+<div class="settings" *ngIf="page=='new'">
+
+     <h3 class="sub-title">New {{title}}</h3>
+     <button mat-button class="add-new" (click)="onCSVUpload()">
+        <mat-icon *ngIf="onStartUpload">
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
+       <span *ngIf="!onStartUpload">
+          <mat-icon>attachment</mat-icon> Upload {{title}}s (*csv only)
+       </span>
+       <span *ngIf="onStartUpload">
+          Uploading CSV...
+       </span>
+      </button>
+
+
+     <div class="register-form-container mat-elevation-z0" >
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+  
+        <button mat-button tabindex="-1" matPrefix  mat-icon-button aria-label="Clear">
+            <mat-icon>email</mat-icon>
+        </button>
+        
+        <input matInput placeholder="Enter Email Address" [formControl]="email" (keyup.enter)="onSubmit()"  required>
+  
+        <button mat-button *ngIf="this.email.value" tabindex="-1" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+  
+        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Full Name</mat-label>
+  
+        <button mat-button tabindex="-1" matPrefix  mat-icon-button aria-label="Clear">
+            <mat-icon>person</mat-icon>
+        </button>
+        
+        <input matInput placeholder="Enter Full Name" [formControl]="name" (keyup.enter)="onSubmit()"  required>
+  
+        <button mat-button *ngIf="this.name.value" tabindex="-1" matSuffix mat-icon-button aria-label="Clear" (click)="this.name.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+  
+        <mat-error *ngIf="email.invalid">{{getNameErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+        <br>
+        <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+          </mat-spinner></mat-icon><span *ngIf="!persistingData">Add {{title}}</span></button>
+        <br>
+  
   </div>
+
+</div>
+
+<!--END OF DATA INPUT-->
+
+</div>
 <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
 
 <app-page-loading *ngIf="isConnecting"></app-page-loading>
+

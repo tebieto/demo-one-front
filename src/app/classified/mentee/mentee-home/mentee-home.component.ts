@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from 'src/app/shared/user/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
+import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 
 
 @Component({
@@ -19,13 +24,18 @@ export class MenteeHomeComponent implements OnInit {
   @ViewChild('scrollToBottom') private bottomChat: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('imgUpload') imgUpload: ElementRef;
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
+  firstForumGroup: FormGroup;
+  secondForumGroup: FormGroup;
+  firstIdeaGroup: FormGroup;
+  secondIdeaGroup: FormGroup;
+  thirdIdeaGroup: FormGroup;
   toForum = false;
   toNewForum = false;
   toIdea= false;
+  toNewIdea = false;
   senderMenu= 0;
   conversationMenu = 0
   pinnedTime = ''
@@ -46,6 +56,7 @@ export class MenteeHomeComponent implements OnInit {
   activeIdea: number;
   searchResult = []
   activeConversation: object;
+  activatedIdea: object;
   conversations = [];
   forums= []
   ideas= []
@@ -53,19 +64,16 @@ export class MenteeHomeComponent implements OnInit {
   typedMessage = ''
   parentMessage = {}
   newForumStatus = true
- 
-
-
-
-
-  
-
-  
-  authUser = {
-    id: 1,
-    name: "Terry Ebieto",
-    avatar: "/assets/images/cards/5.png"
-  }
+  newIdeaPlan = ''
+  newIdeaLogo = ''
+  activeType = 'chat'
+  ideaPanel: boolean;
+  isUploadingImage: boolean;
+  isUploadingFile: boolean;
+  industries= [];
+  pendingIdea: boolean;
+  pendingForum: boolean;
+  authUser: any
 
 
   fakeObject = {
@@ -105,171 +113,15 @@ export class MenteeHomeComponent implements OnInit {
           type: 'chat'
         }
 
-  forumDatas = [
-    {
-      sender: {
-        id: 4,
-        name: "Forum 1",
-        avatar: "/assets/images/cards/1.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 5,
-      conversation: [
-        {
-          id: 1,
-          sender_id: 4,
-          recipient_id: 1,
-          sender: {
-            id: 4,
-            name: "Ufo South",
-            avatar: "/assets/images/cards/3.png"
-          },
-          message: "Ufo South: Hey bruh",
-          created_at: "2019-07-7 14:27:07",
-          status: "delivered",
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        }, 
-        {
-          id: 2,
-          sender_id: 4,
-          recipient_id: 1,
-          sender: {
-            id: 2,
-            name: "Endurance Apina",
-            avatar: "/assets/images/cards/1.png"
-          },
-          message: "Endurance Apina: Hw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw far",
-          created_at: "2019-07-12 14:26:07",
-          status: 'sent',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        }
-    ],
-      active: false,
-      pinned: false,
-      type: 'forum'
-    },
-    {
-      sender: {
-        id: 3,
-        name: "Forum Two",
-        avatar: "/assets/images/cards/3.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 5,
-      conversation: [ 
-        {
-          id: 4,
-          sender_id: 3,
-          recipient_id: 1,
-          sender: {
-            id: 4,
-            name: "Ufo South",
-            avatar: "/assets/images/cards/3.png"
-          },
-          message: "Ufo South: Hey bruh",
-          created_at: "2019-07-7 14:27:07",
-          status: "delivered",
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        },
-        {
-          id: 5,
-          sender_id: 3,
-          recipient_id: 1,
-          sender: {
-            id: 2,
-            name: "Endurance Apina",
-            avatar: "/assets/images/cards/1.png"
-          },
-          message: "Endurance Apina: Hw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw far",
-          created_at: "2019-07-12 14:26:07",
-          status: 'sent',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        }
-      ],
-      active: false,
-      pinned: true,
-      type: 'forum'
-    },
-    {
-      sender: {
-        id: 10,
-        name: "Forum 3",
-        avatar: "/assets/images/cards/4.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 5,
-      conversation: [ 
-        {
-          id: 12,
-          sender_id: 10,
-          recipient_id: 1,
-          sender: {
-            id: 5,
-            name: "Jennifer Daniel",
-            avatar: "/assets/images/cards/4.png"
-          },
-          message: "Jennifer Daniel: Please follow GPI on IG Please follow GPI on IG Please follow GPI on IG",
-          created_at: "2019-01-02 14:27:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        },
-        {
-          id: 21,
-          sender_id: 10,
-          recipient_id: 1,
-          sender: {
-            id: 5,
-            name: "Jennifer Daniel",
-            avatar: "/assets/images/cards/4.png"
-          },
-          message: "Jennifer Daniel: Hi",
-          created_at: "2019-07-12 18:06:07",
-          status: 'delivered',
-          unread: true,
-          starred: false,
-          parent: 0,
-          type: 'forum'
-        }
-      ],
-      active: false,
-      pinned: false,
-      type: 'forum'
-    }
+  ideaDatas = [];
 
-  ];
+  forumDatas = [];
 
   datas = [
     {
       sender: {
         id: 2,
-        name: "Endurance Apina",
+        name: "Endurance Apina Endurance Apina Endurance Apina Endurance Apinav Endurance Apina Endurance Apina",
         avatar: "/assets/images/cards/1.png"
       },
       recipient: {
@@ -515,18 +367,32 @@ export class MenteeHomeComponent implements OnInit {
   
 
 
+  isConnecting: boolean;
+  subscription: Subscription;
 
+  user: object;
+  hasError: boolean;
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute,
+    private _formBuilder: FormBuilder
+    ) {}
 
 
         ngOnInit() {
+          this.validateUser()
           this.manipulateDatas('chat', this.datas);
-          this.manipulateDatas('forum', this.forumDatas);
+          this.fetchForums()
+          this.fetchIdeas()
           this.populateSource('chat');
 
           this.initFakeData();
           this.activateFormGroups();
+          this.fetchIndustry()
+          this.hasPendingIdea()
 
         }
 
@@ -545,10 +411,17 @@ export class MenteeHomeComponent implements OnInit {
         }
 
         pushToConversation(data: object){
-
-        let available = this.conversations.find(c=>{
+          
+        let available = {}
+        if(data['type']=="chat") { 
+        available = this.conversations.find(c=>{
+          return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
+        });
+        } else if(data['type']=="forum") { 
+          available = this.forums.find(c=>{
             return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
           });
+          }
 
           if(available){
 
@@ -643,6 +516,13 @@ export class MenteeHomeComponent implements OnInit {
 
 
         manipulateDatas(type:string, datas: object[]){
+
+          if(type=="idea") {
+            this.ideas = datas
+              this.sortData(this.ideas);
+              this.ideas = this.fixPinned(this.ideas)
+            return
+          }
           
           let manipulated = []
           if(manipulated = this.refineDatas(datas)) {
@@ -897,7 +777,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-        replaceMatch(name:string){
+        replaceMatch(type: string, name:string){
           let regX = new RegExp(this.searchText.trim(), "i")
           let match = name.match(regX)
 
@@ -911,26 +791,17 @@ export class MenteeHomeComponent implements OnInit {
         }
 
 
-
-
-
-
-
-
-
-
         populateSource(type: string){
           if(type=="chat") {
             this.dataSource.data = this.conversations
           } else if(type=="forum") {
             this.dataSource.data = this.forums
+          } else if(type=="idea") {
+            this.dataSource.data = this.ideas
           } else {
             return
           }
         }
-
-
-
 
 
         applyFilter(filterValue: string) {
@@ -961,6 +832,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         openChat(type:string, id: number) {
+            this.ideaPanel = false;
             this.typedMessage = '';
             this.parentMessage = {};
             this.desparity =  0;
@@ -968,11 +840,13 @@ export class MenteeHomeComponent implements OnInit {
             this.scrollTop = 0;
             let activeChat = [];
             let activateChat = [];
-
+            
             if(type=="chat") {
-              this.xActive = this.active
+              this.xActive = this.active;
             } else if(type=="forum") {
               this.xActive = this.activeForum
+            } else if(type=="idea") {
+              this.xActive = this.activeIdea
             } else {
               return
             }
@@ -984,6 +858,10 @@ export class MenteeHomeComponent implements OnInit {
           
           if(this.activeConversation) {   
             this.activeConversation['active'] = false;
+          }
+
+          if(this.activatedIdea) {   
+            this.activatedIdea['active'] = false;
           }
 
           // Global deactivation
@@ -1000,8 +878,7 @@ export class MenteeHomeComponent implements OnInit {
                     activeChat['active'] = false;
                   } 
 
-                } else if (type=='forum') {
-
+                } else if(type=='forum') {
                    activeChat  = this.forums.find((x)=> {
                     return x.sender.id == this.activeForum
                   });
@@ -1010,11 +887,22 @@ export class MenteeHomeComponent implements OnInit {
                     activeChat['active'] = false;
                   } 
 
-                } else {
+                } else if(type=='idea') {
+
+                  activeChat  = this.ideas.find((x)=> {
+                   return x.id == this.activeIdea
+                 });
+
+                 if(activeChat) {
+                   activeChat['active'] = false;
+                 } 
+
+               } else {
                   return
                 }
 
               }
+
 
           // Activate clicked chat
 
@@ -1031,12 +919,25 @@ export class MenteeHomeComponent implements OnInit {
             });
 
 
-          }
+          } else if(type=='idea') {
+
+            activateChat  = this.ideas.find((x)=> {
+             return x.id == id
+           });
+
+         }
 
 
           if(activateChat) {
-
                 activateChat['active'] = true;
+
+                if(type=='idea') {
+                  this.activatedIdea = activateChat
+                  this.activeIdea = id
+                  this.ideaPanel = true
+                  return
+                }
+
                 this.activeConversation = [];
                 this.sibling = 0;
                 this.desparity = 0;
@@ -1048,9 +949,8 @@ export class MenteeHomeComponent implements OnInit {
                 activateChat['conversation'] = descendingOrder;
 
                 activateChat['conversation'].forEach(message=>{
-
+                  
                   if(message.parent>0) {
-                    
                   let parent  = activateChat['conversation'].find((x)=> {
                     return x.id == message.parent
                   });
@@ -1209,7 +1109,12 @@ export class MenteeHomeComponent implements OnInit {
              c  = this.forums.find((x)=> {
               return x.sender.id == id
             });
-          }
+          } else if(type == 'idea') {
+
+            c  = this.ideas.find((x)=> {
+             return x.id == id
+           });
+         }
           
 
           if(!c) {return}
@@ -1225,6 +1130,11 @@ export class MenteeHomeComponent implements OnInit {
 
             this.sortData(this.forums)
             this.forums = this.fixPinned(this.forums)
+            
+          } else if(type=="idea") {
+
+            this.sortData(this.ideas)
+            this.ideas = this.fixPinned(this.ideas)
             
           }
 
@@ -1245,7 +1155,12 @@ export class MenteeHomeComponent implements OnInit {
              c  = this.forums.find((x)=> {
               return x.sender.id == id
             });
-          }
+          } else if(type == 'idea') {
+
+            c  = this.ideas.find((x)=> {
+             return x.id == id
+           });
+         }
 
           if(!c) {return}
 
@@ -1260,6 +1175,11 @@ export class MenteeHomeComponent implements OnInit {
 
             this.sortData(this.forums)
             this.forums = this.fixPinned(this.forums)
+            
+          } else if(type=="idea") {
+
+            this.sortData(this.ideas)
+            this.ideas = this.fixPinned(this.ideas)
             
           }
         }
@@ -1445,6 +1365,21 @@ export class MenteeHomeComponent implements OnInit {
                   type: this.activeConversation['type']
             }
 
+            let forum_id = 0
+
+            if(this.activeConversation['type'] == 'forum') {
+              forum_id = this.activeForum
+            } else if(this.activeConversation['type'] == 'chat') {
+              forum_id = this.active
+            }
+
+          let  data = {
+              message: newMessage.message,
+              forum_id: forum_id,
+              parent: newMessage.parent
+            }
+            
+        this.persistConversation(newMessage.type, data)
         this.newToConversation(newMessage)
         this.typedMessage = '';
         this.parentMessage = {}
@@ -1453,6 +1388,12 @@ export class MenteeHomeComponent implements OnInit {
         this.backToBottom();
         },1);
         
+      }
+
+      persistConversation(type: string, data:object) {
+        if(type=='forum') {
+          this.persistforumMessage(data)
+        }
       }
 
       utcNow() {
@@ -1590,6 +1531,8 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       gotoForum (){
+        this.searchText = ''
+        this.activeType= 'forum'
         this.toNewForum = false;
         this.toForum = true;
         this.toIdea = false;
@@ -1597,12 +1540,17 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       gotoIdea (){
+        this.searchText = ''
+        this.activeType= 'idea'
+        this.toNewIdea = false;
         this.toForum = false;
         this.toIdea = true;
         this.populateSource('idea')
       }
 
       gotoConversation() {
+        this.searchText = ''
+        this.activeType = 'chat'
         this.toForum = false;
         this.toIdea = false;
         this.populateSource('chat')
@@ -1612,13 +1560,28 @@ export class MenteeHomeComponent implements OnInit {
         this.toNewForum = true;
       }
 
+      gotoNewIdea() {
+        this.toNewIdea = true;
+      }
+
       activateFormGroups() {
 
-        this.firstFormGroup = this._formBuilder.group({
+        this.firstForumGroup = this._formBuilder.group({
           topic: ['', [Validators.required, Validators.minLength(10)]]
         });
-        this.secondFormGroup = this._formBuilder.group({
+        this.secondForumGroup = this._formBuilder.group({
           message: ['', [Validators.required, Validators.minLength(20)]]
+        });
+
+        this.firstIdeaGroup = this._formBuilder.group({
+          title: ['', [Validators.required, Validators.minLength(10)]],
+          industry: ['', [Validators.required,]]
+        });
+        this.secondIdeaGroup = this._formBuilder.group({
+          description: ['', [Validators.required, Validators.minLength(20)]]
+        });
+        this.thirdIdeaGroup = this._formBuilder.group({
+          summary: ['', [Validators.required, Validators.minLength(20)]]
         });
       }
 
@@ -1626,15 +1589,29 @@ export class MenteeHomeComponent implements OnInit {
         this.newForumStatus=e['checked'];
       }
 
-      postNewForum() {
+      postNew(type:string) {
+        
+        if(type=='idea') {
+          this.postToIdea()
+          return
+        }
 
         let  now = this.utcNow();
 
         let data = {
-          'topic': this.firstFormGroup.controls['topic'].value,
-          'message': this.secondFormGroup.controls['message'].value,
-          'status': this.newForumStatus
+          'topic': this.firstForumGroup.controls['topic'].value,
+          'message': this.secondForumGroup.controls['message'].value,
+          'status': this.newForumStatus,
+          'pinned': false,
+          'type': 'forum'
         }
+
+        if(data.topic.length==0 || data.message.length==0){  
+
+          let notification = "All fields are required"
+          this.openSnackBar(notification, 'snack-error')
+          return
+        } 
 
         let forumData = {
           sender: {
@@ -1675,7 +1652,58 @@ export class MenteeHomeComponent implements OnInit {
         
         this.pushToData('forum', forumData)
         this.gotoForum();
-        this.clearFormData();
+        this.clearFormData('forum');
+        this.persistForum(data)
+      }
+
+      postToIdea() {
+        
+        let  now = this.utcNow();
+
+        let data = {
+          'title': this.firstIdeaGroup.controls['title'].value,
+          'industry': this.firstIdeaGroup.controls['industry'].value,
+          'description': this.secondIdeaGroup.controls['description'].value,
+          'summary': this.thirdIdeaGroup.controls['summary'].value,
+          'attachment': this.newIdeaPlan,
+          'logo': this.newIdeaLogo,
+          'type': 'idea',
+          'pinned': false,
+          'status': 'pending'
+        }
+
+        if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0 || data.logo.length==0){      
+          
+          let notification = "All fields are required"
+
+          if(data.attachment.length==0) {
+           notification = 'Business Plan is required'
+          } else if(data.logo.length==0) {
+            notification = "Logo is required"
+          }
+
+          this.openSnackBar(notification, 'snack-error')
+          return
+        } 
+
+        let ideaData = {
+          id: null,
+          owner: this.authUser,
+          'title': this.firstIdeaGroup.controls['title'].value,
+          'logo': this.newIdeaLogo,
+          'description': this.secondIdeaGroup.controls['description'].value,
+          'summary': this.thirdIdeaGroup.controls['summary'].value,
+          'attachment': this.newIdeaPlan,
+          active: false,
+          pinned: false,
+          type: 'idea',
+          created_at: now
+        }
+
+        this.persistIdea(data)
+        this.pushToData('idea', ideaData)
+        this.gotoIdea();
+        this.clearFormData('idea');
 
       }
 
@@ -1689,14 +1717,28 @@ export class MenteeHomeComponent implements OnInit {
           this.datas.push(data);
           this.manipulateDatas('chat', this.datas);
           this.populateSource('chat');
+        } else if(type=='idea') {
+          this.ideas.push(data);
+          this.manipulateDatas('idea', this.ideas);
+          this.populateSource('idea');
         }
 
       }
 
-      clearFormData() {
-        this.firstFormGroup.get('topic').setValue('');
-        this.secondFormGroup.get('message').setValue('');
-        this.newForumStatus = true;
+      clearFormData(type: string) {
+        if(type=='forum') {
+          this.firstForumGroup.get('topic').setValue('');
+          this.secondForumGroup.get('message').setValue('');
+          this.newForumStatus = true;
+        } else if(type=='idea') {
+          this.firstIdeaGroup.get('title').setValue('');
+          this.firstIdeaGroup.get('industry').setValue('');
+          this.secondIdeaGroup.get('description').setValue('');
+          this.thirdIdeaGroup.get('summary').setValue('');
+          this.newIdeaPlan = '';
+          this.newIdeaLogo = '';
+        }
+        
       }
 
 
@@ -1768,7 +1810,426 @@ export class MenteeHomeComponent implements OnInit {
 
       }
 
+      validateUser(){
+        this.isConnecting= true
+        const subscription = this.userService.validateUser()
+        this.subscription = subscription.subscribe(
+          (res)=>{
+            this.isConnecting=false
+            if(res.code != 200) {
+              this.hasError = true
+              let message ='Invalid Session, Login Again.'
+              this.logUserOut(message);
+            }
+      
+            if(res.code==200) {
+              this.user = res.body.user
+              this.authUser=this.user
+              this.authUser['name'] = this.authUser['full_name'];
+              this.authUser['avatar'] = this.authUser['image']
+             }
+      
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting=false;
+        });
+      }
+    
+      logUserOut(message:string){
+        this.clearToken()
+        let notification = message
+        this.openSnackBar(notification, 'snack-error')
+        this.router.navigateByUrl('/login')
+      }
+    
+      pageNotFound(){
+        this.clearToken()
+        this.router.navigateByUrl('/not-found')
+      }
+    
+      clearToken() {
+        localStorage.removeItem('token')
+      }
+    
+      openSnackBar(message, panelClass) {
+        this.snackBar.openFromComponent(SnackbarComponent, {
+          data: message,
+          panelClass: [panelClass],
+          duration: 6000
+        })
+      }
+      
+      onFileUpload() {
+          if(this.isUploadingFile){return}
+          let el: HTMLElement = this.fileUpload.nativeElement;
+          el.click();
+      }
+      
+      onChooseFile(e) {
+        var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+        var pattern = /.pdf/;
+        const formData: FormData = new FormData();
+        if (!file.name.match(pattern)) {
+          alert('invalid format');
+          return;
+        }
+        formData.append('file', file, file.name)
+        this.persistFileData(formData);
+        e.srcElement.value = '';
+      }
+      
+      persistFileData(data) {
+        this.isUploadingFile = true
+        const subscription = this.userService.uploadFile(data)
+        this.subscription = subscription
+        .subscribe(
+            (res)=>{
+              this.isUploadingFile = false;
+              this.newIdeaPlan = res.body;
+          },
+          (error)=>{
+            this.isUploadingFile = false;
+            let notification = errorMessage.ConnectionError(error)
+            this.openSnackBar(notification, 'snack-error')
+      
+          });
+      }
 
+      onImageUpload() {
+    
+        if(this.isUploadingImage==true) {return}
+        let el: HTMLElement = this.imgUpload.nativeElement;
+        el.click();
+    }
+    
+    onChooseImage(e) {
+      var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+      var pattern = /image-*/;
+      const formData: FormData = new FormData();
+      if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+      }
+      formData.append('image', file, file.name)
+      this.persistImageData(formData);
+      e.srcElement.value = '';
+    }
+    
+    persistImageData(data) {
+      this.isUploadingImage = true
+      const subscription = this.userService.uploadImage(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{
+            this.isUploadingImage = false;
+            this.newIdeaLogo = res.body;
+        },
+        (error)=>{
+          this.isUploadingImage = false;
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    persistIdea(data) {
+      
+      const subscription = this.userService.idea(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          let notification = res.body
+          if(res.code==200) {
+          this.replaceNull('idea', res.ideas);
+          this.pendingIdea = true;
+          this.openSnackBar(notification, 'snack-success');
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+            this.openSnackBar(notification, 'snack-error');
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    persistForum(data) {
+      
+      const subscription = this.userService.forum(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          let notification = res.body
+          if(res.code==200) {
+          this.replaceNull('forum', res.forums);
+          this.pendingForum = true;
+          this.openSnackBar(notification, 'snack-success');
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+            this.openSnackBar(notification, 'snack-error');
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    persistforumMessage(data) {
+      
+      const subscription = this.userService.forumMessage(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          let notification = res.body
+          if(res.code==200) {
+          this.replaceNull('conversation', res.conversation);
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+            this.openSnackBar(notification, 'snack-error');
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    hasPendingIdea() {
+      const subscription = this.userService.hasPendingIdea()
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+            this.pendingIdea = res.body
+          } else {
+            this.hasError = true
+            this.isConnecting = false
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    fetchIdeas() {
+      const subscription = this.userService.userIdeas()
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+
+            if(res.ideas) {   
+            this.ideaDatas = res.ideas;
+            } else {
+              this.ideaDatas = [];
+            }
+            this.manipulateDatas('idea', this.ideaDatas);
+          } else {
+            this.hasError = true
+            this.isConnecting = false
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    fetchForums() {
+      const subscription = this.userService.userForums()
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+            if(res.forums) {   
+            this.forumDatas = res.forums;
+            } else {
+              this.forumDatas = [];
+            }
+            this.manipulateDatas('forum', this.forumDatas);
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    fetchAllMessages(type:string, id:number){
+      this.openChat(type, id);
+      if(type=='forum') {
+        this.fetchForumMessages(id)
+      }
+    }
+
+    fetchForumMessages(id: number) {
+      const subscription = this.userService.forumMessages(id)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+            if(res.conversations) {   
+              this.pushAllMessages('forum', id, res.conversations)
+            } else {
+
+            }
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    pushAllMessages(type:string, id, data: object[]) {
+      let dataStore = []
+      if(type=='forum') {
+        dataStore= this.forumDatas
+      } else if(type=='chat') {
+        dataStore = this.datas
+      }
+
+      let found = dataStore.find(x=> {
+        return x.sender.id == id
+      });
+
+      if(!found) {
+        return
+      }
+      found['conversation'] = data
+      this.openChat(type,id)
+    }
+
+    replaceNull(type:string, data: object) {
+      let replace = [];
+      let found = {}
+      if(type=='idea') {
+        replace = this.ideaDatas
+        found = replace.find(x=>{
+          return x.title == data['title'] && x.id == null
+        });
+
+        if(!found) {
+          return
+        }
+        
+        found['id'] = data['id']
+
+      }
+
+      if(type=='forum') {
+        
+        replace = this.forumDatas
+        found = replace.find(x=>{
+          return x.sender.name == data['topic'] && x.sender.id == null
+        });
+
+        if(!found) {
+          return
+        }
+
+        found['sender']['id'] = data['id']
+        this.replaceNullMessage(data['message_id'], data['id'], data['message'], found )
+
+      }
+
+      if(type=='conversation') {
+        let sender_id = 0
+        if(data['type']=='forum') {   
+         replace = this.forumDatas
+         
+        found = replace.find(x=>{
+          return x.sender.id == data['forum_id']
+        });
+        sender_id = data['forum_id']
+        }
+
+        if(!found) {
+          return
+        }
+        this.replaceNullMessage(data['id'], sender_id, data['message'], found )
+
+      }
+
+    }
+
+    replaceNullMessage(id: number, sender_id, message: string, data: object){
+      let found = data['conversation'].find(x=>{
+          return x.message == message && x.id== null;
+      });
+
+      if(!found) {
+        return
+      }
+
+      found['id'] = id;
+      found['sender_id'] = sender_id
+    }
+
+
+    fetchIndustry() {
+      const subscription = this.userService.industries()
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{
+            res.body.forEach(element => {
+              this.industries.push(element)
+            });
+        },
+        (error)=>{
+          this.isConnecting = false
+          this.hasError = true;
+        });
+    }
+
+    newTab(link:string) {
+      window.open(
+        link,
+        '_blank' // <- This is what makes it open in a new window or tab.
+      );
+    }
+    
+      
+    
+    ngOnDestroy() {
+      if(!this.subscription) {return}
+      this.subscription.unsubscribe();
+    }
+  
 
 
 }

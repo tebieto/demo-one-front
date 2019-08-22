@@ -1,8 +1,11 @@
+<div class="body" *ngIf="!isConnecting && user && !hasError">
+    <input class="hidden" #fileUpload name="fileUrl" type="file" accept=".pdf" (change)="onChooseFile($event)" />
+    <input class="hidden" #imgUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseImage($event)" />
 <mat-toolbar color="primary" class="fixed-header mat-elevation-z0 special-top">
   <mat-toolbar-row>
     <span class="special-logo"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
     <span class="flexer"></span>
-    <div [routerLink]="['/']" class="logout" title="Logout"><mat-icon>logout</mat-icon> </div>
+    <div (click)="logUserOut('You logged out')" class="logout" title="Logout"><mat-icon>logout</mat-icon> </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -15,11 +18,23 @@
 
     <div class="left-side-top">
         <div class="infos">
-          <img src="/assets/images/cards/5.png" alt="">
+          <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar">
+            <button mat-fab class="mat-elevation-z0">{{authUser.name.slice(0,1)}}</button>
+          </div>
+          <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
           <span class="right-icons">
-            <mat-icon title="Idea" class="idea">wb_sunny</mat-icon>
+            <mat-icon title="Idea" class="idea" (click)="gotoIdea()">wb_sunny</mat-icon>
             <mat-icon title="Forum" (click)="gotoForum()">forum</mat-icon>
-            <mat-icon title="More">more_vert</mat-icon>
+            <mat-icon title="More" [matMenuTriggerFor]="more">more_vert</mat-icon>
+
+            <mat-menu #more="matMenu" class="mat-menu">
+                <button mat-button (click)="gotoForum()">
+                    <span  class="more-option">Forum</span>
+                </button>
+                <button mat-button (click)="gotoIdea()">
+                    <span class="more-option">Ideas</span>
+                </button>
+            </mat-menu>
           </span>
         </div>
         <div class="search">
@@ -38,7 +53,7 @@
     <!--When Search is Off-->
     <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
       <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
-      <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
+      <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
         
         <div class="col-xs-6 user-avatar">
           <img [src]="item.sender.avatar" alt="">
@@ -46,7 +61,8 @@
         
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
           <span class="user-name">
-              {{item.sender.name}}
+              {{item.sender.name.slice(0, 25)}}
+              <span *ngIf="item.sender.name.length>25">...</span>
           </span> 
           <span class="latest-time">
             {{getLocalTime(item.latest.created_at)}}
@@ -78,17 +94,18 @@
     </div>
 
     <!--When Search is On-->
-    <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+    <div *ngIf="searchText && activeType=='chat'" class="left-side-body" (scroll)="onLeftScroll($event)">
         <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
-        <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
+        <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
           
           <div class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
           </div> 
           
           <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
-            <span class="user-name" [innerHTML]="replaceMatch(item.sender.name)">
-            </span> 
+            <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0,25))">
+            </span>
+            <span *ngIf="item.sender.name.length>25">...</span> 
             <span class="latest-time">
               {{getLocalTime(item.latest.created_at)}}
             </span>
@@ -137,7 +154,7 @@
                 Forum
             </span>
             <span class="right-icons">
-              <mat-icon>more_vert</mat-icon>
+              <mat-icon>refresh</mat-icon>
             </span>
           </div>
           <div class="search">
@@ -166,14 +183,14 @@
               
               <div class="col-xs-6 user-content">
                 <span class="user-name add-text">
-                    New Forum
+                    Start a topic
                 </span> 
               </div>
 
           </div>
 
-        <div class="not-available" *ngIf="forums.length==0">No active conversation</div>
-        <div class="user-list row" *ngFor="let item of forums" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
+        <div class="not-available" *ngIf="forums.length==0">No topic to display</div>
+        <div class="user-list row" *ngFor="let item of forums" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
           
           <div class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
@@ -181,7 +198,8 @@
           
           <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
             <span class="user-name">
-                {{item.sender.name}}
+                {{item.sender.name.slice(0,25)}}
+                <span *ngIf="item.sender.name.length>25">...</span>
             </span> 
             <span class="latest-time">
               {{getLocalTime(item.latest.created_at)}}
@@ -200,10 +218,10 @@
   
             <mat-menu #menu="matMenu" class="mat-menu">
                 <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
-                    <span  class="more-option">Unpin Chat</span>
+                    <span  class="more-option">Unpin Forum</span>
                 </button>
                 <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
-                    <span class="more-option">Pin Chat</span>
+                    <span class="more-option">Pin Forum</span>
                 </button>
             </mat-menu>
           </div>
@@ -213,17 +231,18 @@
       </div>
   
       <!--When Search is On-->
-      <div *ngIf="searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+      <div *ngIf="searchText && activeType=='forum'" class="left-side-body" (scroll)="onLeftScroll($event)">
           <div class="not-available" *ngIf="searchText && searchResult.length==0">Forum not found</div>
-          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="openChat(item.type, item.sender.id)">
+          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
             
             <div class="col-xs-6 user-avatar">
               <img [src]="item.sender.avatar" alt="">
             </div> 
             
             <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
-              <span class="user-name" [innerHTML]="replaceMatch(item.sender.name)">
+              <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0, 25))">
               </span> 
+              <span *ngIf="item.sender.name.length>25">...</span>
               <span class="latest-time">
                 {{getLocalTime(item.latest.created_at)}}
               </span>
@@ -242,10 +261,10 @@
       
                 <mat-menu #menu="matMenu" class="mat-menu">
                     <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.sender.id)">
-                        <span  class="more-option">Unpin Chat</span>
+                        <span  class="more-option">Unpin Forum</span>
                     </button>
                     <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.sender.id)">
-                        <span class="more-option">Pin Chat</span>
+                        <span class="more-option">Pin Forum</span>
                     </button>
                 </mat-menu>
             </div>
@@ -257,7 +276,7 @@
     </div>
 
 
-    <!--New Forum Left Side-->
+  <!--New Forum Left Side-->
 
   <div class="left-side forum new-forum" [class.expand-left]="toNewForum">
 
@@ -277,13 +296,13 @@
     <div class="left-side-body">
 
       <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
+        <mat-step [stepControl]="firstForumGroup">
+            <form [formGroup]="firstForumGroup">
                 <ng-template matStepLabel>Topic</ng-template>
                 <mat-form-field appearance="outline">
-                    <mat-label>Forum Topic</mat-label>
-                    <input matInput placeholder="Topic" formControlName="topic" required autocomplete="off">
-                    <mat-error *ngIf="firstFormGroup.get('topic').invalid">Minimum Character is 10</mat-error>
+                    <mat-label class="title-text">Forum Topic</mat-label>
+                    <textarea matInput placeholder="Topic" class="title-text" formControlName="topic" rows="5" required autocomplete="off"></textarea>
+                    <mat-error *ngIf="firstForumGroup.get('topic').invalid">Minimum Character is 10</mat-error>
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperNext>Next</button>
@@ -291,13 +310,13 @@
             </form>
         </mat-step>
 
-        <mat-step [stepControl]="secondFormGroup">
-          <form [formGroup]="secondFormGroup">
+        <mat-step [stepControl]="secondForumGroup">
+          <form [formGroup]="secondForumGroup">
               <ng-template matStepLabel>Message</ng-template>
               <mat-form-field appearance="outline">
                   <mat-label>Message</mat-label>
-                  <textarea matInput placeholder="Type a message" rows="4" formControlName="message" required></textarea>
-                  <mat-error *ngIf="secondFormGroup.get('message').invalid">Minimum Character is 20</mat-error>
+                  <textarea matInput placeholder="Type a message" rows="10" formControlName="message" required></textarea>
+                  <mat-error *ngIf="secondForumGroup.get('message').invalid">Minimum Character is 20</mat-error>
               </mat-form-field>
               <div>
                   <button mat-button matStepperPrevious>Back</button>
@@ -317,7 +336,7 @@
 
           <div>
               <button mat-button matStepperPrevious>Review</button>
-              <button mat-button (click)="postNewForum(); stepper.reset()">Post</button>
+              <button class="save-button" mat-button (click)="postNew('forum'); stepper.reset()">Post</button>
           </div>
       </mat-step>
     </mat-horizontal-stepper>
@@ -327,9 +346,273 @@
 
   </div>
 
+
+
+    <!--Idea Left Side-->
+
+  <div class="left-side forum idea" [class.expand-left]="toIdea">
+
+      <div class="left-side-top">
+          <div class="infos">
+            <span class="left-icons">
+              <mat-icon title="Go back" (click)="gotoConversation()">arrow_back</mat-icon>
+            </span>
+
+            <span class="page-title">
+                Ideas
+            </span>
+            <span class="right-icons">
+              <mat-icon>refresh</mat-icon>
+            </span>
+          </div>
+          <div class="search">
+            <mat-form-field appearance="outline" class="page-search-input">
+              <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                  <mat-icon>search</mat-icon>
+              </button>
+            <input matInput (keyup)="applyFilter($event.target.value)" name="search" [(ngModel)]="searchText" placeholder="Search Idea" autocomplete="off">
+            <button *ngIf="searchText" (click)="searchText=''" mat-button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+          </div>
+      </div>
+  
+      <!--When Search is Off-->
+      <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
+
+          <div [class.hidden]="pendingIdea?true:false" class="user-list row" (click)="gotoNewIdea()">
+          
+              <div class="col-xs-6 user-avatar">
+                <button mat-fab class="add-button">
+                    <mat-icon>add</mat-icon>
+                </button>
+              </div> 
+              
+              <div class="col-xs-6 user-content">
+                <span class="user-name add-text">
+                    Post New Idea
+                </span> 
+              </div>
+
+          </div>
+
+          <div [class.hidden]="pendingIdea?false:true" class="user-list row">
+          
+              <div class="col-xs-6 user-avatar">
+                <button mat-fab class="add-button">
+                    <mat-icon>airline_seat_legroom_normal</mat-icon>
+                </button>
+              </div> 
+              
+              <div class="col-xs-6 user-content">
+                <span class="user-name add-text">
+                    Awaiting Review
+                </span> 
+              </div>
+
+          </div>
+
+        <div class="not-available" *ngIf="ideas.length==0">You have not posted any Idea</div>
+        <div class="user-list row" *ngFor="let item of ideas" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.id)">
+          
+          <div class="col-xs-6 user-avatar">
+            <img [src]="item.logo" alt="">
+          </div> 
+          
+          <div class="col-xs-6 user-content">
+            <span class="user-name">
+                {{item.title.slice(0, 25)}}
+                <span *ngIf="item.title.length>25">...</span>
+            </span> 
+            <span class="latest-time">
+              {{getLocalTime(item.created_at)}}
+            </span>
+            <br>
+            <span class="user-message">
+             {{item.description.slice(0, 35)}} <span *ngIf="item.description.length>35">...</span>
+            </span>
+            <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+  
+            <mat-menu #menu="matMenu" class="mat-menu">
+                <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.id)">
+                    <span  class="more-option">Unpin Idea</span>
+                </button>
+                <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
+                    <span class="more-option">Pin Idea</span>
+                </button>
+            </mat-menu>
+          </div>
+          
+        </div>
+  
+      </div>
+  
+      <!--When Search is On-->
+      <div *ngIf="searchText && activeType=='idea'" class="left-side-body" (scroll)="onLeftScroll($event)">
+          <div class="not-available" *ngIf="searchText && searchResult.length==0">Idea not found</div>
+          <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.id)">
+            
+            <div class="col-xs-6 user-avatar">
+              <img [src]="item.logo" alt="">
+            </div> 
+            
+            <div class="col-xs-6 user-content">
+              <span class="user-name" [innerHTML]="replaceMatch(item.type, item.title.slice(0,25))">
+              </span> 
+              <span *ngIf="item.title.length>25">...</span>
+              <span class="latest-time">
+                {{getLocalTime(item.created_at)}}
+              </span>
+              <br>
+              <span class="user-message">
+                  <span [innerHTML]="replaceMatch(item.type, item.description.slice(0, 35))"></span>
+                  <span *ngIf="item.description.length>35">...</span>
+                </span>
+                <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
+                <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
+      
+                <mat-menu #menu="matMenu" class="mat-menu">
+                    <button mat-button *ngIf="item.pinned"  (click)="unPinChat(item.type, item.id)">
+                        <span  class="more-option">Unpin Idea</span>
+                    </button>
+                    <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
+                        <span class="more-option">Pin Idea</span>
+                    </button>
+                </mat-menu>
+            </div>
+            
+          </div>
+    
+        </div>
+  
+    </div>
+
+  <!--New Idea Left Side-->
+
+  <div class="left-side forum new-forum new-idea" [class.expand-left]="toNewIdea">
+
+      <div class="left-side-top">
+          <div class="infos">
+            <span class="left-icons">
+              <mat-icon title="Go back" (click)="gotoIdea()">arrow_back</mat-icon>
+            </span>
+  
+            <span class="page-title">
+                New Idea
+            </span>
+          </div>
+      </div>
+  
+      <!--New Idea Body-->
+      <div class="left-side-body">
+  
+        <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+          <mat-step [stepControl]="firstIdeaGroup">
+              <form [formGroup]="firstIdeaGroup">
+                  <ng-template matStepLabel>Title</ng-template>
+
+                  <mat-form-field appearance="outline">
+                      <mat-label>Select Industry</mat-label>
+                      <mat-select formControlName="industry" name="industry">
+                          <mat-option value="">
+                              Select Industry
+                            </mat-option>
+                          <mat-option *ngFor="let item of industries" [value]="item.industry">
+                            {{item.industry}}
+                          </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="firstIdeaGroup.get('industry').invalid">Industry is required</mat-error>
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline">
+                      <mat-label class="title-text">Idea Title</mat-label>
+                      <textarea matInput placeholder="Title" class="title-text" formControlName="title" rows="3" required autocomplete="off"></textarea>
+                      <mat-error *ngIf="firstIdeaGroup.get('title').invalid">Minimum Character is 10</mat-error>
+                  </mat-form-field>
+                  <div>
+                      <button mat-button matStepperNext>Next</button>
+                  </div>
+              </form>
+          </mat-step>
+  
+          <mat-step [stepControl]="secondIdeaGroup">
+            <form [formGroup]="secondIdeaGroup">
+                <ng-template matStepLabel>Description</ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label>Short Description</mat-label>
+                    <textarea matInput placeholder="Description" rows="10" formControlName="description" required></textarea>
+                    <mat-error *ngIf="secondIdeaGroup.get('description').invalid">Minimum Character is 20</mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="thirdIdeaGroup">
+            <form [formGroup]="thirdIdeaGroup">
+                <ng-template matStepLabel>Summary</ng-template>
+                <mat-form-field appearance="outline">
+                    <mat-label>Summary</mat-label>
+                    <textarea matInput placeholder="Summary" rows="10" formControlName="summary" required></textarea>
+                    <mat-error *ngIf="thirdIdeaGroup.get('summary').invalid">Minimum Character is 20</mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+  
+        <mat-step>
+            <ng-template matStepLabel>Save</ng-template>
+            <div class="doc-upload-div">
+                <div class="upload" (click)="onFileUpload()" [class.hidden]="isUploadingFile">
+                  <button >Upload Bus. Plan</button>
+                  <button ><mat-icon>file_copy</mat-icon></button>
+                  <button >PDF</button>
+                </div>
+                <div class="upload" [class.hidden]="!isUploadingFile">
+                    <button >Uploading Plan...</button>
+                    <button ><mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon></button>
+                    <button></button>
+                  </div>
+                <div class="upload" (click)="onImageUpload()" [class.hidden]="isUploadingImage">
+                  <button>Upload Bus. Logo</button>
+                  <button><mat-icon>photo</mat-icon></button>
+                  <button>Image</button>
+                </div>
+                <div class="upload"  [class.hidden]="!isUploadingImage">
+                  <button>Uploading Logo...</button>
+                  <button><mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon></button>
+                  <button></button>
+                </div>
+                <button mat-button [class.hidden]="newIdeaPlan.length>0?false:true" (click)="newTab(newIdeaPlan)">Preview Plan</button>
+                <button mat-button [class.hidden]="newIdeaLogo.length>0?false:true" (click)="newTab(newIdeaLogo)">Preview Logo</button>
+                
+            </div>
+  
+            <div>
+                <button mat-button matStepperPrevious>Review</button>
+                <button class="save-button" [class.hidden]="newIdeaLogo.length>0 && newIdeaPlan.length>0 ?false:true" mat-button (click)="postNew('idea'); stepper.reset()">Save Idea</button>
+                <button class="save-button" [class.hidden]="newIdeaLogo.length==0 || newIdeaPlan.length==0 ?false:true" mat-button (click)="postNew('idea');">Save Idea</button>
+            </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+  
+  
+      </div>
+  
+    </div>
+
   
 
-  <div class="right-side" *ngIf="activeConversation">
+  <div class="right-side" *ngIf="activeConversation && !ideaPanel">
     <div class="right-side-top">
       <div class="infos" >
         <span class="sender-details">
@@ -491,7 +774,42 @@
 
   </div>
 
-  <div class="right-side chat-welcome" *ngIf="!activeConversation">
+  <!--Idea Panel-->
+
+  <div class="right-side" *ngIf="ideaPanel">
+     
+    <div class="right-side-top">
+        <div class="infos" >
+          <span class="sender-details">
+            <img [src]="activatedIdea.logo" alt="">
+            <span class="sender-name">By {{activatedIdea.owner.name}}</span>
+          </span>
+            <span class="right-icons">
+              <mat-icon>more_vert</mat-icon>
+            </span>
+          </div>
+  
+      </div>
+  
+      <!--Idea Body-->
+  
+        <div class="right-side-body right-side-body-idea" (scroll)="onScroll($event)" #scrollToBottom>
+  
+          <div class="item-title"><h5>{{activatedIdea.title.toUpperCase()}}</h5></div>
+          
+          <div class="item-description"><p>{{activatedIdea.description}}</p></div>
+          <mat-divider></mat-divider>
+          <div class="item-description item-summary"><p>{{activatedIdea.summary}}</p></div>
+  
+          <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+          
+        </div>
+  
+    </div>
+
+  <div class="right-side chat-welcome" *ngIf="!activeConversation && !activatedIdea">
 
     <div class="chat-landing-image"></div>
     <div class="chat-introduction">
@@ -502,3 +820,8 @@
   </div>
 
 </div> 
+</div>
+
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+
+<app-page-loading *ngIf="isConnecting"></app-page-loading>

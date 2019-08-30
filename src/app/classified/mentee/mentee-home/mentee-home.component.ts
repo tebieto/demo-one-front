@@ -1814,7 +1814,7 @@ export class MenteeHomeComponent implements OnInit {
           (res)=>{ 
           let notification = res.body
           if(res.code==200) {
-          this.replaceNull('conversation', res.conversation);
+          this.replaceNull('conversation', res.chats);
           } else {
             this.hasError = true;
             this.isConnecting = false;

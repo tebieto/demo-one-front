@@ -360,7 +360,7 @@ export class UserService {
   }
 
   chatMessages(id: number) {
-    this.baseUrl = Config.api + 'chats/conversations/'+id
+    this.baseUrl = Config.api + 'chats/conversation/'+id
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

@@ -1,4 +1,4 @@
-<div *ngIf="!isConnecting && user">
+<div *ngIf="!isConnecting && user && !hasError">
 
 <input class="hidden" #csvUpload name="csvUrl" type="file" accept=".csv" (change)="onChooseCSV($event)" />
 <mat-toolbar color="primary" class="fixed-header main-header">

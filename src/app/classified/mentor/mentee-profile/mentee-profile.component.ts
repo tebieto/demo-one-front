@@ -8,11 +8,11 @@ import * as crypto from 'crypto-js';
 import {CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 
 @Component({
-  selector: 'app-view-profile',
-  templateUrl: './view-profile.component.html',
-  styleUrls: ['./view-profile.component.css']
+  selector: 'app-mentee-profile',
+  templateUrl: './mentee-profile.component.html',
+  styleUrls: ['./mentee-profile.component.css']
 })
-export class ViewProfileComponent implements OnInit {
+export class MenteeProfileComponent implements OnInit {
 
   user: object;
   isConnecting: boolean;

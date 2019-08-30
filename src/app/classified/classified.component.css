@@ -1,3 +1,4 @@
+
 .main-content {
     position: relative;
     width: 90%;
@@ -15,14 +16,6 @@
     background: #eee;
     border-radius: 100%;
     cursor: pointer;
-}
-
-.main-content .user-name {
-    position: relative;
-    top: 10px;
-    left: 20px;
-    width: 100%;
-    margin: auto;
 }
 
 .fake-avatar-big .icon {
@@ -44,4 +37,29 @@
     font-weight: bold;
     border: 1px solid #03A9F4;
     margin-top: 10px;
+}
+
+
+.centralised-button {
+    position: relative;
+    display: block;
+    margin: auto;
+}
+.content-button {
+    background: transparent;
+    border: none;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+
+}
+
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.main-header mat-icon {
+    color: #fff !important;
 }

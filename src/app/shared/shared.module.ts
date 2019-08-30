@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
-import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule} from '@angular/material';
+import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule, MatDialogModule} from '@angular/material';
 import { SnackbarComponent } from '../extras/snackbar/snackbar.component';
 import { DialogComponent } from '../extras/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorOccuredComponent } from '../extras/error-occured/error-occured.component';
 import { PageLoadingComponent } from '../extras/page-loading/page-loading.component';
 import { RouterModule } from '@angular/router';
+import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +16,14 @@ import { RouterModule } from '@angular/router';
     SnackbarComponent,
     DialogComponent,
     ErrorOccuredComponent,
-    PageLoadingComponent
+    PageLoadingComponent,
+    SharedDialogComponent
   ],
+
   entryComponents: [
-    SnackbarComponent, DialogComponent,
+    SnackbarComponent, DialogComponent, SharedDialogComponent
   ],
+  
   imports: [
     CommonModule,
     MatIconModule,
@@ -37,12 +41,14 @@ import { RouterModule } from '@angular/router';
     MatStepperModule,
     MatSlideToggleModule,
     RouterModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   exports:[
     HeaderComponent,
     SnackbarComponent,
     DialogComponent,
+    SharedDialogComponent,
     ErrorOccuredComponent,
     PageLoadingComponent,
     MatIconModule,
@@ -63,7 +69,8 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     MatPaginatorModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
 })
 export class SharedModule { }

@@ -670,7 +670,7 @@
                 <span class="message-time">{{getChatTime(message.created_at)}}</span>
                 <span class="message-status" *ngIf="message.status=='sent'"> <mat-icon>check</mat-icon> </span>
                 <span class="message-status" *ngIf="message.status=='delivered'"> <mat-icon>done_all</mat-icon> </span>
-                <span class="message-status" *ngIf="message.status=='pending' && message.sender_id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
+                <span class="message-status" *ngIf="message.status=='pending' && message.sender.id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
               </span>
               
               <mat-menu #messageMenu="matMenu" class="mat-menu">
@@ -705,9 +705,9 @@
                 <span class="message-timing">
                   <span class="message-status" *ngIf="message.starred"> <mat-icon>star</mat-icon> </span>
                   <span class="message-time">{{getChatTime(message.created_at)}}</span>
-                  <span class="message-status" *ngIf="message.status=='sent' && message.sender_id==authUser.id"> <mat-icon>check</mat-icon> </span>
-                  <span class="message-status" *ngIf="message.status=='delivered' && message.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
-                  <span class="message-status" *ngIf="message.status=='pending' && message.sender_id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
+                  <span class="message-status" *ngIf="message.status=='sent' && message.sender.id==authUser.id"> <mat-icon>check</mat-icon> </span>
+                  <span class="message-status" *ngIf="message.status=='delivered' && message.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                  <span class="message-status" *ngIf="message.status=='pending' && message.sender.id==authUser.id"> <mat-icon>watch_later</mat-icon> </span>
           
                 </span>
 

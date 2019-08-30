@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
-import { LoginService } from 'src/app/shared/authentication/login.service';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user/user.service';
@@ -23,10 +22,11 @@ export class SpecialSetupComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   programmeDurations = []
+  keyRole = 66;
+  optionalRole = 66;
 
   constructor(private snackBar: MatSnackBar, 
     private titleService:Title, 
-    private loginService: LoginService,
     private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -36,7 +36,7 @@ export class SpecialSetupComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('SMEHUB|Mentor Quick Setup')
-    //this.validateUser()
+    this.validateUser()
     this.prepareFormInputValidation()
     this.fetchProgrammeDuration()
   }
@@ -99,7 +99,9 @@ export class SpecialSetupComponent implements OnInit {
         }
   
         if(res.code==200) {
+          this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
+          this.verifyMentorSetup()
          }
   
     },
@@ -124,14 +126,18 @@ export class SpecialSetupComponent implements OnInit {
 
   if(this.persistingData){return}
 
-  if(this.firstFormGroup.invalid ){
+  if(this.firstFormGroup.invalid || this.secondFormGroup.invalid){
     let notification = "You have errors in your form"
     this.openSnackBar(notification, 'snack-error')
     return
   } 
 
   let data ={
-    "about": this.firstFormGroup.controls['about'].value.trim(),
+    "about_me": this.firstFormGroup.controls['about'].value,
+    "phone": this.firstFormGroup.controls['phone'].value,
+    "programme_name": this.secondFormGroup.controls['pname'].value,
+    "description": this.secondFormGroup.controls['pdescription'].value,
+    "duration": this.secondFormGroup.controls['pduration'].value,
   }
   
   this.persistData(data)
@@ -140,12 +146,13 @@ export class SpecialSetupComponent implements OnInit {
 
 persistData(data: Object){
   this.persistingData = true
-  this.loginService.user(data)
+  this.userService.saveMentorSetup(data)
   .subscribe(
     (res)=>{
       this.persistingData = false
       if(res.code != 200) {
         res['status']= res['code']
+        this.hasError = true
         this.showErrorMessage(res)
       }
 
@@ -156,6 +163,35 @@ persistData(data: Object){
   },
   (error)=>{
     this.persistingData = false;
+    let notification = errorMessage.ConnectionError(error)
+    this.openSnackBar(notification, 'snack-error')
+    return
+
+  });
+}
+
+verifyMentorSetup(){
+  this.isConnecting = true
+  this.userService.verifyMentorSetup()
+  .subscribe(
+    (res)=>{
+      this.isConnecting = false
+      if(res.code != 200) {
+        res['status']= res['code']
+        this.hasError = true
+        this.showErrorMessage(res)
+      }
+
+      if(res.code==200) {
+       if(res.status==true){
+         this.gotoMentorPage()
+       }
+      }
+
+  },
+  (error)=>{
+    this.isConnecting = false
+    this.hasError = true
     let notification = errorMessage.ConnectionError(error)
     this.openSnackBar(notification, 'snack-error')
     return
@@ -192,6 +228,37 @@ prepareFormInputValidation(){
     this.secondFormGroup.get('pdescription').setValue("");
   }
  }
+
+ inspectRole(role: any, type: string) {
+  if(role[0]) {
+    // It is an array
+    this.inspectRoleArray(role, type)
+  } else if ((role.code == this.keyRole || role.code == this.optionalRole) && type=="unmatch"){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } else if ((role.code != this.keyRole && role.code != this.optionalRole) && type=="match"){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } 
+}
+ 
+ inspectRoleArray(role: any, type:string){
+   let isKey = role.find(x=>{
+     return x.code === this.keyRole
+   });
+
+   let isOptional = role.find(x=>{
+      return x.code === this.optionalRole
+    })
+ 
+  if((isKey || isOptional) && type == 'unmatch'){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } else if((!isKey && !isOptional) && type == 'match'){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  }
+}
 
 showErrorMessage(error: object){
   this.persistingData = false;

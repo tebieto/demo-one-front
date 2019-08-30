@@ -54,6 +54,8 @@ export class CommitteeHomeComponent implements OnInit {
   page="ideas"
   sub = "pending"
   title='Pending Idea'
+  keyRole = 77
+  optionalRole = 77
 
   constructor(
     private userService: UserService,
@@ -93,7 +95,8 @@ export class CommitteeHomeComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.user = res.body.user
+          this.inspectRole(res.body.role, 'match');
+          this.user = res.body.user;
          }
   
     },
@@ -269,6 +272,37 @@ persistData(data: Object){
     this.openSnackBar(notification, 'snack-error')
 
   });
+}
+
+inspectRole(role: any, type: string) {
+  if(role[0]) {
+    // It is an array
+    this.inspectRoleArray(role, type)
+  } else if ((role.code == this.keyRole || role.code == this.optionalRole) && type=="unmatch"){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } else if ((role.code != this.keyRole && role.code != this.optionalRole) && type=="match"){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } 
+}
+ 
+ inspectRoleArray(role: any, type:string){
+   let isKey = role.find(x=>{
+     return x.code === this.keyRole
+   });
+
+   let isOptional = role.find(x=>{
+      return x.code === this.optionalRole
+    })
+ 
+  if((isKey || isOptional) && type == 'unmatch'){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  } else if((!isKey && !isOptional) && type == 'match'){
+    let message ='Invalid Session, Login Again.'
+    this.logUserOut(message);
+  }
 }
 
 showErrorMessage(error: object){

@@ -1,4 +1,4 @@
-<div *ngIf="!isConnecting || user">
+<div *ngIf="!isConnecting && user">
 
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
@@ -65,18 +65,6 @@
                   <mat-error *ngIf="secondFormGroup.get('pname').invalid">{{getPnameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Programme Description</mat-label>
-            
-                    <textarea matInput placeholder="Programme Description" type="text" formControlName="pdescription" rows="6" required></textarea>
-              
-                    <button mat-button *ngIf="this.secondFormGroup.get('pdescription').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('pdescription')">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    
-                    <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdescriptionErrorMessage()}}</mat-error>
-                  </mat-form-field>
-
                   <mat-form-field appearance="outline">
                       <mat-label>Programme Duration</mat-label>
                       <mat-select formControlName="pduration" name="pduration">
@@ -90,9 +78,21 @@
                       
                       <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdurationErrorMessage()}}</mat-error>
                     </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Programme Description</mat-label>
+            
+                    <textarea matInput placeholder="Programme Description" type="text" formControlName="pdescription" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.secondFormGroup.get('pdescription').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('pdescription')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdescriptionErrorMessage()}}</mat-error>
+                  </mat-form-field>
       
                 <div>
-                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperPrevious>Previous</button>
                     <button mat-button matStepperNext>Next</button>
                 </div>
             </form>
@@ -104,7 +104,8 @@
             <div>
                 <button mat-button matStepperPrevious>Review</button>
                
-                <button mat-button class="form-button" (click)="onSubmit()">Save Setup</button>
+                <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+                    </mat-spinner></mat-icon><span *ngIf="!persistingData">Save Setup</span></button>
             </div>
         </mat-step>
 

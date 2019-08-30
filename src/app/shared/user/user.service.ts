@@ -214,6 +214,39 @@ export class UserService {
 
   }
 
+  chatMessage(data) {
+    this.baseUrl = Config.api + 'chats/create'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  addMentee(id: number) {
+    this.baseUrl = Config.api + 'mentee/pair/'+id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   hasPendingIdea() {
     this.baseUrl = Config.api + 'ideas/post/wait'
     return this.http.get(
@@ -262,10 +295,107 @@ export class UserService {
 
   }
 
+  userChats() {
+    this.baseUrl = Config.api + 'chats/all'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  menteeMentors() {
+    this.baseUrl = Config.api + 'mentors/'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  mentorMentees() {
+    this.baseUrl = Config.api + 'mentors/mentees'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   forumMessages(id: number) {
     this.baseUrl = Config.api + 'forums/conversations/'+id
     return this.http.get(
       this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  chatMessages(id: number) {
+    this.baseUrl = Config.api + 'chats/conversations/'+id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  verifyMentorSetup() {
+    this.baseUrl = Config.api + 'mentors/setup/verify'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  saveMentorSetup(data) {
+    this.baseUrl = Config.api + 'mentors/programme/setup'
+    return this.http.post(
+      this.baseUrl,
+      data,
       {headers:this.getCommonHeaders()}
     ).pipe(
       map(res => res.json()),

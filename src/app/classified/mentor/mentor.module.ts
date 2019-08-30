@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SpecialSetupComponent } from './special-setup/special-setup.component';
+import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SpecialSetupComponent } from './special-setup/special-setup.component';
     ViewProfileComponent,
     EditProfileComponent,
     SpecialSetupComponent,
+    MenteeProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { SpecialSetupComponent } from './special-setup/special-setup.component';
     MentorHomeComponent,
     EditProfileComponent,
     ViewProfileComponent,
-    SpecialSetupComponent
+    SpecialSetupComponent,
+    MenteeProfileComponent
   ]
 })
 export class MentorModule { }

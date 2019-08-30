@@ -29,7 +29,7 @@ mat-toolbar-row span {
 
 /* Structure */
 
-.settings, .custom-button{
+.settings, .custom-button {
     position: relative;
     display: block;
     top: 80px;
@@ -99,11 +99,4 @@ td, th {
     color: #fff;
     display: block;
     margin: auto;
-}
-
-.custom-button h6{
-    width: 230px;
-    display: block;
-    margin: auto;
-    color: #9E9E9E;
 }

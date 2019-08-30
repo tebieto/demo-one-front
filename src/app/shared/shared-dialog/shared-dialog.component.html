@@ -1,0 +1,10 @@
+
+<div mat-dialog-content>
+    <p>{{data.message}}</p>
+  
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onDontSave()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data.id" cdkFocusInitial>Yes</button>
+  </div>
+  

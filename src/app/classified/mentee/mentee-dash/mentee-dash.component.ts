@@ -15,19 +15,20 @@ export interface PeriodicElement {
   'data': string;
 }
 
+const mentorList: PeriodicElement[] = [];
+
 
 @Component({
-  selector: 'app-mentor-home',
-  templateUrl: './mentor-home.component.html',
-  styleUrls: ['./mentor-home.component.css']
+  selector: 'app-mentee-dash',
+  templateUrl: './mentee-dash.component.html',
+  styleUrls: ['./mentee-dash.component.css']
 })
-export class MentorHomeComponent implements OnInit {
+export class MenteeDashComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
-  menteeList: PeriodicElement[] = [];
   displayedColumns: string[] = ['name', 'about', 'data'];
-  dataSource = new MatTableDataSource(this.menteeList);
+  dataSource = new MatTableDataSource(mentorList);
 
   applyFilter(filterValue: string) {
     this.titleService.setTitle('SMEHUB| Mentor Profile')
@@ -39,12 +40,11 @@ export class MentorHomeComponent implements OnInit {
   persistingData: boolean;
   subscription: Subscription;
   hasMentor: boolean;
-  profileCode: string
 
   user: object;
   hasError: boolean;
   keyRole = 55;
-  optionalRole = 66;
+  optionalRole = 55;
 
   constructor(
     private userService: UserService,
@@ -56,12 +56,71 @@ export class MentorHomeComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB| Mentor Home')
+    this.titleService.setTitle('SMEHUB|Mentee Home')
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()
   }
 
+  chooseMentor(param: string) {
+    let code = param
+    let secret = this.makeSecret()
+    let data = this.decrypt(code, secret)
+    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?'
+    this.openDialog(data['value'], message, param)
+  }
+
+  openDialog(data: object, message, param:string): void {
+    const dialogRef = this.dialog.open(SharedDialogComponent, {
+      width: '250px',
+      data: {id:data['mentor']['id'], message:message}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      this.addMentee(result, param)
+    });
+  }
+
+  addMentee(id: number, param:string) {
+    this.persistingData = true
+    this.userService.addMentee(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.hasMentor = true
+          this.displayNewMentor(param)
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  displayNewMentor(param: string){
+    let newMentor =  mentorList.find(x=> {
+      return x.data == param
+    });
+
+    mentorList.splice(0, mentorList.length)
+    mentorList.push(newMentor)
+    this.startPaginator()
+  }
 
   encrypt(value : object) : string{
     let secret = this.makeSecret()
@@ -124,8 +183,12 @@ export class MentorHomeComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
-          this.profileCode = this.encrypt(this.user)
-          this.getMyMentees()
+
+          if(res.body.mentor) {
+            this.displayUserMentor(res.body.mentor)
+          } else {      
+          this.getMenteeMentors()
+          }
 
          }
   
@@ -136,9 +199,16 @@ export class MentorHomeComponent implements OnInit {
     });
   }
 
-  getMyMentees() {
+  displayUserMentor(data: object) {
+    this.hasMentor = true;
+    let mentorArray = [];
+    mentorArray.push(data);
+    this.cleanData(mentorArray);
+  }
+
+  getMenteeMentors() {
     this.isConnecting = true
-    const subscription = this.userService.mentorMentees()
+    const subscription = this.userService.menteeMentors()
     this.subscription = subscription
     .subscribe(
         (res)=>{ 
@@ -159,17 +229,17 @@ export class MentorHomeComponent implements OnInit {
   }
 
   cleanData(data: object[]) {
-    this.menteeList.splice(0, this.menteeList.length)
+    mentorList.splice(0, mentorList.length)
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {
-        'name' :  {name:x['full_name'], link: encrypted},
-        'about' : x['email'],
+        'name' :  {name:x['mentor']['full_name'], link: encrypted},
+        'about' : x['profile']['about_me'],
         'data'  : encrypted
       }
-      this.menteeList.push(data)
+      mentorList.push(data)
     });
-    this.isConnecting = false;
+    this.isConnecting = false
   }
 
   logUserOut(message:string){

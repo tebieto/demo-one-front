@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -74,6 +75,8 @@ export class MenteeHomeComponent implements OnInit {
   pendingIdea: boolean;
   pendingForum: boolean;
   authUser: any
+  keyRole = 55;
+  optionalRole = 55;
 
 
   fakeObject = {
@@ -117,253 +120,7 @@ export class MenteeHomeComponent implements OnInit {
 
   forumDatas = [];
 
-  datas = [
-    {
-      sender: {
-        id: 2,
-        name: "Endurance Apina Endurance Apina Endurance Apina Endurance Apinav Endurance Apina Endurance Apina",
-        avatar: "/assets/images/cards/1.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 2,
-      conversation: [ 
-        {
-          id: 31,
-          sender_id: 1,
-          recipient_id: 2,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-07-6 14:27:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-
-        {
-          id: 32,
-          sender_id: 2,
-          recipient_id: 1,
-          sender: {
-            id: 2,
-            name: "Endurance Apina",
-            avatar: "/assets/images/cards/1.png"
-          },
-          message: "Endurance Apina: Hw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw farHw far",
-          created_at: "2019-07-12 14:26:07",
-          status: 'sent',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-        {
-          id: 3,
-          sender_id: 2,
-          recipient_id: 1,
-          sender: {
-            id: 2,
-            name: "Endurance Apina",
-            avatar: "/assets/images/cards/1.png"
-          },
-          message: "Endurance Apina: Hw far",
-          created_at: "2019-07-12 14:27:07",
-          status: 'pending',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-        {
-          id: 1,
-          sender_id: 1,
-          recipient_id: 2,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-07-12 14:27:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-
-        {
-          id: 2,
-          sender_id: 1,
-          recipient_id: 2,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-07-12 14:27:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-    ],
-      active: false,
-      pinned: false,
-      type: 'chat'
-    },
-    {
-      sender: {
-        id: 3,
-        name: "Modupe Bobade",
-        avatar: "/assets/images/cards/2.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 3,
-      conversation: [ 
-        {
-          id: 3,
-          sender_id: 1,
-          recipient_id: 3,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How are you Dupsy How are you Dupsy How are you Dupsy",
-          created_at: "2019-07-11 14:27:07",
-          status: "delivered",
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        }
-      ],
-      active: false,
-      pinned: false,
-      type: 'chat'
-    },
-    {
-      sender: {
-        id: 5,
-        name: "Jennifer Daniel",
-        avatar: "/assets/images/cards/4.png"
-      },
-      recipient: {
-        id: 1,
-        name: "Terry Ebieto",
-        avatar: "/assets/images/cards/5.png"
-      },
-      owner: 5,
-      conversation: [ 
-        {
-          id: 5,
-          sender_id: 5,
-          recipient_id: 1,
-          sender: {
-            id: 5,
-            name: "Jennifer Daniel",
-            avatar: "/assets/images/cards/4.png"
-          },
-          message: "Jennifer Daniel: Please follow GPI on IG Please follow GPI on IG Please follow GPI on IG",
-          created_at: "2019-01-02 14:27:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-        {
-          id: 7,
-          sender_id: 1,
-          recipient_id: 5,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-02-03 15:01:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-        {
-          id: 10,
-          sender_id: 1,
-          recipient_id: 5,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-02-03 15:01:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-        {
-          id: 20,
-          sender_id: 1,
-          recipient_id: 5,
-          sender: {
-            id: 1,
-            name: "Terry Ebieto",
-            avatar: "/assets/images/cards/5.png"
-          },
-          message: "Terry Ebieto: How far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far How far EndyHow far Endy far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far EndyHow far Endy",
-          created_at: "2019-02-03 15:01:07",
-          status: 'delivered',
-          unread: false,
-          starred: false,
-          parent: 0,
-          type: 'chat'
-        },
-
-        {
-          id: 21,
-          sender_id: 5,
-          recipient_id: 1,
-          sender: {
-            id: 5,
-            name: "Jennifer Daniel",
-            avatar: "/assets/images/cards/4.png"
-          },
-          message: "Jennifer Daniel: Hi",
-          created_at: "2019-07-12 18:06:07",
-          status: 'delivered',
-          unread: true,
-          starred: false,
-          parent: 7,
-          type: 'chat'
-        }
-      ],
-      active: false,
-      pinned: false,
-      type: 'chat'
-    }
-
-  ];
+  datas = [];
   
 
 
@@ -378,13 +135,16 @@ export class MenteeHomeComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private titleService:Title,
     ) {}
 
 
         ngOnInit() {
+          this.titleService.setTitle('SMEHUB|Main Board')
           this.validateUser()
           this.manipulateDatas('chat', this.datas);
+          this.fetchChats()
           this.fetchForums()
           this.fetchIdeas()
           this.populateSource('chat');
@@ -1369,13 +1129,12 @@ export class MenteeHomeComponent implements OnInit {
 
             if(this.activeConversation['type'] == 'forum') {
               forum_id = this.activeForum
-            } else if(this.activeConversation['type'] == 'chat') {
-              forum_id = this.active
             }
 
           let  data = {
               message: newMessage.message,
               forum_id: forum_id,
+              recipient_id: newMessage.recipient_id,
               parent: newMessage.parent
             }
             
@@ -1392,9 +1151,14 @@ export class MenteeHomeComponent implements OnInit {
 
       persistConversation(type: string, data:object) {
         if(type=='forum') {
-          this.persistforumMessage(data)
+          this.persistForumMessage(data)
+        }
+
+        if(type=='chat') {
+          this.persistChatMessage(data)
         }
       }
+      
 
       utcNow() {
 
@@ -1564,6 +1328,7 @@ export class MenteeHomeComponent implements OnInit {
         this.toNewIdea = true;
       }
 
+      
       activateFormGroups() {
 
         this.firstForumGroup = this._formBuilder.group({
@@ -1749,6 +1514,7 @@ export class MenteeHomeComponent implements OnInit {
 
         if(!isValid) {return}
 
+
         let isStarted = this.conversations.find((x)=> {
           return x.sender.id == id
         });
@@ -1823,6 +1589,10 @@ export class MenteeHomeComponent implements OnInit {
             }
       
             if(res.code==200) {
+              if(!res.body.mentor) {
+                this.gotoHome()
+              }
+              this.inspectRole(res.body.role, 'match')
               this.user = res.body.user
               this.authUser=this.user
               this.authUser['name'] = this.authUser['full_name'];
@@ -1985,9 +1755,33 @@ export class MenteeHomeComponent implements OnInit {
         });
     }
 
-    persistforumMessage(data) {
-      
+    persistForumMessage(data) {
+  
       const subscription = this.userService.forumMessage(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          let notification = res.body
+          if(res.code==200) {
+          this.replaceNull('conversation', res.conversation);
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+            this.openSnackBar(notification, 'snack-error');
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    persistChatMessage(data) {
+      
+      const subscription = this.userService.chatMessage(data)
       this.subscription = subscription
       .subscribe(
           (res)=>{ 
@@ -2061,7 +1855,8 @@ export class MenteeHomeComponent implements OnInit {
       const subscription = this.userService.userForums()
       this.subscription = subscription
       .subscribe(
-          (res)=>{ 
+          (res)=>{
+          console.log(res) 
           if(res.code==200) {
             if(res.forums) {   
             this.forumDatas = res.forums;
@@ -2083,10 +1878,42 @@ export class MenteeHomeComponent implements OnInit {
         });
     }
 
+
+    fetchChats() {
+      const subscription = this.userService.userChats()
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          console.log(res)
+          if(res.code==200) {
+            if(res.chats) {   
+            this.datas = res.chats;
+            } else {
+              this.datas = [];
+            }
+            this.manipulateDatas('chat', this.datas);
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
     fetchAllMessages(type:string, id:number){
       this.openChat(type, id);
       if(type=='forum') {
         this.fetchForumMessages(id)
+      }
+
+      if(type=='chat') {
+        this.fetchChatMessages(id)
       }
     }
 
@@ -2115,7 +1942,33 @@ export class MenteeHomeComponent implements OnInit {
         });
     }
 
+    fetchChatMessages(id: number) {
+      const subscription = this.userService.chatMessages(id)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+            if(res.conversations) {   
+              this.pushAllMessages('chat', id, res.conversations)
+            } else {
+
+            }
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
     pushAllMessages(type:string, id, data: object[]) {
+      
       let dataStore = []
       if(type=='forum') {
         dataStore= this.forumDatas
@@ -2178,6 +2031,15 @@ export class MenteeHomeComponent implements OnInit {
         sender_id = data['forum_id']
         }
 
+        if(data['type']=='chat') {   
+          replace = this.datas
+          
+         found = replace.find(x=>{
+           return x.sender.id == data['recipient_id']
+         });
+         sender_id = data['recipient_id']
+         }
+
         if(!found) {
           return
         }
@@ -2188,6 +2050,7 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     replaceNullMessage(id: number, sender_id, message: string, data: object){
+      
       let found = data['conversation'].find(x=>{
           return x.message == message && x.id== null;
       });
@@ -2197,7 +2060,7 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       found['id'] = id;
-      found['sender_id'] = sender_id
+      found['recipient_id'] = sender_id
     }
 
 
@@ -2223,7 +2086,40 @@ export class MenteeHomeComponent implements OnInit {
       );
     }
     
-      
+    inspectRole(role: any, type: string) {
+      if(role[0]) {
+        // It is an array
+        this.inspectRoleArray(role, type)
+      } else if ((role.code == this.keyRole || role.code == this.optionalRole) && type=="unmatch"){
+        let message ='Invalid Session, Login Again.'
+        this.logUserOut(message);
+      } else if ((role.code != this.keyRole && role.code != this.optionalRole) && type=="match"){
+        let message ='Invalid Session, Login Again.'
+        this.logUserOut(message);
+      } 
+    }
+     
+     inspectRoleArray(role: any, type:string){
+       let isKey = role.find(x=>{
+         return x.code === this.keyRole
+       });
+  
+       let isOptional = role.find(x=>{
+          return x.code === this.optionalRole
+        })
+     
+      if((isKey || isOptional) && type == 'unmatch'){
+        let message ='Invalid Session, Login Again.'
+        this.logUserOut(message);
+      } else if((!isKey && !isOptional) && type == 'match'){
+        let message ='Invalid Session, Login Again.'
+        this.logUserOut(message);
+      }
+    }
+
+    gotoHome(){
+      this.router.navigateByUrl('/mentee/home')
+    }
     
     ngOnDestroy() {
       if(!this.subscription) {return}

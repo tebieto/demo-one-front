@@ -9,12 +9,12 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div class="app-card mat-elevation-z4" (mouseenter)="hideChatMenus()">
+<div class="app-card mat-elevation-z4" (mouseenter)="hideChatMenus()" [class.is-mobile]="mobileQuery.matches">
 
 
   <!--Conversation Left Side-->
 
-  <div class="left-side chat">
+  <div class="left-side chat" [class.hide-left]="hideMobileLeft">
 
     <div class="left-side-top">
         <div class="infos">
@@ -142,7 +142,7 @@
 
   <!--Forum Left Side-->
 
-  <div class="left-side forum" [class.expand-left]="toForum">
+  <div class="left-side forum" [class.expand-left]="toForum" [class.hide-left]="hideMobileLeft">
 
       <div class="left-side-top">
           <div class="infos">
@@ -278,7 +278,7 @@
 
   <!--New Forum Left Side-->
 
-  <div class="left-side forum new-forum" [class.expand-left]="toNewForum">
+  <div class="left-side forum new-forum" [class.expand-left]="toNewForum" [class.hide-left]="hideMobileLeft">
 
     <div class="left-side-top">
         <div class="infos">
@@ -350,7 +350,7 @@
 
     <!--Idea Left Side-->
 
-  <div class="left-side forum idea" [class.expand-left]="toIdea">
+  <div class="left-side forum idea" [class.expand-left]="toIdea" [class.hide-left]="hideMobileLeft">
 
       <div class="left-side-top">
           <div class="infos">
@@ -493,7 +493,7 @@
 
   <!--New Idea Left Side-->
 
-  <div class="left-side forum new-forum new-idea" [class.expand-left]="toNewIdea">
+  <div class="left-side forum new-forum new-idea" [class.expand-left]="toNewIdea" [class.hide-left]="hideMobileLeft">
 
       <div class="left-side-top">
           <div class="infos">
@@ -612,9 +612,10 @@
 
   
 
-  <div class="right-side" *ngIf="activeConversation && !ideaPanel">
+  <div class="right-side" *ngIf="activeConversation && !ideaPanel" [class.hide-right]="!hideMobileLeft">
     <div class="right-side-top">
       <div class="infos" >
+        <span class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
         <span class="sender-details">
           <img [src]="activeConversation.sender.avatar" alt="">
           <span class="sender-name">{{activeConversation.sender.name}}</span>

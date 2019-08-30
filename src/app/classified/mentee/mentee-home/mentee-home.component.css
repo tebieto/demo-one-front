@@ -180,7 +180,6 @@ mat-toolbar-row span {
 
 
 .user-list {
-    animation: fadeIn ease 1s;
     position: relative;
     margin: auto;
     left: 0px;
@@ -247,7 +246,14 @@ mat-toolbar-row span {
     right: 10px;
     top: 20px;
 }
-.right-icons mat-icon {
+
+.right-side .left-icons {
+    visibility: hidden;
+    position: relative;
+    top: 7px; 
+}
+
+.right-icons mat-icon, .left-icons mat-icon {
     cursor: pointer;
     margin-left: 10px;
     margin-right: 10px;
@@ -787,6 +793,64 @@ mat-toolbar-row span {
     height: 50px !important;
     width: 50px !important;
 
+}
+
+.is-mobile .left-side {
+    width: 100%;
+}
+
+.is-mobile .right-side {
+    width: 100%;
+}
+
+.is-mobile .hide-right {
+    display: none;
+}
+
+.is-mobile .hide-left {
+    display: none;
+}
+
+.is-mobile .right-side-top{
+}
+
+.is-mobile .right-side-body{
+    height: 100% !important;
+}
+
+.is-mobile .right-side-bottom{
+    position: absolute !important;
+    height: 5% !important;
+    bottom: 0px;
+}
+
+.is-mobile .send-message{
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+.is-mobile .send-message mat-form-field {
+    top: 0px;
+    width: 70% !important;
+}
+
+.is-mobile .send-message .mat-form-field-wrapper .mat-form-field-flex{
+    border-radius: 25px;
+    height: 48px !important;
+}
+
+.is-mobile .send-message mat-form-field input{
+    position: relative;
+    top: -10px;
+}
+
+.is-mobile .right-side .left-icons {
+ visibility: visible;
+}
+
+.is-mobile .left-side {
+    max-width: 411px !important;
+    max-height: 731px !important;
 }
 
 

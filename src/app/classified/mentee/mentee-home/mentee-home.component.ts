@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { UserService } from 'src/app/shared/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
+import { LocationStrategy, PlatformLocation } from '@angular/common';
 
 
 @Component({
@@ -77,6 +79,7 @@ export class MenteeHomeComponent implements OnInit {
   authUser: any
   keyRole = 55;
   optionalRole = 55;
+  hideMobileLeft: boolean;
 
 
   fakeObject = {
@@ -130,17 +133,34 @@ export class MenteeHomeComponent implements OnInit {
   user: object;
   hasError: boolean;
 
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
     private _formBuilder: FormBuilder,
-    private titleService:Title,
-    ) {}
+    private titleService:Title, 
+    private changeDetectorRef: ChangeDetectorRef, 
+    private media: MediaMatcher,
+    private locationStrategy: LocationStrategy,
+    backClick: PlatformLocation
+    ) {
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addListener(this._mobileQueryListener);
+      backClick.onPopState(() => {
+
+        this.toggleChat()
+
+    });
+    }
 
 
         ngOnInit() {
+          this.preventBackButton()
           this.titleService.setTitle('SMEHUB|Main Board')
           this.validateUser()
           this.manipulateDatas('chat', this.datas);
@@ -155,7 +175,13 @@ export class MenteeHomeComponent implements OnInit {
           this.hasPendingIdea()
 
         }
-
+        
+        toggleChat() {
+          if(this.hideMobileLeft==true) {
+            return this.hideMobileLeft = false;
+          }
+          return this.hideMobileLeft = true;
+        }
 
         initFakeData(){
 
@@ -169,6 +195,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         }
+        
 
         pushToConversation(data: object){
           
@@ -592,6 +619,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         openChat(type:string, id: number) {
+            this.hideMobileLeft = true
             this.ideaPanel = false;
             this.typedMessage = '';
             this.parentMessage = {};
@@ -1170,7 +1198,6 @@ export class MenteeHomeComponent implements OnInit {
 
 
       newToConversation(data: object){
-        
         let available = false
 
         if(this.activeConversation['type'] == 'chat') {
@@ -2119,6 +2146,13 @@ export class MenteeHomeComponent implements OnInit {
 
     gotoHome(){
       this.router.navigateByUrl('/mentee/home')
+    }
+
+    preventBackButton() {
+      history.pushState(null, null, location.href);
+      this.locationStrategy.onPopState(() => {
+        history.pushState(null, null, location.href);
+      })
     }
     
     ngOnDestroy() {

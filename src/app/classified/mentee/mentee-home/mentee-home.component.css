@@ -812,6 +812,7 @@ mat-toolbar-row span {
 }
 
 .is-mobile .right-side-top{
+    width: 20
 }
 
 .is-mobile .right-side-body{

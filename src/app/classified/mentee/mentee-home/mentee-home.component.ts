@@ -9,6 +9,8 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation } from '@angular/common';
+import Pusher from 'pusher-js';
+import { Config } from 'src/app/config';
 
 
 @Component({
@@ -173,7 +175,35 @@ export class MenteeHomeComponent implements OnInit {
           this.activateFormGroups();
           this.fetchIndustry()
           this.hasPendingIdea()
+        }
 
+        activateChanel() {
+          let pusher = new Pusher('f98387a285614536dac1', {
+            cluster: 'eu',
+            forceTLS: true
+          });
+          let channel = pusher.subscribe(this.authUser.id+'');
+          channel.bind('chat', data => {
+          this.cleanPushedMessage(data)
+          });
+        }
+
+        cleanPushedMessage(data: object) {
+          let newMessage = {
+            id: data['id'],
+            sender_id: data['sender_id'],
+            recipient_id: data['recipient_id'],
+            sender: data['sender'],
+            message: data['message'],
+            created_at: data['created_at'],
+            status: 'delivered',
+            unread: true,
+            starred: false,
+            parent: data['parent'],
+            type: data['type'] 
+          }
+          
+          this.pushToConversation(newMessage)
         }
         
         toggleChat() {
@@ -282,7 +312,11 @@ export class MenteeHomeComponent implements OnInit {
             // FindConversation
 
           }
-
+          
+          this.backToBottom()
+          setTimeout(()=> {
+            this.backToBottom()
+          }, 1000)
         }
 
 
@@ -1624,6 +1658,9 @@ export class MenteeHomeComponent implements OnInit {
               this.authUser=this.user
               this.authUser['name'] = this.authUser['full_name'];
               this.authUser['avatar'] = this.authUser['image']
+              setTimeout(()=>{  
+                this.activateChanel()
+                },2000);
              }
       
         },
@@ -1863,6 +1900,7 @@ export class MenteeHomeComponent implements OnInit {
             } else {
               this.ideaDatas = [];
             }
+            if(this.ideaDatas.length==0) {return}
             this.manipulateDatas('idea', this.ideaDatas);
           } else {
             this.hasError = true
@@ -1883,13 +1921,13 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{
-          console.log(res) 
           if(res.code==200) {
             if(res.forums) {   
             this.forumDatas = res.forums;
             } else {
               this.forumDatas = [];
             }
+            if(this.forumDatas.length==0) {return}
             this.manipulateDatas('forum', this.forumDatas);
           } else {
             this.hasError = true;
@@ -1911,13 +1949,13 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{ 
-          console.log(res)
           if(res.code==200) {
             if(res.chats) {   
             this.datas = res.chats;
             } else {
               this.datas = [];
             }
+            if(this.datas.length==0) {return}
             this.manipulateDatas('chat', this.datas);
           } else {
             this.hasError = true;

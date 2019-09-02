@@ -4,7 +4,8 @@ environment
 export class Config {
      static currentYear = 2019;
      static appName = "SMEHUB";
-     static api = environment.apiUrl
+     static api = environment.apiUrl;
+     static pusher = environment.pusher;
      static ipChecker = 'http://ip-api.com/json/';
      static bearer = 'atala,'
      static isPublic = false;

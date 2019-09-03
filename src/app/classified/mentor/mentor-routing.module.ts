@@ -5,10 +5,13 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SpecialSetupComponent } from './special-setup/special-setup.component';
 import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
+import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
 
 const routes: Routes = [
   {"path": '', component: MentorHomeComponent},
   {"path": 'home', component: MentorHomeComponent},
+  {"path": 'chat', component: MentorChatComponent},
+  {"path": 'main', component: MentorChatComponent},
   {"path": 'view/profile/:code', component: ViewProfileComponent},
   {"path": 'edit/profile', component: EditProfileComponent},
   {"path": 'quick/setup', component: SpecialSetupComponent}, 

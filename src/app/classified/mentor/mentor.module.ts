@@ -9,6 +9,7 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SpecialSetupComponent } from './special-setup/special-setup.component';
 import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
+import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MenteeProfileComponent } from './mentee-profile/mentee-profile.componen
     EditProfileComponent,
     SpecialSetupComponent,
     MenteeProfileComponent,
+    MentorChatComponent,
   ],
   imports: [
     CommonModule,

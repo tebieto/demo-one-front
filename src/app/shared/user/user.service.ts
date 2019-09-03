@@ -279,6 +279,22 @@ export class UserService {
 
   }
 
+  mentorIdeas() {
+    this.baseUrl = Config.api + 'mentors/mentess/ideas'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   userForums() {
     this.baseUrl = Config.api + 'forums/all'
     return this.http.get(

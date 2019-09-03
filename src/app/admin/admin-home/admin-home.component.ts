@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Location} from '@angular/common';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { UserService } from 'src/app/shared/user/user.service';
 import { MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
@@ -62,7 +63,8 @@ export class AdminHomeComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _location: Location,
     ) {}
 
   ngOnInit() {
@@ -160,7 +162,7 @@ export class AdminHomeComponent implements OnInit {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: message,
       panelClass: [panelClass],
-      duration: 6000
+      duration: 2000
     })
   }
 
@@ -348,8 +350,11 @@ showErrorMessage(error: object){
 }
 
 clearForm() {
-  this.name.setValue('');
-  this.email.setValue('');
+  this.goBack()
+}
+
+goBack(){
+  this._location.back()
 }
 
 ngOnDestroy() {

@@ -11,18 +11,13 @@ import { Title } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation } from '@angular/common';
 import Pusher from 'pusher-js';
 
-
 @Component({
-  selector: 'app-mentee-home',
-  templateUrl: './mentee-home.component.html',
-  styleUrls: ['./mentee-home.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-mentor-chat',
+  templateUrl: './mentor-chat.component.html',
+  styleUrls: ['./mentor-chat.component.css']
 })
+export class MentorChatComponent implements OnInit {
 
-
-
-export class MenteeHomeComponent implements OnInit {
-  
   @ViewChild('unreadMessages') unreadMessages: ElementRef;
   @ViewChild('sendMessage') sendMessage: ElementRef;
   @ViewChild('scrollToBottom') private bottomChat: ElementRef;
@@ -78,9 +73,10 @@ export class MenteeHomeComponent implements OnInit {
   pendingIdea: boolean;
   pendingForum: boolean;
   authUser: any
-  keyRole = 55;
-  optionalRole = 55;
+  keyRole = 66;
+  optionalRole = 66;
   hideMobileLeft: boolean;
+
   ideaDatas = [];
 
   forumDatas = [];
@@ -170,7 +166,7 @@ export class MenteeHomeComponent implements OnInit {
           }
           return this.hideMobileLeft = true;
         }
-       
+        
 
         pushToConversation(data: object){
           
@@ -729,10 +725,6 @@ export class MenteeHomeComponent implements OnInit {
 
                   }
 
-                  if(message['type']=='forum') {  
-                  message['classifiedUser']=this.manipulateMessageRoles(message['role'])
-                  }
-
                   message['desparity']= this.checkDesparity(message.sender.id);
                   message['time']=this.getChatTime(message['created_at']);
                   message['showUnread'] = false;
@@ -818,17 +810,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
 
-        manipulateMessageRoles(roles: object[]) {
-        let valid = roles.find(role=> {
-            return role['code'] > 55
-          });
-        
-          if(valid) {
-          return true;
-          } else {
-            return false;
-          }
-        }
+
 
 
         checkDesparity(id: number) {
@@ -1609,7 +1591,7 @@ export class MenteeHomeComponent implements OnInit {
             }
       
             if(res.code==200) {
-              if(!res.body.mentor) {
+              if(this.keyRole==55 && !res.body.mentor) {
                 this.gotoHome()
               }
               this.inspectRole(res.body.role, 'match')
@@ -1848,10 +1830,10 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     fetchIdeas() {
-      const subscription = this.userService.userIdeas()
+      const subscription = this.userService.mentorIdeas()
       this.subscription = subscription
       .subscribe(
-          (res)=>{
+          (res)=>{ 
           if(res.code==200) {
 
             if(res.ideas) {   
@@ -1907,7 +1889,7 @@ export class MenteeHomeComponent implements OnInit {
       const subscription = this.userService.userChats()
       this.subscription = subscription
       .subscribe(
-          (res)=>{ 
+          (res)=>{
           if(res.code==200) {
             if(res.chats) {   
             this.datas = res.chats;
@@ -2123,7 +2105,6 @@ export class MenteeHomeComponent implements OnInit {
         this.logUserOut(message);
       } 
     }
-
      
      inspectRoleArray(role: any, type:string){
        let isKey = role.find(x=>{
@@ -2144,7 +2125,7 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     gotoHome(){
-      this.router.navigateByUrl('/mentee/home')
+      this.router.navigateByUrl('/mentor/home')
     }
 
     preventBackButton() {
@@ -2159,6 +2140,7 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription.unsubscribe();
     }
   
+
 
 
 }

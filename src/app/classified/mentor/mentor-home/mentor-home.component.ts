@@ -143,6 +143,10 @@ export class MentorHomeComponent implements OnInit {
     .subscribe(
         (res)=>{ 
         if(res.code==200) {
+        if(res.body==null) {
+          this.isConnecting = false;
+          return
+        }
          this.cleanData(res.body)
         } else {
           this.hasError = true;

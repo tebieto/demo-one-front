@@ -654,7 +654,10 @@
               
               <div class="reply" *ngIf="message.parent>0">
                 <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
-                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">{{message['parent_info']['sender']['name']}}</div>
+                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">
+                    <span [class.hidden]="message['parent_info']['classifiedUser']?true:false">{{message['parent_info']['sender']['name']}}</span>
+                    <span [class.hidden]="!message['parent_info']['classifiedUser']?true:false">Classified User</span>
+                  </div>
                   <div *ngIf="message['parent_info']['sender']['id']==authUser.id">You</div>
                   {{message['parent_info']['message']}}
                 </div>
@@ -692,12 +695,16 @@
                 
               <div class="reply" *ngIf="message.parent>0">
                 <div class="reply-message" (click)="scrollToChat('chat' +message.parent)">
-                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">{{message['parent_info']['sender']['name']}}</div>
+                  <div *ngIf="message['parent_info']['sender']['id']!=authUser.id">
+                    <span [class.hidden]="message['parent_info']['classifiedUser']?true:false">{{message['parent_info']['sender']['name']}}</span>
+                    <span [class.hidden]="!message['parent_info']['classifiedUser']?true:false">Classified User</span>
+                  </div>
                   <div *ngIf="message['parent_info']['sender']['id']==authUser.id">You</div>
                   {{message['parent_info']['message']}}
                 </div>
               </div>
-              <div class="sender-name" *ngIf="message.type=='forum'" (click)="startDirectConversation(message.sender.id)">{{message.sender.name}}</div>
+              <div class="sender-name" *ngIf="message.type=='forum'" [class.hidden]="message['classifiedUser']?true:false" (click)="startDirectConversation(message.sender.id)">{{message.sender.name}}</div>
+              <div class="sender-name classified-user" *ngIf="message.type=='forum'" [class.hidden]="!message['classifiedUser']?true:false">Classified User</div>
               {{message.message}} 
 
                 <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -740,7 +747,8 @@
         <div class="reply-message" *ngIf="parentMessage.id">
 
            <div class="message">
-             <div>{{parentMessage.sender.name}}</div>
+             <div [class.hidden]="parentMessage['classifiedUser']?true:false">{{parentMessage.sender.name}}</div>
+             <div [class.hidden]="!parentMessage['classifiedUser']?true:false">Classified User</div>
              {{parentMessage.message}}
            </div>
 

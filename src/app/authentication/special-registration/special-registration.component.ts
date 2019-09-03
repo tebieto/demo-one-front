@@ -268,7 +268,7 @@ verifyCode(data: Object){
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: message,
       panelClass: [panelClass],
-      duration: 6000
+      duration: 2000
     })
   }
 

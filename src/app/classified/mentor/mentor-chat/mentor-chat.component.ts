@@ -16,6 +16,7 @@ import Pusher from 'pusher-js';
   templateUrl: './mentor-chat.component.html',
   styleUrls: ['./mentor-chat.component.css']
 })
+
 export class MentorChatComponent implements OnInit {
 
   @ViewChild('unreadMessages') unreadMessages: ElementRef;
@@ -1183,6 +1184,7 @@ export class MentorChatComponent implements OnInit {
         });
 
         } else if(this.activeConversation['type'] == 'forum') {
+          data['role'] = this.authUser['role'];
           this.xActive = this.activeForum
           available = this.forums.find(c=>{
             return (c.sender.id == data['recipient_id'] && c.recipient.id==data['sender_id']);
@@ -1599,6 +1601,7 @@ export class MentorChatComponent implements OnInit {
               this.authUser=this.user
               this.authUser['name'] = this.authUser['full_name'];
               this.authUser['avatar'] = this.authUser['image']
+              this.authUser['role'] = res.body.role
               setTimeout(()=>{  
                 this.activateChanel()
                 },2000);
@@ -2137,7 +2140,9 @@ export class MentorChatComponent implements OnInit {
     
     ngOnDestroy() {
       if(!this.subscription) {return}
+      if(!this.mobileQuery) {return}
       this.subscription.unsubscribe();
+      this.mobileQuery.removeListener(this._mobileQueryListener)
     }
   
 

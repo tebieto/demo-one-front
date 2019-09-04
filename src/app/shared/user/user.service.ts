@@ -280,7 +280,7 @@ export class UserService {
   }
 
   mentorIdeas() {
-    this.baseUrl = Config.api + 'mentors/mentess/ideas'
+    this.baseUrl = Config.api + 'mentors/mentees/ideas'
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

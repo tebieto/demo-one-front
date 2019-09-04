@@ -123,7 +123,7 @@ export class MenteeHomeComponent implements OnInit {
 
         ngOnInit() {
           this.preventBackButton()
-          this.titleService.setTitle('SMEHUB|Main Board')
+          this.titleService.setTitle('SMEHUB| Mentee Main Board')
           this.validateUser()
           this.manipulateDatas('chat', this.datas);
           this.fetchChats()
@@ -382,8 +382,6 @@ export class MenteeHomeComponent implements OnInit {
 
 
         }
-
-
 
 
 
@@ -697,7 +695,6 @@ export class MenteeHomeComponent implements OnInit {
 
           if(activateChat) {
                 activateChat['active'] = true;
-
                 if(type=='idea') {
                   this.activatedIdea = activateChat
                   this.activeIdea = id
@@ -729,7 +726,8 @@ export class MenteeHomeComponent implements OnInit {
 
                   }
 
-                  if(message['type']=='forum') {  
+                  if(message['type']=='forum') { 
+                  message['status'] = 'delivered' 
                   message['classifiedUser']=this.manipulateMessageRoles(message['role'])
                   }
 
@@ -809,8 +807,6 @@ export class MenteeHomeComponent implements OnInit {
 
               },10000)
             }
-            
-
 
             return
 
@@ -1201,6 +1197,7 @@ export class MenteeHomeComponent implements OnInit {
         });
 
         } else if(this.activeConversation['type'] == 'forum') {
+          data['role'] = this.authUser['role'];
           this.xActive = this.activeForum
           available = this.forums.find(c=>{
             return (c.sender.id == data['recipient_id'] && c.recipient.id==data['sender_id']);
@@ -1617,6 +1614,7 @@ export class MenteeHomeComponent implements OnInit {
               this.authUser=this.user
               this.authUser['name'] = this.authUser['full_name'];
               this.authUser['avatar'] = this.authUser['image']
+              this.authUser['role'] = res.body.role
               setTimeout(()=>{  
                 this.activateChanel()
                 },2000);
@@ -1786,7 +1784,7 @@ export class MenteeHomeComponent implements OnInit {
           (res)=>{ 
           let notification = res.body
           if(res.code==200) {
-          this.replaceNull('conversation', res.conversation);
+          this.replaceNull('conversation', res.chats);
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -2156,7 +2154,9 @@ export class MenteeHomeComponent implements OnInit {
     
     ngOnDestroy() {
       if(!this.subscription) {return}
+      if(!this.mobileQuery) {return}
       this.subscription.unsubscribe();
+      this.mobileQuery.removeListener(this._mobileQueryListener)
     }
   
 

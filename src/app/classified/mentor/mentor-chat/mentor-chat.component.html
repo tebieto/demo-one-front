@@ -23,9 +23,19 @@
         </div>
         <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
         <span class="right-icons">
-          <mat-icon title="Idea" class="idea" (click)="gotoIdea()">wb_sunny</mat-icon>
-          <mat-icon title="Forum" (click)="gotoForum()">forum</mat-icon>
-          <mat-icon title="More" [matMenuTriggerFor]="more">more_vert</mat-icon>
+          <button mat-button (click)="gotoIdea()" title="Idea">
+              <mat-icon class="idea">wb_sunny</mat-icon>
+              <span>Ideas</span>
+          </button>
+          <button mat-button (click)="gotoForum()" title="Forum">
+              <mat-icon>forum</mat-icon>
+              <span>Forum</span>
+          </button>
+          
+          <button mat-flat-button title="More" class="transparent" [matMenuTriggerFor]="more">
+              <mat-icon >more_vert</mat-icon>
+          </button>
+         
 
           <mat-menu #more="matMenu" class="mat-menu">
               <button mat-button (click)="gotoForum()">
@@ -583,7 +593,7 @@
 <div class="right-side" *ngIf="activeConversation && !ideaPanel" [class.hide-right]="!hideMobileLeft">
   <div class="right-side-top">
     <div class="infos" >
-      <span class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
+      <span [class.hidden]="!mobileQuery.matches"  class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
       <span class="sender-details">
         <img [src]="activeConversation.sender.avatar" alt="">
         <span class="sender-name">{{activeConversation.sender.name}}</span>
@@ -745,10 +755,11 @@
 
 <!--Idea Panel-->
 
-<div class="right-side" *ngIf="ideaPanel">
+<div class="right-side" *ngIf="ideaPanel" [class.hide-right]="!hideMobileLeft">
    
   <div class="right-side-top">
       <div class="infos" >
+        <span [class.hidden]="!mobileQuery.matches"  class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
         <span class="sender-details">
           <img [src]="activatedIdea.logo" alt="">
           <span class="sender-name">By {{activatedIdea.owner.name}}</span>

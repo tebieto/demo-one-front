@@ -33,7 +33,8 @@ import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
     EditProfileComponent,
     ViewProfileComponent,
     SpecialSetupComponent,
-    MenteeProfileComponent
+    MenteeProfileComponent,
+    MentorChatComponent
   ]
 })
 export class MentorModule { }

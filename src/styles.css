@@ -379,7 +379,7 @@ mat-toolbar-row span {
 .right-icons {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 17px;
 }
 
 .right-side .left-icons {
@@ -391,6 +391,10 @@ mat-toolbar-row span {
     cursor: pointer;
     margin-right: 5px;
     color: #9E9E9E;
+}
+
+.main-icons {
+  top: 10px !important;
 }
 
 .not-available {

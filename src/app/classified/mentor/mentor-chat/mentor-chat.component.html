@@ -22,7 +22,7 @@
             <button mat-fab class="mat-elevation-z0" [matMenuTriggerFor]="user">{{authUser.name.slice(0,1)}}</button>
           </div>
           <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="" [matMenuTriggerFor]="user">
-          <span class="right-icons">
+          <span class="right-icons main-icons">
               <button mat-button (click)="gotoIdea()" title="Idea">
                   <mat-icon class="idea">wb_sunny</mat-icon>
                   <span>Ideas</span>

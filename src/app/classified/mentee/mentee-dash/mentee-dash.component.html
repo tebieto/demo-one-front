@@ -73,6 +73,10 @@
     <div class="custom-button" [class.hidden]="hasMentor?false:true">
       <button mat-button [routerLink]="['/mentee/main']">Goto Main Board</button>
     </div>
+
+    <div class="custom-button" [class.hidden]="mentorList.length>0?true:false">
+        <h6>No Mentor at the moment</h6>
+    </div>
     
     <!-- END OF VIEW-->
     

@@ -15,8 +15,6 @@ export interface PeriodicElement {
   'data': string;
 }
 
-const mentorList: PeriodicElement[] = [];
-
 
 @Component({
   selector: 'app-mentee-dash',
@@ -24,11 +22,12 @@ const mentorList: PeriodicElement[] = [];
   styleUrls: ['./mentee-dash.component.css']
 })
 export class MenteeDashComponent implements OnInit {
-
+  
+  mentorList: PeriodicElement[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
   displayedColumns: string[] = ['name', 'about', 'data'];
-  dataSource = new MatTableDataSource(mentorList);
+  dataSource = new MatTableDataSource(this.mentorList);
 
   applyFilter(filterValue: string) {
     this.titleService.setTitle('SMEHUB| Mentor Profile')
@@ -113,12 +112,12 @@ export class MenteeDashComponent implements OnInit {
   }
 
   displayNewMentor(param: string){
-    let newMentor =  mentorList.find(x=> {
+    let newMentor =  this.mentorList.find(x=> {
       return x.data == param
     });
 
-    mentorList.splice(0, mentorList.length)
-    mentorList.push(newMentor)
+    this.mentorList.splice(0, this.mentorList.length)
+    this.mentorList.push(newMentor)
     this.startPaginator()
   }
 
@@ -183,7 +182,7 @@ export class MenteeDashComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
-
+          
           if(res.body.mentor) {
             this.displayUserMentor(res.body.mentor)
           } else {      
@@ -229,7 +228,11 @@ export class MenteeDashComponent implements OnInit {
   }
 
   cleanData(data: object[]) {
-    mentorList.splice(0, mentorList.length)
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
+    this.mentorList.splice(0, this.mentorList.length)
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {
@@ -237,7 +240,7 @@ export class MenteeDashComponent implements OnInit {
         'about' : x['profile']['about_me'],
         'data'  : encrypted
       }
-      mentorList.push(data)
+      this.mentorList.push(data)
     });
     this.isConnecting = false
   }

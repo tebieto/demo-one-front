@@ -2131,6 +2131,10 @@ export class MentorChatComponent implements OnInit {
       this.router.navigateByUrl('/mentor/home')
     }
 
+    appNews(news: string){
+      this.openSnackBar(news, 'snack-news')
+    }
+
     preventBackButton() {
       history.pushState(null, null, location.href);
       this.locationStrategy.onPopState(() => {

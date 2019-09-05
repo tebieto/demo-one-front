@@ -18,10 +18,10 @@
 
     <div class="left-side-top">
         <div class="infos">
-          <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar">
-            <button mat-fab class="mat-elevation-z0">{{authUser.name.slice(0,1)}}</button>
+          <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar" [title]="authUser.name">
+            <button mat-fab class="mat-elevation-z0" [matMenuTriggerFor]="user">{{authUser.name.slice(0,1)}}</button>
           </div>
-          <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
+          <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="" [matMenuTriggerFor]="user">
           <span class="right-icons">
               <button mat-button (click)="gotoIdea()" title="Idea">
                   <mat-icon class="idea">wb_sunny</mat-icon>
@@ -44,6 +44,16 @@
                     <span class="more-option">Ideas</span>
                 </button>
             </mat-menu>
+
+            <mat-menu #user="matMenu" class="mat-menu">
+                <button class="transparent">
+                      <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar" [title]="authUser.name">
+                        <button mat-fab class="mat-elevation-z0">{{authUser.name.slice(0,1)}}</button>
+                      </div>
+                      <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
+                    <span  class="more-option">{{authUser.name}}</span>
+                </button>
+            </mat-menu>
           </span>
         </div>
         <div class="search">
@@ -64,9 +74,12 @@
       <div class="not-available" *ngIf="conversations.length==0">No active conversation</div>
       <div class="user-list row" *ngFor="let item of conversations" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
         
-        <div class="col-xs-6 user-avatar">
+        <span [class.hidden]="item.sender.avatar.length==0?false:true" class="fake-avatar" [title]="item.sender.name" >
+            <button mat-fab class="mat-elevation-z0">{{item.sender.name.slice(0,1)}}</button>
+        </span>
+        <div [class.hidden]="item.sender.avatar.length>0?false:true" class="col-xs-6 user-avatar">
           <img [src]="item.sender.avatar" alt="">
-        </div> 
+        </div>
         
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
           <span class="user-name">
@@ -107,7 +120,10 @@
         <div class="not-available" *ngIf="searchText && searchResult.length==0">Conversation not found</div>
         <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
           
-          <div class="col-xs-6 user-avatar">
+          <span [class.hidden]="item.sender.avatar.length==0?false:true" class="fake-avatar" [title]="item.sender.name" >
+              <button mat-fab class="mat-elevation-z0">{{item.sender.name.slice(0,1)}}</button>
+          </span>
+          <div [class.hidden]="item.sender.avatar.length>0?false:true" class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
           </div> 
           
@@ -201,7 +217,10 @@
         <div class="not-available" *ngIf="forums.length==0">No topic to display</div>
         <div class="user-list row" *ngFor="let item of forums" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
           
-          <div class="col-xs-6 user-avatar">
+          <span [class.hidden]="item.sender.avatar.length==0?false:true" class="fake-avatar" [title]="item.sender.name" >
+              <button mat-fab class="mat-elevation-z0">{{item.sender.name.slice(0,1)}}</button>
+          </span>
+          <div [class.hidden]="item.sender.avatar.length>0?false:true" class="col-xs-6 user-avatar">
             <img [src]="item.sender.avatar" alt="">
           </div> 
           
@@ -244,7 +263,10 @@
           <div class="not-available" *ngIf="searchText && searchResult.length==0">Forum not found</div>
           <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.sender.id)">
             
-            <div class="col-xs-6 user-avatar">
+            <span [class.hidden]="item.sender.avatar.length==0?false:true" class="fake-avatar" [title]="item.sender.name" >
+                <button mat-fab class="mat-elevation-z0">{{item.sender.name.slice(0,1)}}</button>
+            </span>
+            <div [class.hidden]="item.sender.avatar.length>0?false:true" class="col-xs-6 user-avatar">
               <img [src]="item.sender.avatar" alt="">
             </div> 
             
@@ -425,9 +447,12 @@
         <div class="not-available" *ngIf="ideas.length==0">You have not posted any Idea</div>
         <div class="user-list row" *ngFor="let item of ideas" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.id)">
           
-          <div class="col-xs-6 user-avatar">
+          <span [class.hidden]="item.logo.length==0?false:true" class="fake-avatar" [title]="item.title" >
+              <button mat-fab class="mat-elevation-z0">{{item.title.slice(0,1)}}</button>
+          </span>
+          <div [class.hidden]="item.logo.length>0?false:true" class="col-xs-6 user-avatar">
             <img [src]="item.logo" alt="">
-          </div> 
+          </div>
           
           <div class="col-xs-6 user-content">
             <span class="user-name">
@@ -464,9 +489,12 @@
           <div class="not-available" *ngIf="searchText && searchResult.length==0">Idea not found</div>
           <div class="user-list row" *ngFor="let item of searchResult" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.id)">
             
-            <div class="col-xs-6 user-avatar">
-              <img [src]="item.logo" alt="">
-            </div> 
+              <span [class.hidden]="item.logo.length==0?false:true" class="fake-avatar" [title]="item.title" >
+                  <button mat-fab class="mat-elevation-z0">{{item.title.slice(0,1)}}</button>
+              </span>
+              <div [class.hidden]="item.logo.length>0?false:true" class="col-xs-6 user-avatar">
+                <img [src]="item.logo" alt="">
+              </div>
             
             <div class="col-xs-6 user-content">
               <span class="user-name" [innerHTML]="replaceMatch(item.type, item.title.slice(0,25))">
@@ -624,15 +652,39 @@
   <div class="right-side" *ngIf="activeConversation && !ideaPanel" [class.hide-right]="!hideMobileLeft">
     <div class="right-side-top">
       <div class="infos" >
-          <span [class.hidden]="!mobileQuery.matches"  class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
+          <span [class.hidden]="!mobileQuery.matches"  class="left-icons fix-height" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
         <span class="sender-details">
-          <img [src]="activeConversation.sender.avatar" alt="">
-          <span class="sender-name">{{activeConversation.sender.name}}</span>
+          <span [class.hidden]="activeConversation.sender.avatar.length==0?false:true" class="fake-avatar" [title]="activeConversation.sender.name">
+              <button mat-fab class="mat-elevation-z0" [matMenuTriggerFor]="active">{{activeConversation.sender.name.slice(0,1)}}</button>
+          </span>
+          <img [class.hidden]="activeConversation.sender.avatar.length>0?false:true" [src]="activeConversation.sender.avatar" alt="" [matMenuTriggerFor]="active">
+          <span class="sender-name fix-height">{{activeConversation.sender.name}}</span>
         </span>
-          <span class="right-icons">
+        <span class="right-icons" [matMenuTriggerFor]="option">
             <mat-icon>more_vert</mat-icon>
           </span>
-        </div>
+      </div>
+
+      <mat-menu #option="matMenu" class="mat-menu">
+        <button mat-button *ngIf="activeConversation.pinned"  (click)="unPinChat(activeConversation.type, activeConversation.sender.id)">
+            <span  class="more-option" [class.hidden]="activeConversation.type=='forum'?true:false">Unpin Chat</span>
+            <span  class="more-option" [class.hidden]="activeConversation.type=='chat'?true:false">Unpin Forum</span>
+        </button>
+        <button mat-button *ngIf="!activeConversation.pinned" (click)="pinChat(activeConversation.type, activeConversation.sender.id)">
+            <span class="more-option" [class.hidden]="activeConversation.type=='forum'?true:false">Pin Chat</span>
+            <span class="more-option" [class.hidden]="activeConversation.type=='chat'?true:false">Pin Forum</span>
+        </button>
+      </mat-menu>
+
+      <mat-menu #active="matMenu" class="mat-menu">
+          <button class="transparent">
+                <div [class.hidden]="activeConversation.sender.avatar.length==0?false:true"class="fake-avatar" [title]="activeConversation.sender.name">
+                  <button mat-fab class="mat-elevation-z0">{{activeConversation.sender.name.slice(0,1)}}</button>
+                </div>
+                <img [class.hidden]="activeConversation.sender.avatar.length>0?false:true" [src]="activeConversation.sender.avatar" alt="">
+              <span  class="more-option">{{activeConversation.sender.name}}</span>
+          </button>
+      </mat-menu>
 
         
         <div *ngIf="pinnedTime.length>0" class="group-time pinned-time">
@@ -770,7 +822,7 @@
 
         <div class="send-message">
             
-          <button mat-button matPrefix mat-icon-button aria-label="Clear">
+          <button mat-button matPrefix mat-icon-button aria-label="Clear" (click)="appNews('Coming Soon!')">
                 <mat-icon>insert_emoticon</mat-icon>
           </button>
             
@@ -798,17 +850,39 @@
      
     <div class="right-side-top">
         <div class="infos" >
-          <span [class.hidden]="!mobileQuery.matches"  class="left-icons" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
+          <span [class.hidden]="!mobileQuery.matches"  class="left-icons fix-height" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
           <span class="sender-details">
-            <img [src]="activatedIdea.logo" alt="">
-            <span class="sender-name">By {{activatedIdea.owner.name}}</span>
+              <span [class.hidden]="activatedIdea.logo.length==0?false:true" class="fake-avatar" [title]="activatedIdea.owner.name">
+                  <button mat-fab class="mat-elevation-z0"  [matMenuTriggerFor]="activeIdea">{{activatedIdea.title.slice(0,1)}}</button>
+              </span>
+              <img [class.hidden]="activatedIdea.logo.length>0?false:true" [src]="activatedIdea.logo" alt="" [matMenuTriggerFor]="activeIdea">
+            <span class="sender-name fix-height">By {{activatedIdea.owner.name}}</span>
           </span>
-            <span class="right-icons">
-              <mat-icon>more_vert</mat-icon>
-            </span>
-          </div>
+          <span class="right-icons" [matMenuTriggerFor]="option">
+            <mat-icon>more_vert</mat-icon>
+          </span>
+        </div>
+
+        <mat-menu #option="matMenu" class="mat-menu">
+          <button mat-button *ngIf="activatedIdea.pinned"  (click)="unPinChat(activatedIdea.type, activatedIdea.id)">
+              <span  class="more-option">Unpin Idea</span>
+          </button>
+          <button mat-button *ngIf="!activatedIdea.pinned" (click)="pinChat(activatedIdea.type, activatedIdea.id)">
+              <span class="more-option">Pin Idea</span>
+          </button>
+        </mat-menu>
+
+        <mat-menu #activeIdea="matMenu" class="mat-menu">
+            <button class="transparent">
+                  <div [class.hidden]="activatedIdea.logo.length==0?false:true"class="fake-avatar" [title]="activatedIdea.title">
+                    <button mat-fab class="mat-elevation-z0">{{activatedIdea.title.slice(0,1)}}</button>
+                  </div>
+                  <img [class.hidden]="activatedIdea.logo.length>0?false:true" [src]="activatedIdea.logo" alt="">
+                <span  class="more-option">{{activatedIdea.title}}</span>
+            </button>
+        </mat-menu>
   
-      </div>
+    </div>
   
       <!--Idea Body-->
   

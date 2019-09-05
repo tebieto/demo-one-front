@@ -100,3 +100,10 @@ td, th {
     display: block;
     margin: auto;
 }
+
+.custom-button h6{
+    width: 230px;
+    display: block;
+    margin: auto;
+    color: #9E9E9E;
+}

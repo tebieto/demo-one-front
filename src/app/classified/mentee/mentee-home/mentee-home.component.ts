@@ -321,7 +321,7 @@ export class MenteeHomeComponent implements OnInit {
           let final = [];
 
           datas.forEach(x=> {
-
+            
             if(x['pinned']==true) {
               pinned.push(x)
             } else {
@@ -519,7 +519,6 @@ export class MenteeHomeComponent implements OnInit {
             // Turn your strings into dates, and then subtract them
             // to get a value that is either negative, positive, or zero.
             let sorted = <any>new Date(b['created_at']) - <any>new Date(a['created_at']);
-
             return sorted
           });
 
@@ -2152,6 +2151,10 @@ export class MenteeHomeComponent implements OnInit {
       })
     }
     
+    appNews(news: string){
+      this.openSnackBar(news, 'snack-news')
+    }
+
     ngOnDestroy() {
       if(!this.subscription) {return}
       if(!this.mobileQuery) {return}

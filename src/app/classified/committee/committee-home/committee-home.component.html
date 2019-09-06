@@ -64,10 +64,10 @@
                   <button mat-menu-item [routerLink]="'/committee/view/idea/'+ element.link">
                       More Info
                   </button>
-                  <button mat-menu-item (click)="approveIdea(element.id)" [class.hidden] = "element.status=='pending'?false:true">
+                  <button mat-menu-item (click)="onApprove(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
                     Approve Invite
                   </button>
-                  <button mat-menu-item (click)="rejectIdea(element.id)" [class.hidden] = "element.status=='pending'?false:true">
+                  <button mat-menu-item (click)="onReject(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
                     Reject Invite
                   </button>
               </mat-menu>
@@ -78,6 +78,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+      <div class="custom-button" [class.hidden]="allIdeas.length>0?true:false">
+          <h6>No {{title}} at the moment</h6>
+      </div>
 
 </div>
 

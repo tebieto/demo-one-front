@@ -84,7 +84,14 @@ mat-toolbar-row span {
     top: 6px;
    }
 
-   td, th {
+td, th {
     padding: 10px !important;
     outline-color: transparent !important;
+}
+
+.custom-button h6{
+    width: 300px;
+    display: block;
+    margin: auto;
+    color: #9E9E9E;
 }

@@ -106,7 +106,7 @@ export class ViewIdeaComponent implements OnInit {
   
         if(res.code==200) {
           this.idea['status'] = 'approved'
-          let notification = res.message
+          let notification = res.body
           this.openSnackBar(notification, 'snack-success')
          }
   
@@ -133,7 +133,7 @@ export class ViewIdeaComponent implements OnInit {
   
         if(res.code==200) {
           this.idea['status'] = 'approved'
-          let notification = res.message
+          let notification = res.body;
           this.openSnackBar(notification, 'snack-success')
          }
   

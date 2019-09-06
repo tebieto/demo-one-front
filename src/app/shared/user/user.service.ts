@@ -265,7 +265,7 @@ export class UserService {
 
   rejectIdea(id: number) {
     this.baseUrl = Config.api + 'committee/idea/reject/'+id
-    return this.http.get(
+    return this.http.delete(
       this.baseUrl,
       {headers:this.getCommonHeaders()}
     ).pipe(

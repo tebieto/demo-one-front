@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
@@ -7,14 +7,15 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Asset as crypto} from 'src/app/asset';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
 export interface PeriodicElement {
   'title': string;
   'description': string;
   'id': number;
   'link': string;
-  'status': string
-
+  'status': string;
+  'idea': object;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
@@ -55,7 +56,8 @@ export class CommitteeHomeComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
     ) {}
 
   ngOnInit() {
@@ -152,25 +154,103 @@ export class CommitteeHomeComponent implements OnInit {
     ELEMENT_DATA.splice(0, ELEMENT_DATA.length)
     data.forEach(idea=> {
       let encrypted = crypto.encrypt(idea, this.user['id'])
-      let element = {id:0, description:'', title: '', link: '', status: ''}
+      let element = {id:0, description:'', title: '', link: '', status: '', idea:{}}
       element['id']= idea['id']
       element['link'] = encrypted
       element['description']= idea['description']
       element['title'] = idea['title']
       element['status'] = idea['status']
+      element['idea'] = idea
       ELEMENT_DATA.push(element)
     });
 
     this.startPaginator()
   }
 
- approveIdea(id:number) {
-   alert(id)
- }
+  onApprove(idea: object) :void{
+    let message = "You are about to approve Idea with title '" + idea['title']+ "'?"
+    this.openDialog(idea, message, 'approve')
+  }
 
- rejectIdea(id:number) {
-  alert(id)
-}
+  onReject(idea: object) :void{
+    let message = "You are about to reject Idea with title '" + idea['title']+ "'?"
+    this.openDialog(idea, message, 'reject')
+  }
+
+  openDialog(data: object, message, type: string): void {
+    const dialogRef = this.dialog.open(SharedDialogComponent, {
+      width: '250px',
+      data: {id:data['id'], message:message}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+
+      if(type=='approve') {   
+        this.approveIdea(data['id'])
+      } else if(type=='reject') {
+        this.rejectIdea(data['id'])
+      }
+    });
+  }
+
+  approveIdea(id: number) {
+
+    this.persistingData = true
+    this.userService.approveIdea(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          let notification = res.body
+          this.openSnackBar(notification, 'snack-success')
+          this.fetchIdeas()
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  rejectIdea(id: number) {
+    this.persistingData = true
+    this.userService.rejectIdea(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          let notification = res.body;
+          this.openSnackBar(notification, 'snack-success')
+          this.fetchIdeas()
+         }
+  
+    },
+    (error)=>{
+      
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+  }
+
 
   logUserOut(message:string){
     this.clearToken()
@@ -291,7 +371,6 @@ persistData(data: Object){
   this.subscription = subscription
   .subscribe(
     (res)=>{
-      console.log(res)
       this.persistingData = false;
       this.clearForm()
   },

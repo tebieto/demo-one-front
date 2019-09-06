@@ -43,34 +43,37 @@
       </mat-form-field>
       
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
-        <!-- Position Column -->
+        <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
           <td mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
+
+         <!-- Role Column -->
+         <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef> Role </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
       
-        <!-- Weight Column -->
+        <!-- Status Column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
           <td mat-cell *matCellDef="let element"> {{element.status}} </td>
         </ng-container>
       
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="id">
+        <!-- Data Column -->
+        <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element"> 
-              <button mat-fab class="fab-button mat-elevation-z0" [matMenuTriggerFor]="action" aria-label="Menu">
+              <button mat-fab class="fab-button mat-elevation-z0" [matMenuTriggerFor]="action" aria-label="Menu" [class.hidden]="element.data.status=='pending'?false:true">
                   <mat-icon>more_vert</mat-icon>
               </button>
 
               <mat-menu #action="matMenu">
-                  <button mat-menu-item>
-                    Cancel Invite
-                  </button>
-                  <button mat-menu-item>
+                  <button mat-menu-item (click)="persistData(element.data.data)">
                     Resend Invite
                   </button>
-                </mat-menu>
+              </mat-menu>
 
           </td>
         </ng-container>
@@ -79,6 +82,10 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+      <div class="custom-button" [class.hidden]="allInvites.length>0?true:false">
+          <h6>No {{title}} at the moment</h6>
+      </div>
 
 </div>
 
@@ -111,7 +118,7 @@
             <mat-icon>email</mat-icon>
         </button>
         
-        <input matInput placeholder="Enter Email Address" [formControl]="email" (keyup.enter)="onSubmit()"  required>
+        <input matInput placeholder="Enter Email Address" [formControl]="email" (keyup.enter)="onSubmit()"  required [errorStateMatcher]="matcher">
   
         <button mat-button *ngIf="this.email.value" tabindex="-1" matSuffix mat-icon-button aria-label="Clear" (click)="this.email.setValue('')">
             <mat-icon>close</mat-icon>
@@ -127,7 +134,7 @@
             <mat-icon>person</mat-icon>
         </button>
         
-        <input matInput placeholder="Enter Full Name" [formControl]="name" (keyup.enter)="onSubmit()"  required>
+        <input matInput placeholder="Enter Full Name" [formControl]="name" (keyup.enter)="onSubmit()"  required [errorStateMatcher]="matcher">
   
         <button mat-button *ngIf="this.name.value" tabindex="-1" matSuffix mat-icon-button aria-label="Clear" (click)="this.name.setValue('')">
             <mat-icon>close</mat-icon>

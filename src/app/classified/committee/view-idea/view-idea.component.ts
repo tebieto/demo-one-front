@@ -1,11 +1,13 @@
 import { Component, OnInit} from '@angular/core';
-import { MatSnackBar} from '@angular/material';
+import { MatSnackBar, MatDialog} from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Location } from '@angular/common';
+import {Asset as crypto} from 'src/app/asset';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
 @Component({
   selector: 'app-view-idea',
@@ -20,13 +22,16 @@ export class ViewIdeaComponent implements OnInit {
 
   user: object;
   hasError: boolean;
+  params: object;
+  idea: object;
 
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    public dialog: MatDialog,
     ) {}
 
   ngOnInit() {
@@ -48,6 +53,7 @@ export class ViewIdeaComponent implements OnInit {
   
         if(res.code==200) {
           this.user = res.body.user
+          this.decodeIdea(this.params['code'], this.user['id'])
          }
   
     },
@@ -55,6 +61,102 @@ export class ViewIdeaComponent implements OnInit {
       this.hasError = true
       this.isConnecting=false;
     });
+  }
+
+  onApprove(idea: object) :void{
+    let message = "You are about to approve Idea with title '" + idea['title']+ "'?"
+    this.openDialog(idea, message, 'approve')
+  }
+
+  onReject(idea: object) :void{
+    let message = "You are about to reject Idea with title '" + idea['title']+ "'?"
+    this.openDialog(idea, message, 'reject')
+  }
+
+  openDialog(data: object, message, type: string): void {
+    const dialogRef = this.dialog.open(SharedDialogComponent, {
+      width: '250px',
+      data: {id:data['id'], message:message}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+
+      if(type=='approve') {   
+        this.approveIdea(data['id'])
+      } else if(type=='reject') {
+        this.rejectIdea(data['id'])
+      }
+    });
+  }
+
+  approveIdea(id: number) {
+
+    this.persistingData = true
+    this.userService.approveIdea(id)
+    .subscribe(
+      (res)=>{
+      
+        console.log(res)
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.idea['status'] = 'approved'
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  rejectIdea(id: number) {
+    this.persistingData = true
+    this.userService.rejectIdea(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.idea['status'] = 'approved'
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+  }
+
+  decodeIdea(code:string, secret: string) {
+   let idea = crypto.decrypt(code, secret)
+   this.idea = idea['value']
+   if(this.idea['title'].length>50) {
+     this.idea['shortTitle'] = this.idea['title'].slice(0,50)+'...'
+   } else {
+    this.idea['shortTitle'] = this.idea['title']
+   }
   }
 
   logUserOut(message:string){
@@ -89,16 +191,31 @@ export class ViewIdeaComponent implements OnInit {
 
   consumeRouteParams(params: object) {
     
-    if(params['id']) {
-       let param = parseInt(params['id'])
+    if(params['code']) {
+       this.params = params
     }  else {
       this.pageNotFound()
     }
 
   }
 
+  showErrorMessage(error: object){
+    this.persistingData = false;
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
+  }
+
   goBack() {
     this._location.back()
+  }
+
+  newTab(link:string) {
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window or tab.
+    );
   }
 
 

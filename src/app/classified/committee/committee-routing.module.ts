@@ -7,7 +7,7 @@ const routes: Routes = [
   {"path": '', component: CommitteeHomeComponent},
   {"path": 'home', component: CommitteeHomeComponent},
   {"path": ':page/:sub', component: CommitteeHomeComponent},
-  {"path": ':view/idea/:id', component: ViewIdeaComponent},
+  {"path": ':view/idea/:code', component: ViewIdeaComponent},
 ];
 
 @NgModule({

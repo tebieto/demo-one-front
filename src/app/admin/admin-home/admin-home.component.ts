@@ -2,30 +2,31 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Location} from '@angular/common';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { UserService } from 'src/app/shared/user/user.service';
-import { MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, ErrorStateMatcher } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Subscription } from 'rxjs';
 
 export interface PeriodicElement {
   email: string;
   status: string;
-  id: number;
+  role: string
+  data: object;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { email: 'Hydrogen', status: "pending", id: 1},
-  { email: 'Helium', status: "pending", id: 2},
-  { email: 'Lithium', status: "pending", id: 3},
-  { email: 'Beryllium', status: "pending", id: 4},
-  { email: 'Boron', status: "pending", id: 5},
-  { email: 'Carbon', status: "pending", id: 6},
-  { email: 'Nitrogen', status: "pending", id: 7},
-  { email: 'Oxygen', status: "pending", id: 8},
-  { email: 'Fluorine', status: "pending", id: 9},
-  { email: 'Neon', status: "pending", id: 10},
-];
+
+let isAllowed = false;
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective| NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted) && isAllowed);
+  }
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 
 @Component({
@@ -38,9 +39,9 @@ export class AdminHomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('csvUpload') csvUpload: ElementRef;
-  displayedColumns: string[] = ['email', 'status', 'id'];
+  displayedColumns: string[] = ['email', 'role', 'status', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  
+  matcher = new MyErrorStateMatcher();
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -58,6 +59,7 @@ export class AdminHomeComponent implements OnInit {
   title='Administrator'
   keyRole = 99;
   optionalRole = 88
+  allInvites = []
 
   constructor(
     private userService: UserService,
@@ -73,13 +75,82 @@ export class AdminHomeComponent implements OnInit {
     this.startCustomRouter()
   }
 
+  fetchInvitedUsers() {
+    const subscription = this.userService.allInvitedUsers()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          this.manipulateUsers(res.body)
+        } else {
+          this.hasError = true;
+          this.isConnecting = false;
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  manipulateUsers(data: object[]) {
+    this.isConnecting = true;
+    this.allInvites = []
+    if (!data) { return}
+    if(data.length==0) {return}
+  
+    data.forEach(invite=> {
+  
+      if(this.sub=='admin' && invite['role']==88 || invite['role']==99) {
+          if(invite['role']==99) {
+            invite['role_name'] = 'Super Admin'
+          } else if(invite['role']==88) {
+            invite['role_name'] = 'Administrator'
+          }
+          this.allInvites.push(invite)
+      } else if (this.sub=='committee' && invite['role']==77) {
+          invite['role_name'] = 'Committee'
+          this.allInvites.push(invite)
+      } else if (this.sub=='mentor' && invite['role']==66) {
+          invite['role_name'] = 'Mentor'
+          this.allInvites.push(invite)
+      } else if (this.sub=='mentee' && invite['role']==55) {
+          invite['role_name'] = 'Mentee'
+          this.allInvites.push(invite)
+      }
+  
+      });
+  
+    this.pushInvite(this.allInvites)
+
+  }
+
+  pushInvite(data: object[]) {
+    ELEMENT_DATA.splice(0, ELEMENT_DATA.length)
+    data.forEach(invite=> {
+      let element = {data:{}, status:'', email: '', role: ''}
+      element['email']= invite['email']
+      element['status']= invite['status']
+      element['data'] = {status:invite['status'],data:{full_name:invite['full_name'], email: invite['email'], role: invite['role']}}
+      element['role'] = invite['role_name']
+      ELEMENT_DATA.push(element)
+    });
+
+    this.startPaginator()
+  }
+
+
+
   startPaginator() {
     this.isConnecting = true
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
     this.focusInput()
     this.isConnecting = false;
-    },1000);
+    },200);
   }
 
   focusInput() {
@@ -162,19 +233,23 @@ export class AdminHomeComponent implements OnInit {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: message,
       panelClass: [panelClass],
-      duration: 2000
+      duration: 6000
     })
   }
 
   startCustomRouter(){
     this.route.params.subscribe(params=>{
+          isAllowed = true
           this.consumeRouteParams(params)
       });
   }
 
   consumeRouteParams(params: object) {
     this.startPaginator()
-    if(!params['sub'] && !params['page']){return}
+    if(!params['sub'] && !params['page']){
+      this.fetchInvitedUsers()
+      return
+    }
     
     if(params['page']=='settings' && params['sub']=='admin') {
       this.page = params['page']
@@ -211,6 +286,8 @@ export class AdminHomeComponent implements OnInit {
     }  else {
       this.pageNotFound()
     }
+    
+    this.fetchInvitedUsers()
 
   }
 
@@ -293,7 +370,7 @@ getActiveRole() :number{
 }
 
 onSubmit(){
-
+  isAllowed = true;
   if(this.persistingData){return}
 
   if(this.name.invalid || this.email.invalid){
@@ -350,7 +427,9 @@ showErrorMessage(error: object){
 }
 
 clearForm() {
-  this.goBack()
+  isAllowed = false
+  this.name.setValue('');
+  this.email.setValue('');
 }
 
 goBack(){

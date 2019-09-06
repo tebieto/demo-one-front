@@ -83,3 +83,8 @@ mat-toolbar-row span {
     position: relative;
     top: 6px;
    }
+
+   td, th {
+    padding: 10px !important;
+    outline-color: transparent !important;
+}

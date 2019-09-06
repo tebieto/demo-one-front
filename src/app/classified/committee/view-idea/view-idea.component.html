@@ -3,7 +3,7 @@
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
-          <span class="welcome-logo"> VIEW IDEA</span>
+          <span class="welcome-logo">{{idea.shortTitle.toUpperCase()}}</span>
           <span class="flexer"></span>
     
           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
@@ -14,9 +14,31 @@
     
     <!--View-->
     
-    <div class="settings">
+    <div class="settings idea">
     
+        <div class="title">
+          <img src="http://localhost:4201/assets/images/cards/2.png" alt="" [class.hidden]="idea.logo.length==0?true:false">
+           <h4>{{idea.title}}</h4> 
+        </div>
 
+        <div class="action" [class.hidden]="idea.status=='pending'?false:true">
+            <button mat-button class="success" (click)="onApprove(idea)">Approve</button>
+            <button mat-button class="error" (click)="onReject(idea)">Reject</button> 
+        </div>
+
+        <div class="description">
+            <h6>Description</h6> 
+            {{idea.description}} 
+        </div>
+
+        <div class="description">
+            <h6>Summary</h6> 
+            {{idea.description}}
+        </div>
+
+        <div class="description">
+            <button mat-button (click)="newTab(idea.attachment)">DOWNLOAD BUSINESS PLAN</button>
+        </div>
     
     </div>
     

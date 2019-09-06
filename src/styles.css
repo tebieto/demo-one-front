@@ -1078,3 +1078,13 @@ mat-toolbar-row span {
 .transparent:hover {
   background: transparent;
 }
+
+.success {
+  background: green !important;
+  color: #fff !important;
+}
+
+.error {
+  background: red !important;
+  color: #fff !important;
+}

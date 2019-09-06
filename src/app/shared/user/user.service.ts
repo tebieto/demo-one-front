@@ -247,6 +247,38 @@ export class UserService {
 
   }
 
+  approveIdea(id: number) {
+    this.baseUrl = Config.api + 'committee/idea/approve/'+id
+    return this.http.put(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  rejectIdea(id: number) {
+    this.baseUrl = Config.api + 'committee/idea/reject/'+id
+    return this.http.put(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   hasPendingIdea() {
     this.baseUrl = Config.api + 'ideas/post/wait'
     return this.http.get(
@@ -281,6 +313,38 @@ export class UserService {
 
   mentorIdeas() {
     this.baseUrl = Config.api + 'mentors/mentees/ideas'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  allUserIdeas() {
+    this.baseUrl = Config.api + 'committee/allideas'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  allInvitedUsers() {
+    this.baseUrl = Config.api + 'admin/invitation/status'
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

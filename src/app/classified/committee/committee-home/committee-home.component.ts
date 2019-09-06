@@ -6,25 +6,18 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
+import { Asset as crypto} from 'src/app/asset';
 
 export interface PeriodicElement {
   'title': string;
   'description': string;
-  id: number;
+  'id': number;
+  'link': string;
+  'status': string
+
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {'title': 'Hydrogen', 'description': "pending", id: 1},
-  {'title': 'Helium', 'description': "pending", id: 2},
-  {'title': 'Lithium Lithium Lithium Lithium Lithium Lithium Lithium Lithium Lithium', 'description': "pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending pending", id: 3},
-  {'title': 'Beryllium', 'description': "pending", id: 4},
-  {'title': 'Boron', 'description': "pending", id: 5},
-  {'title': 'Carbon', 'description': "pending", id: 6},
-  {'title': 'Nitrogen', 'description': "pending", id: 7},
-  {'title': 'Oxygen', 'description': "pending", id: 8},
-  {'title': 'Fluorine', 'description': "pending", id: 9},
-  {'title': 'Neon', 'description': "pending", id: 10},
-];
+const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-committee-home',
@@ -44,6 +37,7 @@ export class CommitteeHomeComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  allIdeas= [];
   isConnecting: boolean;
   onStartUpload: boolean;
   persistingData: boolean;
@@ -65,7 +59,6 @@ export class CommitteeHomeComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.validateUser()
     this.startPaginator()
     this.startCustomRouter()
   }
@@ -74,6 +67,7 @@ export class CommitteeHomeComponent implements OnInit {
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
     this.focusInput()
+    this.isConnecting = false
     },200);
   }
 
@@ -89,7 +83,6 @@ export class CommitteeHomeComponent implements OnInit {
       (res)=>{
         this.isConnecting=false
         if(res.code != 200) {
-          this.hasError = true
           let message ='Invalid Session, Login Again.'
           this.logUserOut(message);
         }
@@ -97,6 +90,7 @@ export class CommitteeHomeComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match');
           this.user = res.body.user;
+          this.fetchIdeas()
          }
   
     },
@@ -106,11 +100,83 @@ export class CommitteeHomeComponent implements OnInit {
     });
   }
 
+  fetchIdeas() {
+    const subscription = this.userService.allUserIdeas()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          this.manipulateIdea(res.body)
+        } else {
+          this.hasError = true;
+          this.isConnecting = false;
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  manipulateIdea(data: object[]) {
+  this.isConnecting = true;
+  this.allIdeas = []
+  if (!data) { return}
+  if(data.length==0) {return}
+
+  if(this.sub=='all') {
+    this.allIdeas = data
+    this.pushIdea(this.allIdeas)
+    return
+  }
+
+  data.forEach(idea=> {
+
+    if(this.sub=='pending' && idea['status']=='pending') {
+        this.allIdeas.push(idea)
+    } else if (this.sub=='approved' && idea['status']=='approved') {
+        this.allIdeas.push(idea)
+    }
+
+    });
+
+  this.pushIdea(this.allIdeas)
+
+  }
+
+
+  pushIdea(data: object[]) {
+    ELEMENT_DATA.splice(0, ELEMENT_DATA.length)
+    data.forEach(idea=> {
+      let encrypted = crypto.encrypt(idea, this.user['id'])
+      let element = {id:0, description:'', title: '', link: '', status: ''}
+      element['id']= idea['id']
+      element['link'] = encrypted
+      element['description']= idea['description']
+      element['title'] = idea['title']
+      element['status'] = idea['status']
+      ELEMENT_DATA.push(element)
+    });
+
+    this.startPaginator()
+  }
+
+ approveIdea(id:number) {
+   alert(id)
+ }
+
+ rejectIdea(id:number) {
+  alert(id)
+}
+
   logUserOut(message:string){
     this.clearToken()
     let notification = message
     this.openSnackBar(notification, 'snack-error')
-    this.router.navigateByUrl('/admin')
+    this.router.navigateByUrl('/login')
   }
 
   pageNotFound(){
@@ -137,8 +203,12 @@ export class CommitteeHomeComponent implements OnInit {
   }
 
   consumeRouteParams(params: object) {
+    
     this.startPaginator()
-    if(!params['sub'] && !params['page']){return}
+    if(!params['sub'] && !params['page']){
+      this.validateUser()
+      return
+    }
     
     if(params['page']=='ideas' && params['sub']=='all') {
       this.page = params['page']
@@ -155,6 +225,8 @@ export class CommitteeHomeComponent implements OnInit {
     }  else {
       this.pageNotFound()
     }
+    
+    this.validateUser()
 
   }
 
@@ -175,49 +247,6 @@ export class CommitteeHomeComponent implements OnInit {
             '';
   }
 
-onCSVUpload() {
-    if(this.onStartUpload){return}
-    let el: HTMLElement = this.csvUpload.nativeElement;
-    el.click();
-}
-
-onChooseCSV(e) {
-  var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-  var pattern = /.csv/;
-  const formData: FormData = new FormData();
-  if (!file.name.match(pattern)) {
-    alert('invalid format');
-    return;
-  }
-  formData.append('file', file, file.name)
-  this.persistCSVData(formData);
-  e.srcElement.value = '';
-}
-
-persistCSVData(data) {
-  this.onStartUpload = true
-  let role = this.getActiveRole()
-
-  if(role==0) {
-    alert('An Error Occoured')
-    return
-  }
-
-  const subscription = this.userService.createMultiUser(data)
-  this.subscription = subscription
-  .subscribe(
-      (res)=>{
-        this.onStartUpload = false;
-        console.log(res)
-  
-    },
-    (error)=>{
-      this.onStartUpload = false;
-      let notification = errorMessage.ConnectionError(error)
-      this.openSnackBar(notification, 'snack-error')
-
-    });
-}
 
 getActiveRole() :number{
   

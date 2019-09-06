@@ -98,8 +98,6 @@ export class ViewIdeaComponent implements OnInit {
     this.userService.approveIdea(id)
     .subscribe(
       (res)=>{
-      
-        console.log(res)
         this.persistingData=false
         if(res.code != 200) {
           this.hasError = true

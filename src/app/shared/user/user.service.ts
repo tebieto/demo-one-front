@@ -249,7 +249,7 @@ export class UserService {
 
   approveIdea(id: number) {
     this.baseUrl = Config.api + 'committee/idea/approve/'+id
-    return this.http.put(
+    return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}
     ).pipe(
@@ -265,7 +265,7 @@ export class UserService {
 
   rejectIdea(id: number) {
     this.baseUrl = Config.api + 'committee/idea/reject/'+id
-    return this.http.put(
+    return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}
     ).pipe(

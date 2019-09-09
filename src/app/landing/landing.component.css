@@ -1,0 +1,54 @@
+.body {
+    height: 100vh;
+}
+.landing-top {
+    width: 100%;
+    height: 80%;
+    background-image: url('/assets/images/background/landing.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.partner-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.landing-bottom {
+   position: relative;
+   top: 20px;
+   width: 200px;
+   margin: auto;
+}
+
+mat-toolbar-row button {
+    background: #03A9F4;
+    color: #fff;
+    margin: 5px;
+}
+
+mat-toolbar-row span {
+    cursor: pointer;
+}
+
+.login-button {
+    background: transparent !important;
+    color: #03A9F4 !important;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+}
+
+.welcome-message {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 500px;
+    height: 100px;
+    max-width: 80%;
+    background: transparent;
+    color: #fff;
+    margin: auto;
+}

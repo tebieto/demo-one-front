@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { RecoveryLinkComponent } from './authentication/recovery-link/recovery-link.component';
 import { SpecialLoginComponent } from './authentication/special-login/special-login.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SpecialLoginComponent } from './authentication/special-login/special-lo
     ClassifiedComponent,
     RecoveryLinkComponent,
     SpecialLoginComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,

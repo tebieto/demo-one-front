@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CustomPreloadingStrategy } from './custom-preloading-strategy';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 import { UserLoginComponent } from './authentication/user-login/user-login.component';
 import { UserRegistrationComponent } from './authentication/user-registration/user-registration.component';
 import { SpecialRegistrationComponent } from './authentication/special-registration/special-registration.component';
@@ -10,9 +9,10 @@ import { RecoverPasswordComponent } from './authentication/recover-password/reco
 import { ClassifiedComponent } from './classified/classified.component';
 import { RecoveryLinkComponent } from './authentication/recovery-link/recovery-link.component';
 import { SpecialLoginComponent } from './authentication/special-login/special-login.component';
+import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
-  {"path": '', component: WelcomeComponent},
+  {"path": '', component: LandingComponent},
   {"path": 'recover/password', component: RecoverPasswordComponent},
   {"path": 'password/forget/:email/:code', component: RecoveryLinkComponent},
   {"path": 'special/registration/:email/:role/:code', component: SpecialRegistrationComponent},

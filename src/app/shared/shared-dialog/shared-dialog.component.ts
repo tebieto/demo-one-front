@@ -20,5 +20,6 @@ export class SharedDialogComponent {
 
 export interface DialogData {
   id: number;
-  name: string
+  name: string;
+  message: string;
 }

@@ -31,7 +31,7 @@ export class UserRegistrationComponent implements OnInit {
   usernameRegex = /^[a-zA-Z0-9_]+$/;
   hideConfirm = true;
   hidePassword = true;
-  
+  passwordMismatch: boolean
 
   matcher = new MyErrorStateMatcher();
   persistingData: boolean;

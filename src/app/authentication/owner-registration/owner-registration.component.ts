@@ -32,7 +32,7 @@ export class OwnerRegistrationComponent implements OnInit {
   hideConfirm = true;
   hidePassword = true;
   subscription: Subscription;
-  
+  passwordMismatch: boolean;
 
   matcher = new MyErrorStateMatcher();
   persistingData: boolean;

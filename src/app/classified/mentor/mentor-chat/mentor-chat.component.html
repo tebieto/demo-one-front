@@ -3,8 +3,9 @@
   <input class="hidden" #imgUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseImage($event)" />
 <mat-toolbar color="primary" class="fixed-header mat-elevation-z0 special-top">
 <mat-toolbar-row>
-  <span class="special-logo"><mat-icon>wifi_tethering</mat-icon>SMEHUB</span>
-  <span class="flexer"></span>
+    <span class="special-logo" [routerLink]="'/mentor/home'"><mat-icon>wifi_tethering</mat-icon>IDEAHUB</span>
+    <span class="flexer"></span>
+    <div [routerLink]="'/mentor/home'" class="logout" title="Home"><mat-icon>home</mat-icon> </div>
   <div (click)="logUserOut('You logged out')" class="logout" title="Logout"><mat-icon>logout</mat-icon> </div>
 </mat-toolbar-row>
 </mat-toolbar>
@@ -92,9 +93,9 @@
         <br>
         <span class="user-message">
          {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
-         <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
-              <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
-              <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+         <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
+              <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+              <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
         </span>
         <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
         <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -138,9 +139,9 @@
           <span class="user-message">
               {{item.latest.message.slice(0, 35)}} 
               <span *ngIf="item.latest.message.length>35">...</span>
-              <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
-              <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
-              <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+              <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
+              <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+              <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
             </span>
             <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
             <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -235,9 +236,9 @@
           <br>
           <span class="user-message">
            {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
-           <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
-                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
-                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+           <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
           </span>
           <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -281,9 +282,9 @@
             <span class="user-message">
                 {{item.latest.message.slice(0, 35)}} 
                 <span *ngIf="item.latest.message.length>35">...</span>
-                <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender_id==authUser.id"><mat-icon>check</mat-icon> </span>
-                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender_id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
-                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender_id==authUser.id"><mat-icon>watch_later</mat-icon></span>
+                <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
+                <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
               </span>
               <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -626,7 +627,7 @@
                 <button mat-fab class="mat-elevation-z0" [matMenuTriggerFor]="active">{{activeConversation.sender.name.slice(0,1)}}</button>
             </span>
             <img [class.hidden]="activeConversation.sender.avatar.length>0?false:true" [src]="activeConversation.sender.avatar" alt="" [matMenuTriggerFor]="active">
-            <span class="sender-name fix-height">{{activeConversation.sender.name}}</span>
+            <span class="sender-name fix-height" [title]="activeConversation.sender.name">{{activeConversation.sender.name.slice(0, 28)}}<span [class.hidden]="activeConversation.sender.name.length>28?false:true">...</span></span>
           </span>
           <span class="right-icons" [matMenuTriggerFor]="option">
               <mat-icon>more_vert</mat-icon>
@@ -810,11 +811,11 @@
         <div class="infos" >
           <span [class.hidden]="!mobileQuery.matches"  class="left-icons fix-height" (click)="toggleChat()"><mat-icon>arrow_back</mat-icon></span>
           <span class="sender-details">
-              <span [class.hidden]="activatedIdea.logo.length==0?false:true" class="fake-avatar" [title]="activatedIdea.owner.name">
-                  <button mat-fab class="mat-elevation-z0"  [matMenuTriggerFor]="activeIdea">{{activatedIdea.title.slice(0,1)}}</button>
+              <span [class.hidden]="activatedIdea.owner.avatar.length==0?false:true" class="fake-avatar" [title]="activatedIdea.owner.name">
+                  <button mat-fab class="mat-elevation-z0"  [matMenuTriggerFor]="activeIdea">{{activatedIdea.owner.name.slice(0,1)}}</button>
               </span>
-              <img [class.hidden]="activatedIdea.logo.length>0?false:true" [src]="activatedIdea.logo" alt="" [matMenuTriggerFor]="activeIdea">
-            <span class="sender-name fix-height">By {{activatedIdea.owner.name}}</span>
+              <img [class.hidden]="activatedIdea.owner.avatar.length>0?false:true" [src]="activatedIdea.owner.avatar" alt="" [matMenuTriggerFor]="activeIdea">
+            <span class="sender-name fix-height" [title]="activatedIdea.owner.name">By {{activatedIdea.owner.name.slice(0, 28)}} <span [class.hidden]="activatedIdea.owner.name.length>28?false:true">...</span> </span>
           </span>
           <span class="right-icons" [matMenuTriggerFor]="option">
             <mat-icon>more_vert</mat-icon>
@@ -846,11 +847,24 @@
 
       <div class="right-side-body right-side-body-idea" (scroll)="onScroll($event)" #scrollToBottom>
 
-        <div class="item-title"><h5>{{activatedIdea.title.toUpperCase()}}</h5></div>
-        
-        <div class="item-description"><p>{{activatedIdea.description}}</p></div>
-        <mat-divider></mat-divider>
-        <div class="item-description item-summary"><p>{{activatedIdea.summary}}</p></div>
+          <div class="title">
+              <img [src]="activatedIdea.logo" alt="" [class.hidden]="activatedIdea.logo.length==0?true:false">
+               <h4>{{activatedIdea.title}}</h4> 
+            </div>
+    
+            <div class="description">
+                <h6>Description</h6> 
+                {{activatedIdea.description}} 
+            </div>
+    
+            <div class="description">
+                <h6>Summary</h6> 
+                {{activatedIdea.summary}}
+            </div>
+    
+            <div class="description">
+                <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
+            </div>
 
         <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">
           <mat-icon>keyboard_arrow_down</mat-icon>

@@ -10,6 +10,7 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Title } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation } from '@angular/common';
 import Pusher from 'pusher-js';
+import { Config } from 'src/app/config';
 
 @Component({
   selector: 'app-mentor-chat',
@@ -120,7 +121,7 @@ export class MentorChatComponent implements OnInit {
 
         ngOnInit() {
           this.preventBackButton()
-          this.titleService.setTitle('SMEHUB|Main Board')
+          this.titleService.setTitle('IDEAHUB|Main Board')
           this.validateUser()
           this.manipulateDatas('chat', this.datas);
           this.fetchChats()
@@ -132,15 +133,24 @@ export class MentorChatComponent implements OnInit {
           this.hasPendingIdea()
         }
 
-        activateChanel() {
-          let pusher = new Pusher('f98387a285614536dac1', {
-            cluster: 'eu',
+        activateChannel(id:number, type: string) {
+          let pusher = new Pusher(Config.pusher.key, {
+            cluster: Config.pusher.cluster,
             forceTLS: true
           });
-          let channel = pusher.subscribe(this.authUser.id+'');
-          channel.bind('chat', data => {
-          this.cleanPushedMessage(data)
+          let channel = pusher.subscribe(id+'');
+          channel.bind(type, data => {
+          this.playChatSound()
+          console.log(data);
+          this.cleanPushedMessage(data);
           });
+        }
+
+        playChatSound() {
+          let audio = new Audio();
+          audio.src = "/assets/sound/ideahub_chat.mp3";
+          audio.load();
+          audio.play();
         }
 
         cleanPushedMessage(data: object) {
@@ -167,7 +177,51 @@ export class MentorChatComponent implements OnInit {
           }
           return this.hideMobileLeft = true;
         }
+
+        getMyMentees() {
+          this.isConnecting = true
+          const subscription = this.userService.mentorMentees()
+          this.subscription = subscription
+          .subscribe(
+              (res)=>{ 
+              if(res.code==200) {
+              if(res.body==null) {
+                this.isConnecting = false;
+                return
+              }
+               this.cleanData(res.body)
+              } else {
+                this.hasError = true;
+                this.isConnecting = false;
+              }
+            },
+            (error)=>{
+              this.hasError = true
+              this.isConnecting = false
+              let notification = errorMessage.ConnectionError(error)
+              this.openSnackBar(notification, 'snack-error')
         
+            });
+        }
+      
+        cleanData(data: object[]) {
+          if(!data || data.length==0) {
+            this.isConnecting = false
+            return
+          }
+          data.forEach(x=> {
+            let isChat = this.conversations.find(y=> {
+              return y['sender']['id'] == x['id']
+            });
+            if(isChat) {return}
+            let newChat = {sender:{}}
+            newChat['sender']['id'] = x['id']
+            newChat['sender']['name'] = x['full_name']+"(Your Mentee)"
+            newChat['sender']['avatar'] = x['image']
+            this.startNewDirect(newChat, 'init')
+          });
+          this.isConnecting = false;
+        }
 
         pushToConversation(data: object){
           
@@ -279,7 +333,8 @@ export class MentorChatComponent implements OnInit {
 
 
         manipulateDatas(type:string, datas: object[]){
-
+          
+          if(datas.length==0) {return}
           if(type=="idea") {
             this.ideas = datas
               this.sortData(this.ideas);
@@ -318,7 +373,6 @@ export class MentorChatComponent implements OnInit {
           let final = [];
 
           datas.forEach(x=> {
-
             if(x['pinned']==true) {
               pinned.push(x)
             } else {
@@ -693,6 +747,11 @@ export class MentorChatComponent implements OnInit {
 
 
           if(activateChat) {
+
+              if(type=="forum" && activateChat['listening']==false) {
+                activateChat['listening']=true;
+                this.activateChannel(id,type)
+              }
                 activateChat['active'] = true;
 
                 if(type=='idea') {
@@ -726,6 +785,9 @@ export class MentorChatComponent implements OnInit {
 
                   }
 
+                  if(message['status']=='pending') {
+                    message['status']='delivered'
+                  }
                   message['desparity']= this.checkDesparity(message.sender.id);
                   message['time']=this.getChatTime(message['created_at']);
                   message['showUnread'] = false;
@@ -1386,7 +1448,7 @@ export class MentorChatComponent implements OnInit {
           sender: {
             id: null,
             name: data.topic,
-            avatar: "/assets/images/cards/1.png"
+            avatar: ""
           },
           recipient: {
             id: this.authUser.id,
@@ -1527,13 +1589,13 @@ export class MentorChatComponent implements OnInit {
           this.openChat('chat', id)
         } else if(!isStarted) {
           
-          this.startNewDirect(isValid)
+          this.startNewDirect(isValid, 'clicked')
       
         }
       }
 
 
-      startNewDirect(data: object) {
+      startNewDirect(data: object, type: string) {
         let now = this.utcNow()
         let newDirect = {
           sender: {
@@ -1573,7 +1635,7 @@ export class MentorChatComponent implements OnInit {
         }
 
         this.pushToData('chat', newDirect)
-
+        if(type=='init') {return}
         setTimeout(()=>{  
           this.openChat('chat', data['sender'].id)
           },1);
@@ -1603,7 +1665,7 @@ export class MentorChatComponent implements OnInit {
               this.authUser['avatar'] = this.authUser['image']
               this.authUser['role'] = res.body.role
               setTimeout(()=>{  
-                this.activateChanel()
+                this.activateChannel(this.authUser['id'], 'chat')
                 },2000);
              }
       
@@ -1771,7 +1833,7 @@ export class MentorChatComponent implements OnInit {
           (res)=>{ 
           let notification = res.body
           if(res.code==200) {
-          this.replaceNull('conversation', res.conversation);
+          this.replaceNull('conversation', res.chats);
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -1873,6 +1935,7 @@ export class MentorChatComponent implements OnInit {
             }
             if(this.forumDatas.length==0) {return}
             this.manipulateDatas('forum', this.forumDatas);
+            this.prepareForumPush(this.forumDatas)
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -1887,6 +1950,12 @@ export class MentorChatComponent implements OnInit {
         });
     }
 
+    prepareForumPush(datas: object[]) {
+      datas.forEach(x=>{
+        x['listening'] = false;
+      })
+    }
+
 
     fetchChats() {
       const subscription = this.userService.userChats()
@@ -1896,11 +1965,12 @@ export class MentorChatComponent implements OnInit {
           if(res.code==200) {
             if(res.chats) {   
             this.datas = res.chats;
+
             } else {
-              this.datas = [];
+              this.datas = []; 
             }
-            if(this.datas.length==0) {return}
             this.manipulateDatas('chat', this.datas);
+            this.getMyMentees()
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -2023,9 +2093,7 @@ export class MentorChatComponent implements OnInit {
         if(!found) {
           return
         }
-
         found['sender']['id'] = data['id']
-        this.replaceNullMessage(data['message_id'], data['id'], data['message'], found )
 
       }
 
@@ -2079,6 +2147,9 @@ export class MentorChatComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{
+            if(res.code != 200 || !res.body || res.body.length==0) {
+              return
+            }
             res.body.forEach(element => {
               this.industries.push(element)
             });

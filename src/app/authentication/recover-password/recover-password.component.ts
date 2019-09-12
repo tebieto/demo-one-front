@@ -28,7 +28,7 @@ export class RecoverPasswordComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Recover Password')
+    this.titleService.setTitle('IDEAHUB|Recover Password')
   }
 
   email = new FormControl('', [Validators.required, Validators.maxLength(100) ]);

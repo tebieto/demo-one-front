@@ -126,8 +126,14 @@ export class CommitteeHomeComponent implements OnInit {
   manipulateIdea(data: object[]) {
   this.isConnecting = true;
   this.allIdeas = []
-  if (!data) { return}
-  if(data.length==0) {return}
+  if (!data) {
+    this.isConnecting=false
+     return
+    }
+  if(data.length==0) {
+    this.isConnecting=false
+    return
+  }
 
   if(this.sub=='all') {
     this.allIdeas = data

@@ -42,7 +42,7 @@ export class UserRegistrationComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Registration')
+    this.titleService.setTitle('IDEAHUB|Registration')
 
     if(!this.isPublic) {
       this.gotoPageNotFound()

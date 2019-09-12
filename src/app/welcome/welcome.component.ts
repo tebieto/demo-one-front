@@ -27,7 +27,7 @@ export class WelcomeComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Welcome to SMEHUB')
+    this.titleService.setTitle('Welcome to IDEAHUB')
 
     //this.fetchUserLocation();
   }

@@ -10,6 +10,7 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Title } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation } from '@angular/common';
 import Pusher from 'pusher-js';
+import { Config } from 'src/app/config';
 
 
 @Component({
@@ -123,7 +124,7 @@ export class MenteeHomeComponent implements OnInit {
 
         ngOnInit() {
           this.preventBackButton()
-          this.titleService.setTitle('SMEHUB| Mentee Main Board')
+          this.titleService.setTitle('IDEAHUB| Mentee Main Board')
           this.validateUser()
           this.manipulateDatas('chat', this.datas);
           this.fetchChats()
@@ -135,15 +136,24 @@ export class MenteeHomeComponent implements OnInit {
           this.hasPendingIdea()
         }
 
-        activateChanel() {
-          let pusher = new Pusher('f98387a285614536dac1', {
-            cluster: 'eu',
+        activateChannel(id:number, type: string) {
+          let pusher = new Pusher(Config.pusher.key, {
+            cluster: Config.pusher.cluster,
             forceTLS: true
           });
-          let channel = pusher.subscribe(this.authUser.id+'');
-          channel.bind('chat', data => {
+          let channel = pusher.subscribe(id+'');
+          channel.bind(type, data => {
+          this.playChatSound()
+          console.log(data)
           this.cleanPushedMessage(data)
           });
+        }
+
+        playChatSound() {
+          let audio = new Audio();
+          audio.src = "/assets/sound/ideahub_chat.mp3";
+          audio.load();
+          audio.play();
         }
 
         cleanPushedMessage(data: object) {
@@ -163,6 +173,8 @@ export class MenteeHomeComponent implements OnInit {
           
           this.pushToConversation(newMessage)
         }
+
+       
         
         toggleChat() {
           if(this.hideMobileLeft==true) {
@@ -282,7 +294,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         manipulateDatas(type:string, datas: object[]){
-
+          if(datas.length==0) {return}
           if(type=="idea") {
             this.ideas = datas
               this.sortData(this.ideas);
@@ -321,7 +333,6 @@ export class MenteeHomeComponent implements OnInit {
           let final = [];
 
           datas.forEach(x=> {
-            
             if(x['pinned']==true) {
               pinned.push(x)
             } else {
@@ -595,6 +606,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         openChat(type:string, id: number) {
+          
             this.hideMobileLeft = true
             this.ideaPanel = false;
             this.typedMessage = '';
@@ -677,11 +689,10 @@ export class MenteeHomeComponent implements OnInit {
 
             });
           } else if(type=='forum') {
-
+            
              activateChat  = this.forums.find((x)=> {
               return x.sender.id == id
             });
-
 
           } else if(type=='idea') {
 
@@ -693,7 +704,13 @@ export class MenteeHomeComponent implements OnInit {
 
 
           if(activateChat) {
+                if(type=="forum" && activateChat['listening']==false) {
+                  activateChat['listening']=true;
+                  this.activateChannel(id,type)
+                }
+
                 activateChat['active'] = true;
+
                 if(type=='idea') {
                   this.activatedIdea = activateChat
                   this.activeIdea = id
@@ -712,7 +729,6 @@ export class MenteeHomeComponent implements OnInit {
                 activateChat['conversation'] = descendingOrder;
 
                 activateChat['conversation'].forEach(message=>{
-                  
                   if(message.parent>0) {
                   let parent  = activateChat['conversation'].find((x)=> {
                     return x.id == message.parent
@@ -768,6 +784,7 @@ export class MenteeHomeComponent implements OnInit {
                   this.showUnread = false
                 }
                 
+                
                 this.activeConversation=activateChat;
 
                 //message['unread_count'] is to track before a conversation is clicked
@@ -814,6 +831,9 @@ export class MenteeHomeComponent implements OnInit {
 
 
         manipulateMessageRoles(roles: object[]) {
+        if(!roles) {
+          return false;
+        }
         let valid = roles.find(role=> {
             return role['code'] > 55
           });
@@ -1398,7 +1418,7 @@ export class MenteeHomeComponent implements OnInit {
           sender: {
             id: null,
             name: data.topic,
-            avatar: "/assets/images/cards/1.png"
+            avatar: ""
           },
           recipient: {
             id: this.authUser.id,
@@ -1427,6 +1447,7 @@ export class MenteeHomeComponent implements OnInit {
         ],
           active: false,
           pinned: true,
+          listening: false,
           type: 'forum'
         }
 
@@ -1539,13 +1560,13 @@ export class MenteeHomeComponent implements OnInit {
           this.openChat('chat', id)
         } else if(!isStarted) {
           
-          this.startNewDirect(isValid)
+          this.startNewDirect(isValid, 'clicked')
       
         }
       }
 
 
-      startNewDirect(data: object) {
+      startNewDirect(data: object, type: string) {
         let now = this.utcNow()
         let newDirect = {
           sender: {
@@ -1585,7 +1606,7 @@ export class MenteeHomeComponent implements OnInit {
         }
 
         this.pushToData('chat', newDirect)
-
+        if(type=='init') {return}
         setTimeout(()=>{  
           this.openChat('chat', data['sender'].id)
           },1);
@@ -1615,7 +1636,7 @@ export class MenteeHomeComponent implements OnInit {
               this.authUser['avatar'] = this.authUser['image']
               this.authUser['role'] = res.body.role
               setTimeout(()=>{  
-                this.activateChanel()
+                this.activateChannel(this.authUser['id'], 'chat')
                 },2000);
              }
       
@@ -1885,6 +1906,7 @@ export class MenteeHomeComponent implements OnInit {
             }
             if(this.forumDatas.length==0) {return}
             this.manipulateDatas('forum', this.forumDatas);
+            this.prepareForumPush(this.forumDatas)
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -1900,6 +1922,13 @@ export class MenteeHomeComponent implements OnInit {
     }
 
 
+    prepareForumPush(datas: object[]) {
+      datas.forEach(x=>{
+        x['listening'] = false;
+      })
+    }
+
+
     fetchChats() {
       const subscription = this.userService.userChats()
       this.subscription = subscription
@@ -1911,7 +1940,6 @@ export class MenteeHomeComponent implements OnInit {
             } else {
               this.datas = [];
             }
-            if(this.datas.length==0) {return}
             this.manipulateDatas('chat', this.datas);
           } else {
             this.hasError = true;
@@ -1928,6 +1956,7 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     fetchAllMessages(type:string, id:number){
+      
       this.openChat(type, id);
       if(type=='forum') {
         this.fetchForumMessages(id)
@@ -2071,7 +2100,6 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     replaceNullMessage(id: number, sender_id, message: string, data: object){
-      
       let found = data['conversation'].find(x=>{
           return x.message == message && x.id== null;
       });
@@ -2082,6 +2110,7 @@ export class MenteeHomeComponent implements OnInit {
 
       found['id'] = id;
       found['recipient_id'] = sender_id;
+      found['sender_id'] = found['sender']['id']
       found['status'] = 'delivered';
     }
 
@@ -2091,6 +2120,9 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{
+            if(res.code != 200 || !res.body || res.body.length==0) {
+              return
+            }
             res.body.forEach(element => {
               this.industries.push(element)
             });

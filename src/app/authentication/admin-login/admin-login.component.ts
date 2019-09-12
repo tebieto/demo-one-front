@@ -25,7 +25,7 @@ export class AdminLoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB| Admin Login')
+    this.titleService.setTitle('IDEAHUB| Admin Login')
   }
 
   email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20) ]);

@@ -35,7 +35,7 @@ export class SpecialSetupComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Mentor Quick Setup')
+    this.titleService.setTitle('IDEAHUB|Mentor Quick Setup')
     this.validateUser()
     this.prepareFormInputValidation()
     this.fetchProgrammeDuration()

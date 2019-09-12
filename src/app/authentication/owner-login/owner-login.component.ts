@@ -26,7 +26,7 @@ export class OwnerLoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Login')
+    this.titleService.setTitle('IDEAHUB|Login')
   }
 
   email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20) ]);

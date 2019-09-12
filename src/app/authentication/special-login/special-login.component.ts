@@ -38,7 +38,7 @@ export class SpecialLoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Registration')
+    this.titleService.setTitle('IDEAHUB|Registration')
     this.startCustomRouter()
   }
 

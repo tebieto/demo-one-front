@@ -7,7 +7,6 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import * as crypto from 'crypto-js';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
-import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
 export interface PeriodicElement {
   'name': object;
@@ -30,7 +29,7 @@ export class MentorHomeComponent implements OnInit {
   dataSource = new MatTableDataSource(this.menteeList);
 
   applyFilter(filterValue: string) {
-    this.titleService.setTitle('SMEHUB| Mentor Profile')
+    this.titleService.setTitle('IDEAHUB| Mentor Profile')
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -56,7 +55,7 @@ export class MentorHomeComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB| Mentor Home')
+    this.titleService.setTitle('IDEAHUB| Mentor Home')
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()
@@ -126,7 +125,7 @@ export class MentorHomeComponent implements OnInit {
           this.user = res.body.user
           this.profileCode = this.encrypt(this.user)
           this.getMyMentees()
-
+          this.verifyMentorSetup()
          }
   
     },
@@ -134,6 +133,39 @@ export class MentorHomeComponent implements OnInit {
       this.hasError = true
       this.isConnecting=false;
     });
+  }
+
+  verifyMentorSetup(){
+    this.isConnecting = true
+    this.userService.verifyMentorSetup()
+    .subscribe(
+      (res)=>{
+        this.isConnecting = false
+        if(res.code != 200) {
+          res['status']= res['code']
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+         if(res.status==false){
+           this.gotoMentorSetupPage()
+         }
+        }
+  
+    },
+    (error)=>{
+      this.isConnecting = false
+      this.hasError = true
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
+    });
+  }
+
+  gotoMentorSetupPage(){
+    this.router.navigateByUrl('/mentor/quick/setup')
   }
 
   getMyMentees() {

@@ -30,7 +30,7 @@ export class MenteeDashComponent implements OnInit {
   dataSource = new MatTableDataSource(this.mentorList);
 
   applyFilter(filterValue: string) {
-    this.titleService.setTitle('SMEHUB| Mentor Profile')
+    this.titleService.setTitle('IDEAHUB| Mentor Profile')
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -55,7 +55,7 @@ export class MenteeDashComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Mentee Home')
+    this.titleService.setTitle('IDEAHUB|Mentee Home')
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()

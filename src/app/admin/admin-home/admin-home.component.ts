@@ -70,12 +70,11 @@ export class AdminHomeComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.startPaginator()
-    this.validateUser()
     this.startCustomRouter()
   }
 
   fetchInvitedUsers() {
+    this.isConnecting = true
     const subscription = this.userService.allInvitedUsers()
     this.subscription = subscription
     .subscribe(
@@ -99,9 +98,15 @@ export class AdminHomeComponent implements OnInit {
   manipulateUsers(data: object[]) {
     this.isConnecting = true;
     this.allInvites = []
-    if (!data) { return}
-    if(data.length==0) {return}
-  
+    if (!data) { 
+      this.isConnecting = false;
+      return
+    }
+    if(data.length==0) {
+      this.isConnecting = false;
+      return
+    }
+
     data.forEach(invite=> {
   
       if(this.sub=='admin' && invite['role']==88 || invite['role']==99) {
@@ -173,6 +178,7 @@ export class AdminHomeComponent implements OnInit {
         if(res.code==200) {
           this.user = res.body.user
           this.inspectRole(res.body.role, 'match')
+          this.fetchInvitedUsers()
          }
   
     },
@@ -245,9 +251,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
   consumeRouteParams(params: object) {
-    this.startPaginator()
     if(!params['sub'] && !params['page']){
-      this.fetchInvitedUsers()
+      this.validateUser()
       return
     }
     
@@ -287,7 +292,7 @@ export class AdminHomeComponent implements OnInit {
       this.pageNotFound()
     }
     
-    this.fetchInvitedUsers()
+    this.validateUser()
 
   }
 

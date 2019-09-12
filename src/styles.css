@@ -1069,6 +1069,45 @@ mat-toolbar-row span {
     margin-right: 20px !important;
   }
 
+
+ 
+  .right-side-body-idea  .title img {
+    border-radius: 50% !important;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 20px;
+    float: left;
+}
+
+
+.right-side-body-idea .title h4 {
+    display: inline-block;
+    margin: 10px;
+    width: 70%;
+    margin-left: 60px;
+}
+
+
+.right-side-body-idea .action button{
+    display: inline-block;
+    margin: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+
+.right-side-body-idea .description {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+
+.right-side-body-idea .description button {
+    background: #03A9F4;
+    color: #fff;
+}
+
 /* End of Chat Pages styles */
 
 .transparent {

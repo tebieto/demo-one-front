@@ -44,7 +44,7 @@ export class AdminRegistrationComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Admin Registration')
+    this.titleService.setTitle('IDEAHUB|Admin Registration')
   }
 
 

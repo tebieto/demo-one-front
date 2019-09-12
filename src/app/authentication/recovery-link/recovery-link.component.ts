@@ -36,7 +36,7 @@ export class RecoveryLinkComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.titleService.setTitle('SMEHUB|Recover Password')
+    this.titleService.setTitle('IDEAHUB|Recover Password')
     this.startCustomRouter()
   }
 

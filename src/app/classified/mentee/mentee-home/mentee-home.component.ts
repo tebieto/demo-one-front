@@ -143,9 +143,8 @@ export class MenteeHomeComponent implements OnInit {
           });
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
-          this.playChatSound()
-          console.log(data)
           this.cleanPushedMessage(data)
+          this.playChatSound()
           });
         }
 
@@ -181,11 +180,10 @@ export class MenteeHomeComponent implements OnInit {
             return this.hideMobileLeft = false;
           }
           return this.hideMobileLeft = true;
-        }
+       }
        
 
         pushToConversation(data: object){
-          
         let available = {}
         if(data['type']=="chat") { 
         available = this.conversations.find(c=>{
@@ -214,7 +212,9 @@ export class MenteeHomeComponent implements OnInit {
             // if data is going into opened chat 
             if(data['sender_id']==this.active){
               data['unread'] = false;
-
+              if(this.mobileQuery.matches && !this.hideMobileLeft) {
+                data['unread'] = true;
+              }
               //was it sent by same user consecutively?
 
               if( available['latest']['sender']['id']!=data['sender']['id']) {
@@ -810,9 +810,11 @@ export class MenteeHomeComponent implements OnInit {
             } else {
 
               // Scroll to Unread messages
+
               setTimeout(()=>{
                 this.scrollToUnreadMessages()
-              },1)
+              },100)
+              
 
               // Remove unread div after timeout
               setTimeout(()=>{
@@ -1956,13 +1958,33 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     fetchAllMessages(type:string, id:number){
-      
       this.openChat(type, id);
       if(type=='forum') {
+        let forum = this.forumDatas.find(x=>{
+          return x['sender']['id'] ==id
+        });
+
+        if(!forum) {return}
+
+        if(forum['fetched']) {
+          return
+        } else {
+          forum['fetched'] = true
+        }
         this.fetchForumMessages(id)
       }
 
       if(type=='chat') {
+        let chat = this.datas.find(x=>{
+          return x['sender']['id'] ==id
+        });
+        if(!chat){return}
+
+        if(chat['fetched']) {
+          return
+        } else {
+          chat['fetched'] = true
+        }
         this.fetchChatMessages(id)
       }
     }

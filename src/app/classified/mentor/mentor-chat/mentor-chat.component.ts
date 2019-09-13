@@ -140,9 +140,8 @@ export class MentorChatComponent implements OnInit {
           });
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
-          this.playChatSound()
-          console.log(data);
           this.cleanPushedMessage(data);
+          this.playChatSound()
           });
         }
 
@@ -253,6 +252,9 @@ export class MentorChatComponent implements OnInit {
             // if data is going into opened chat 
             if(data['sender_id']==this.active){
               data['unread'] = false;
+              if(this.mobileQuery.matches && !this.hideMobileLeft) {
+                data['unread'] = true;
+              }
 
               //was it sent by same user consecutively?
 
@@ -851,9 +853,10 @@ export class MentorChatComponent implements OnInit {
             } else {
 
               // Scroll to Unread messages
+
               setTimeout(()=>{
                 this.scrollToUnreadMessages()
-              },1)
+              },100)
 
               // Remove unread div after timeout
               setTimeout(()=>{
@@ -865,8 +868,6 @@ export class MentorChatComponent implements OnInit {
               },10000)
             }
             
-
-
             return
 
         }
@@ -1988,15 +1989,37 @@ export class MentorChatComponent implements OnInit {
     fetchAllMessages(type:string, id:number){
       this.openChat(type, id);
       if(type=='forum') {
+        let forum = this.forumDatas.find(x=>{
+          return x['sender']['id'] ==id
+        });
+
+        if(!forum) {return}
+        if(forum['fetched']) {
+          return
+        } else {
+          forum['fetched'] = true
+        }
         this.fetchForumMessages(id)
       }
 
       if(type=='chat') {
+        let chat = this.datas.find(x=>{
+          return x['sender']['id'] ==id
+        });
+
+        if(!chat){return}
+
+        if(chat['fetched']) {
+          return
+        } else {
+          chat['fetched'] = true
+        }
         this.fetchChatMessages(id)
       }
     }
 
     fetchForumMessages(id: number) {
+      
       const subscription = this.userService.forumMessages(id)
       this.subscription = subscription
       .subscribe(

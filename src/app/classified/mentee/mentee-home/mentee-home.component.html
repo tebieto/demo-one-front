@@ -700,7 +700,7 @@
 
         <div class="chat-message" *ngFor="let message of activeConversation.conversation">
 
-            <div class="unread-messages" *ngIf="message.showUnread && showUnread && message.desparity">
+            <div class="unread-messages" *ngIf="message.showUnread && showUnread">
               <div #unreadMessages>
                 {{activeConversation['unread']}} Unread 
                 <span *ngIf="activeConversation['unread']==1">Message</span>

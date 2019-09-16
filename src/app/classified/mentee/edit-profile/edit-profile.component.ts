@@ -69,7 +69,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   getAboutErrorMessage() {
-    return this.about.hasError('required') ? 'About Me is required' :
+    return this.about.hasError('required') ? 'About me is required' :
         this.about.hasError('minlength') ? 'Minimum length is 6' :
             '';
   }
@@ -91,7 +91,6 @@ export class EditProfileComponent implements OnInit {
           this.user = res.body.user
           this.populateForm(this.user)
          }
-         
   
     },
     (error)=>{
@@ -101,11 +100,12 @@ export class EditProfileComponent implements OnInit {
   }
 
   populateForm(user: object){
-    this.full_name.setValue(user['full_name'])
-    this.email.setValue(user['email'])
-    this.username.setValue(user['username'])
-    this.about.setValue(user['about'])
-   }
+   this.full_name.setValue(user['full_name'])
+   this.email.setValue(user['email'])
+   this.username.setValue(user['username'])
+   this.about.setValue(user['about'])
+  }
+  
 
   logUserOut(message:string){
     this.clearToken()
@@ -120,24 +120,24 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(){
 
-    if(this.persistingData){return}
-  
-    if(this.about.invalid || this.email.invalid || this.full_name.invalid || this.username.invalid ){
-      let notification = "You have errors in your form"
-      this.openSnackBar(notification, 'snack-error')
-      return
-    } 
-  
-    let data ={
-      "about": this.about.value,
-      "email": this.email.value,
-      "full_name": this.full_name.value,
-      "username": this.username.value,
-    }
-    
-    this.persistData(data)
-  
+  if(this.persistingData){return}
+
+  if(this.about.invalid || this.email.invalid || this.full_name.invalid || this.username.invalid ){
+    let notification = "You have errors in your form"
+    this.openSnackBar(notification, 'snack-error')
+    return
+  } 
+
+  let data ={
+    "about": this.about.value,
+    "email": this.email.value,
+    "full_name": this.full_name.value,
+    "username": this.username.value,
   }
+  
+  this.persistData(data)
+
+}
 
 persistData(data: Object){
   this.persistingData = true

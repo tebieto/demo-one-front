@@ -7,13 +7,17 @@ import { MenteeHomeComponent } from './mentee-home/mentee-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MenteeDashComponent } from './mentee-dash/mentee-dash.component';
 import { MentorProfileComponent } from './mentor-profile/mentor-profile.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
     MenteeComponent,
     MenteeHomeComponent,
     MenteeDashComponent,
-    MentorProfileComponent
+    MentorProfileComponent,
+    ViewProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,

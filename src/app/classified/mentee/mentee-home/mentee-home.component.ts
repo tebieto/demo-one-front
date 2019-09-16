@@ -143,6 +143,7 @@ export class MenteeHomeComponent implements OnInit {
           });
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
+          if(data.sender.id==this.authUser.id) {return}
           this.cleanPushedMessage(data)
           this.playChatSound()
           });

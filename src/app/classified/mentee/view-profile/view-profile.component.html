@@ -1,0 +1,41 @@
+<div *ngIf="!isConnecting && user && !hasError">
+
+    <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
+        <mat-toolbar-row>
+          <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
+          <span class="welcome-logo">{{profile.full_name}}'s Profile</span>
+          <span class="flexer"></span>
+    
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <br><br>
+
+
+    <div class="main-content">
+      <button class="content-button centralised-button">
+        <div class="fake-avatar-big">
+            <div class="icon">
+                <mat-icon>camera_alt</mat-icon>
+            </div>
+        </div>
+        <div class="user-name">
+          <button class="content-button">
+              <h4>{{profile.full_name}}</h4></button>
+        </div>
+      </button>
+
+      <div class="profile-card mat-elevation-z2">
+        <h6>Email</h6>
+          <p>{{profile.email}}</p>
+      </div>
+
+
+
+</div>
+
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+<app-page-loading *ngIf="isConnecting"></app-page-loading>

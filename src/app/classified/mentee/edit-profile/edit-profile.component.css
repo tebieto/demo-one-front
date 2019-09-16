@@ -1,0 +1,42 @@
+.login-form-container {
+    position: relative;
+    top:50px;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    padding:20px;
+    border-radius:25px;
+}
+
+
+.login-form-container button {
+    background: #03A9F4;
+    color:#fff;
+}
+
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.main-header mat-icon {
+    color: #fff !important;
+}
+
+.idea-arrow-back {
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+@media only screen and (max-width: 600px) {
+    
+    .login-form-container {
+       
+        width: 90%;
+    }
+
+  }

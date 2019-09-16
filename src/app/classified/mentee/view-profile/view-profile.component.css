@@ -1,0 +1,65 @@
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.idea-arrow-back {
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.main-content {
+    position: relative;
+    width: 90%;
+    background: #fff;
+    margin: auto;
+    top: 50px;
+    min-height: 400px;
+}
+
+.main-content .fake-avatar-big {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    background: #eee;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.fake-avatar-big .icon {
+    position: relative;
+    top: 40px;
+    width: 25px;
+    margin: auto;
+}
+
+
+.centralised-button {
+    position: relative;
+    display: block;
+    margin: auto;
+    background: rgba(3, 168, 244, 0.288) !important;
+    width: 800px !important;
+    max-width: 100% !important;
+}
+.content-button {
+    background: transparent;
+    border: none;
+}
+
+.profile-card, .custom-button {
+    width: 800px;
+    max-width: 100%;
+    margin: auto;
+    padding: 10PX;
+}
+
+.custom-button button{
+    background: #03A9F4;
+    color: #fff;
+    display: block;
+    margin: auto;
+}
+

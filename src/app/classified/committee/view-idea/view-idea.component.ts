@@ -161,7 +161,7 @@ export class ViewIdeaComponent implements OnInit {
     this.clearToken()
     let notification = message
     this.openSnackBar(notification, 'snack-error')
-    this.router.navigateByUrl('/admin')
+    this.router.navigateByUrl('/login')
   }
 
   pageNotFound(){

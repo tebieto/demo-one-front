@@ -34,6 +34,24 @@ export class LoginService {
 
   }
 
+
+  updateUser(data: object){
+    this.baseUrl = Config.api+ 'user/profile/update'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   recovery(data: object){
     this.baseUrl = Config.api+ 'user/password/reset'
     return this.http.post(

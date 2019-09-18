@@ -4,13 +4,10 @@
         <mat-toolbar-row>
           <span class="welcome-logo" [routerLink]="['/mentor/home']"><mat-icon>wifi_tethering</mat-icon>IDEAHUB</span>
           <span class="flexer"></span>
-    
+          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
-            Menu 
-            <mat-icon>arrow_drop_down</mat-icon>
+            <mat-icon>more_vert</mat-icon>
           </button>
-    
-           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
     
             <mat-menu #menu="matMenu">
               <button mat-menu-item [routerLink]="['/mentor/main']">

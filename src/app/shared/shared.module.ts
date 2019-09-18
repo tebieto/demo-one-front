@@ -9,6 +9,7 @@ import { ErrorOccuredComponent } from '../extras/error-occured/error-occured.com
 import { PageLoadingComponent } from '../extras/page-loading/page-loading.component';
 import { RouterModule } from '@angular/router';
 import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
+import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     DialogComponent,
     ErrorOccuredComponent,
     PageLoadingComponent,
-    SharedDialogComponent
+    SharedDialogComponent,
+    SharedAvatarComponent
   ],
 
   entryComponents: [
@@ -70,7 +72,8 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     MatPaginatorModule,
     MatOptionModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedAvatarComponent
   ],
 })
 export class SharedModule { }

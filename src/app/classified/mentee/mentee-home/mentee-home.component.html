@@ -1,6 +1,7 @@
 <div class="body" *ngIf="!isConnecting && user && !hasError">
     <input class="hidden" #fileUpload name="fileUrl" type="file" accept=".pdf" (change)="onChooseFile($event)" />
     <input class="hidden" #imgUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseImage($event)" />
+    <input class="hidden" #avatarUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseAvatar($event)" />
 <mat-toolbar color="primary" class="fixed-header mat-elevation-z0 special-top">
   <mat-toolbar-row>
     <span class="special-logo" [routerLink]="'/mentee/home'"><mat-icon>wifi_tethering</mat-icon>IDEAHUB</span>
@@ -44,6 +45,9 @@
                 <button mat-button (click)="gotoIdea()">
                     <span class="more-option">Ideas</span>
                 </button>
+                <button mat-button [routerLink]="['/mentee/edit/profile']">
+                  Edit Profile
+                </button>
             </mat-menu>
 
             <mat-menu #user="matMenu" class="mat-menu">
@@ -53,6 +57,7 @@
                       </div>
                       <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
                     <span  class="more-option">{{authUser.name}}</span>
+                    <button mat-button (click)="onAvatarUpload()" >Change Avatar</button>
                 </button>
             </mat-menu>
           </span>

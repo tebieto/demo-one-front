@@ -141,7 +141,7 @@ export class EditProfileComponent implements OnInit {
 
 persistData(data: Object){
   this.persistingData = true
-  this.loginService.updateUser(data)
+  this.userService.updateUser(data)
   .subscribe(
     (res)=>{
       this.persistingData = false
@@ -151,7 +151,9 @@ persistData(data: Object){
       }
 
       if(res.code==200) {
-       this.gotoMentorPage()
+      let notification = res.body
+      this.openSnackBar(notification, 'snack-success')
+       this.gotoMenteePage()
       }
 
   },
@@ -165,8 +167,8 @@ persistData(data: Object){
 }
 
 
-gotoMentorPage(){
-  this.router.navigateByUrl('/mentor/home')
+gotoMenteePage(){
+  this.router.navigateByUrl('/mentee/home')
 }
 
 showErrorMessage(error: object){

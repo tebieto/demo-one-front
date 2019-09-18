@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { UserService } from 'src/app/shared/user/user.service';
@@ -11,6 +11,8 @@ import { Title } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation } from '@angular/common';
 import Pusher from 'pusher-js';
 import { Config } from 'src/app/config';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import { LoginService } from 'src/app/shared/authentication/login.service';
 
 
 @Component({
@@ -31,6 +33,7 @@ export class MenteeHomeComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('imgUpload') imgUpload: ElementRef;
+  @ViewChild('avatarUpload') avatarUpload: ElementRef;
 
   firstForumGroup: FormGroup;
   secondForumGroup: FormGroup;
@@ -98,6 +101,9 @@ export class MenteeHomeComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
+  isUploadingAvatar: boolean;
+  newAvatar: any;
+  previousAvatar: any;
 
   constructor(
     private userService: UserService,
@@ -109,7 +115,9 @@ export class MenteeHomeComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef, 
     private media: MediaMatcher,
     private locationStrategy: LocationStrategy,
-    backClick: PlatformLocation
+    backClick: PlatformLocation,
+    public dialog: MatDialog,
+    private loginService: LoginService
     ) {
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -1729,6 +1737,19 @@ export class MenteeHomeComponent implements OnInit {
       this.persistImageData(formData);
       e.srcElement.value = '';
     }
+
+    onChooseAvatar(e) {
+      var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+      var pattern = /image-*/;
+      const formData: FormData = new FormData();
+      if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+      }
+      formData.append('image', file, file.name)
+      this.persistAvatarData(formData);
+      e.srcElement.value = '';
+    }
     
     persistImageData(data) {
       this.isUploadingImage = true
@@ -1746,6 +1767,85 @@ export class MenteeHomeComponent implements OnInit {
     
         });
     }
+
+
+    persistAvatarData(data) {
+      this.isUploadingAvatar = true
+      const subscription = this.userService.uploadImage(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{
+            this.isUploadingAvatar = false;
+            this.newAvatar = res.body;
+            this.manipulateAvatar()
+        },
+        (error)=>{
+          this.isUploadingAvatar = false;
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    manipulateAvatar() {
+      let message = 'Save New Avatar'
+      this.previousAvatar = this.authUser.avatar
+      this.authUser.avatar = this.newAvatar
+      this.openAvatarDialog(message, this.newAvatar)
+    }
+
+    onAvatarUpload() {
+      let el: HTMLElement = this.avatarUpload.nativeElement;
+      el.click();
+    }
+
+    openAvatarDialog(message:string, avatar: string): void {
+      const dialogRef = this.dialog.open(SharedDialogComponent, {
+        width: '250px',
+        data: {id:1, message:message}
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result){
+          this.authUser.avatar = this.previousAvatar
+          return
+        }
+        this.saveAvatar(avatar)
+      });
+    }
+
+    saveAvatar(avatar: string) {
+      let data ={
+        "about": this.authUser.about,
+        "email": this.authUser.email,
+        "full_name": this.authUser.full_name,
+        "username": this.authUser.username,
+        "image": avatar,
+      }
+      
+      this.persistAvatar(data)
+    }
+
+
+    persistAvatar(data: Object){
+      this.userService.updateUser(data)
+      .subscribe(
+        (res)=>{
+          if(res.code != 200) {
+          }
+    
+          if(res.code==200) {
+          }
+    
+      },
+      (error)=>{
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+        return
+    
+      });
+    }
+  
 
     persistIdea(data) {
       

@@ -4,7 +4,7 @@
         <mat-toolbar-row>
           <span class="welcome-logo" [routerLink]="['/mentee/home']"><mat-icon>wifi_tethering</mat-icon>IDEAHUB</span>
           <span class="flexer"></span>
-    
+          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
             <mat-icon>more_vert</mat-icon>
           </button>

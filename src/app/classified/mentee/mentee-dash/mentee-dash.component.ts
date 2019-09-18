@@ -28,6 +28,7 @@ export class MenteeDashComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.mentorList);
+  learnUrl: string;
 
   applyFilter(filterValue: string) {
     this.titleService.setTitle('IDEAHUB| Mentor Profile')
@@ -203,6 +204,11 @@ export class MenteeDashComponent implements OnInit {
     let mentorArray = [];
     mentorArray.push(data);
     this.cleanData(mentorArray);
+    this.learnUrl = data['profile']['e_learn']
+    let pattern = /^(http|https):\/\//
+    if (!this.learnUrl.match(pattern)) {
+      this.learnUrl = 'https://' +this.learnUrl
+    }
   }
 
   getMenteeMentors() {
@@ -316,6 +322,13 @@ export class MenteeDashComponent implements OnInit {
       this.openSnackBar(notification, 'snack-error')
       return
   
+  }
+
+  newTab(link:string) {
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window or tab.
+    );
   }
 
 

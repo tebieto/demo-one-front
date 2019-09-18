@@ -80,6 +80,12 @@ export class SpecialSetupComponent implements OnInit {
     '';
   }
 
+  getLearnErrorMessage() {
+    return this.secondFormGroup.controls['learn'].errors.required ? 'Learn URL is required' :
+    this.secondFormGroup.controls['pdescription'].errors.minlength ? 'Minimum character is 10' :
+    '';
+  }
+
   getPdurationErrorMessage() {
     return this.secondFormGroup.controls['pdescription'].errors.required ? 'Programme description is required' :
     '';
@@ -138,6 +144,7 @@ export class SpecialSetupComponent implements OnInit {
     "programme_name": this.secondFormGroup.controls['pname'].value,
     "description": this.secondFormGroup.controls['pdescription'].value,
     "duration": this.secondFormGroup.controls['pduration'].value,
+    "e_learn": this.secondFormGroup.controls['learn'].value,
   }
   
   this.persistData(data)
@@ -213,6 +220,7 @@ prepareFormInputValidation(){
   this.secondFormGroup = this.formBuilder.group({
     pname: ['', [Validators.required, Validators.minLength(3)]],
     pdescription: ['', [Validators.required, Validators.minLength(3)]],
+    learn: ['', [Validators.required, Validators.minLength(10)]],
     pduration: ['', [Validators.required]]
   });
  }
@@ -226,6 +234,9 @@ prepareFormInputValidation(){
   }
   if(field=='pdescription') {
     this.secondFormGroup.get('pdescription').setValue("");
+  }
+  if(field=='learn') {
+    this.secondFormGroup.get('learn').setValue("");
   }
  }
 

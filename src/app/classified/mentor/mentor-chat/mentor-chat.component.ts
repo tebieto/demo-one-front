@@ -147,6 +147,9 @@ export class MentorChatComponent implements OnInit {
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
           if(data.sender.id==this.authUser.id) {return}
+          if(data.type=='forum') {
+            data['recipient_id'] = this.authUser['id']
+          }
           this.cleanPushedMessage(data);
           this.playChatSound()
           });
@@ -230,7 +233,6 @@ export class MentorChatComponent implements OnInit {
         }
 
         pushToConversation(data: object){
-          
         let available = {}
         if(data['type']=="chat") { 
         available = this.conversations.find(c=>{
@@ -240,10 +242,10 @@ export class MentorChatComponent implements OnInit {
           available = this.forums.find(c=>{
             return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
           });
+          
           }
 
           if(available){
-
             // Too Late
             if(this.getGroupTime(data['created_at'])!='Today') {return}
 

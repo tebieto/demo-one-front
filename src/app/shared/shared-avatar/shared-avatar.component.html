@@ -1,0 +1,19 @@
+<div class="shared-avatar" *ngIf="authUser">
+    <input class="hidden" #avatarUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseAvatar($event)" />
+    <div [class.hidden]="authUser.avatar.length==0?false:true" class="fake-avatar" [title]="authUser.full_name">
+        <button mat-fab class="mat-elevation-z1" [matMenuTriggerFor]="user">{{authUser.full_name.slice(0,1)}}</button>
+      </div>
+    <img [class.hidden]="authUser.avatar.length>0?false:true" class="mat-elevation-z1" [src]="authUser.avatar" alt="" [matMenuTriggerFor]="user">
+
+    <mat-menu #user="matMenu" class="mat-menu">
+        <button class="transparent">
+              <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar" [title]="authUser.full_name">
+                <button mat-fab class="mat-elevation-z0">{{authUser.full_name.slice(0,1)}}</button>
+              </div>
+              <img [class.hidden]="authUser.avatar.length>0?false:true" [src]="authUser.avatar" alt="">
+            <span  class="more-option">{{authUser.full_name}}</span>
+            <button mat-button (click)="onAvatarUpload()" >Change Avatar</button>
+        </button>
+    </mat-menu>
+
+</div>

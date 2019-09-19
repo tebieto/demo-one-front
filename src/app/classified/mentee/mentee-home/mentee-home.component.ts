@@ -168,13 +168,15 @@ export class MenteeHomeComponent implements OnInit {
         }
 
         cleanPushedMessage(data: object) {
+
+          let now = this.utcNow()
           let newMessage = {
             id: data['id'],
             sender_id: data['sender_id'],
             recipient_id: data['recipient_id'],
             sender: data['sender'],
             message: data['message'],
-            created_at: data['created_at'],
+            created_at: now,
             status: 'delivered',
             unread: true,
             starred: false,

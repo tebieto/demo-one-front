@@ -410,7 +410,7 @@ export class MenteeHomeComponent implements OnInit {
 
         getChatTime(time: string): any{
 
-          let UTCString = new Date(time+'Z')
+          let UTCString = new Date(time.replace(/ /g,"T")+'Z')
 
           return this.fetchTime(UTCString);
         }
@@ -418,16 +418,13 @@ export class MenteeHomeComponent implements OnInit {
 
 
         getGroupTime(time: string): any{
-
-          
           let now = new Date().getTime()
-              let UTCString = new Date(time+'Z')
+              let UTCString = new Date(time.replace(/ /g,"T")+'Z')
               let previous = UTCString.getTime()
               let difference = now -previous
               let week_difference = difference / (7*24*60*60*10*10*10)
               let day_difference = difference / (24*60*60*10*10*10)
               let hour_difference = difference / (60*60*10*10*10)
-
 
               if(day_difference<1){
                 if(hour_difference>12 && UTCString.getHours()>12) {
@@ -451,17 +448,15 @@ export class MenteeHomeComponent implements OnInit {
 
 
         getLocalTime(time: string): any{
-
-
+            
               let now = new Date().getTime()
-              let UTCString = new Date(time+'Z')
+              let UTCString = new Date(time.replace(/ /g,"T")+'Z')
               let previous = UTCString.getTime()
               let difference = now -previous
               let second_difference = difference / (10*10*10)
               let week_difference = difference / (7*24*60*60*10*10*10)
               let day_difference = difference / (24*60*60*10*10*10)
               let hour_difference = difference / (60*60*10*10*10)
-
 
               if(second_difference<1){
                 return 'Now';
@@ -527,7 +522,7 @@ export class MenteeHomeComponent implements OnInit {
 
 
         fetchDate(date: Date){
-        let months = [1,2,3,4,5,6,7,8,9,10,11,12]
+        let months = ['01','02','03','04','05','06','07','08','09','10','11','12']
         return date.getDate()+'/'+months[date.getMonth()]+'/'+date.getFullYear()
         }
 
@@ -1213,9 +1208,17 @@ export class MenteeHomeComponent implements OnInit {
       utcNow() {
 
         let now = new Date()
-        let months = [1,2,3,4,5,6,7,8,9,10,11,12]
-        let date = now.getUTCFullYear()+'-'+months[now.getUTCMonth()]+'-'+now.getUTCDate()+' '+ now.getUTCHours()+':'+now.getUTCMinutes()+':'+now.getUTCSeconds()
+        let months = ['01','02','03','04','05','06','07','08','09','10','11','12']
+        let date = now.getUTCFullYear()+'-'+months[now.getUTCMonth()]+'-'+now.getUTCDate()+' '+ this.appendZero(now.getUTCHours())+':'+this.appendZero(now.getUTCMinutes())+':'+this.appendZero(now.getUTCSeconds())
         return date;
+      }
+
+      appendZero(num: number){
+        if(num<10){
+          return '0'+num
+        }
+
+        return num
       }
 
 

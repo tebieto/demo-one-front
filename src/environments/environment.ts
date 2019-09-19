@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:6700/v1/',
+  apiUrl: 'http://6245a9ad.ngrok.io/v1/',
   pusher: {
     app_id: "854376",
     key: "f98387a285614536dac1",

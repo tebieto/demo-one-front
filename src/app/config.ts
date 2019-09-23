@@ -7,6 +7,8 @@ export class Config {
      static api = environment.apiUrl;
      static pusher = environment.pusher;
      static ipChecker = 'http://ip-api.com/json/';
+     static mentorLearn = 'http://lagosinnovates.my-gpi.io/edu-courses/become-a-mentor/';
+     static menteeLearn = 'http://lagosinnovates.my-gpi.io/courses/';
      static bearer = 'atala,'
      static isPublic = false;
 }

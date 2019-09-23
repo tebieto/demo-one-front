@@ -7,6 +7,7 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import * as crypto from 'crypto-js';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
+import { Config } from 'src/app/config';
 
 export interface PeriodicElement {
   'name': object;
@@ -39,7 +40,7 @@ export class MentorHomeComponent implements OnInit {
   subscription: Subscription;
   hasMentor: boolean;
   profileCode: string
-
+  learn = Config.mentorLearn;
   user: object;
   hasError: boolean;
   keyRole = 55;
@@ -279,6 +280,13 @@ export class MentorHomeComponent implements OnInit {
       this.openSnackBar(notification, 'snack-error')
       return
   
+  }
+
+  newTab(link:string) {
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window or tab.
+    );
   }
 
 

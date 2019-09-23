@@ -94,11 +94,22 @@ td, th {
     outline-color: transparent !important;
 }
 
+.page-buttons {
+    position: relative;
+    background: transparent;
+    top: 50px;
+    width: 400px;
+    margin: auto;
+}
+
+
+.page-buttons .custom-button {
+    display: inline !important;   
+}
+
 .custom-button button{
     background: #03A9F4;
-    color: #fff;
-    display: block;
-    margin: auto;
+    color: #fff;  
 }
 
 .custom-button h6{

@@ -13,6 +13,9 @@
               <button mat-menu-item [routerLink]="['/mentor/main']">
                 Main Board
               </button>
+              <button mat-menu-item (click)="newTab(learn)">
+                GPI Learn
+              </button>
               <button mat-menu-item [routerLink]="['/mentor/view/profile/'+profileCode]">
                 View Profile
               </button>
@@ -75,10 +78,15 @@
         <h6>You currently have no Mentee</h6>
     </div>
 
-    <div class="custom-button">
-        <button mat-button [routerLink]="['/mentor/main']">Goto Main Board</button>
+    <div class="page-buttons">
+      <div class="custom-button">
+          <button mat-button [routerLink]="['/mentor/main']">Goto Main Board</button>
+      </div>
+
+      <div class="custom-button">
+          <button mat-button (click)="newTab(learn)">Proceed to GPI Learn</button>
+      </div>
     </div>
-    
     
     <!-- END OF VIEW-->
     

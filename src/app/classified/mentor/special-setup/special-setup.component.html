@@ -90,18 +90,6 @@
                     
                     <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdescriptionErrorMessage()}}</mat-error>
                 </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Learn Link</mat-label>
-            
-                    <input matInput placeholder="e.g. http://gpi-learn.com/some/url/parameters" type="text" formControlName="learn" (keyup.enter)="onSubmit()"  required>
-              
-                    <button mat-button *ngIf="this.secondFormGroup.get('learn').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('learn')">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    
-                    <mat-error *ngIf="secondFormGroup.get('learn').invalid">{{getLearnErrorMessage()}}</mat-error>
-                  </mat-form-field>
       
                 <div>
                     <button mat-button matStepperPrevious>Previous</button>

@@ -13,6 +13,9 @@
               <button mat-menu-item [routerLink]="['/mentee/main']" [class.hidden]="hasMentor?false:true">
                 Main Board
               </button>
+              <button mat-menu-item (click)="newTab(learnUrl)">
+                GPI Learn
+              </button>
               <button mat-menu-item [routerLink]="['/mentee/view/profile']">
                 View Profile
               </button>
@@ -69,13 +72,14 @@
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [class.hidden]="hasMentor?true:false"></mat-paginator>
     
     </div>
+    <div class="page-buttons">
+      <div class="custom-button" [class.hidden]="hasMentor?false:true">
+        <button mat-button [routerLink]="['/mentee/main']">Goto Main Board</button>
+      </div>
 
-    <div class="custom-button" [class.hidden]="hasMentor?false:true">
-      <button mat-button [routerLink]="['/mentee/main']">Goto Main Board</button>
-    </div>
-
-    <div class="custom-button" [class.hidden]="hasMentor && learnUrl?false:true">
-      <button mat-button (click)="newTab(learnUrl)">Goto Mentor Learn Page</button>
+      <div class="custom-button" [class.hidden]="hasMentor && learnUrl?false:true">
+        <button mat-button (click)="newTab(learnUrl)">Goto GPI Learn</button>
+      </div>
     </div>
 
     <div class="custom-button" [class.hidden]="mentorList.length>0?true:false">

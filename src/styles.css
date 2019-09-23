@@ -54,14 +54,14 @@ html, body {
     width: 100px;
     height: 100px;
     margin: auto;
-    top: 50px;
-    color:#FF7043;
+    top: 100px;
+    color:#03A9F4;
     cursor: pointer;
     outline-color: transparent !important;
   }
 
   .auth-logo mat-icon {
-     font-size: 80px !important;
+     font-size: 50px !important;
   }
 
   .form-suffice {

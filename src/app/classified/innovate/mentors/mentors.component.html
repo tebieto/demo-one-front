@@ -1,0 +1,92 @@
+<div *ngIf="!isConnecting && user && !hasError">
+
+    <mat-toolbar color="primary" class="fixed-header main-header">
+        <mat-toolbar-row>
+          <span class="welcome-logo" [routerLink]="['/mentee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="flexer"></span>
+          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
+          <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+    
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/innovate/admin']">
+                  Custom Settings
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentors/']">
+                  All Mentors
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentees/']">
+                  All Mentees
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentees/certified/']">
+                  Certified Mentees
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/ideas/approved/']">
+                  Approved Ideas
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/ideas/top/']">
+                  Top Ideas
+                </button>
+              <button mat-menu-item (click) = "logUserOut('You Logged out')">
+                Logout
+              </button>
+            </mat-menu>
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    
+    <!--View-->
+    
+    <div class="settings">
+    
+         <h3 class="sub-title">{{title}}</h3>
+          
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name</th>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentee/mentor-profile/'+element.name.link]"> {{element.name.name}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="about">
+              <th mat-header-cell *matHeaderCellDef>About</th>
+              <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.about}} </td>
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="data">
+              <th mat-header-cell *matHeaderCellDef> Action </th>
+              <td mat-cell *matCellDef="let element"> 
+                  <mat-icon class="more-icon" [matMenuTriggerFor]="menu1">more_vert</mat-icon>
+                  <mat-menu #menu1="matMenu">
+                      <button mat-menu-item (click)="chooseMentor(element.data)" [class.hidden]="hasMentor?true:false">
+                        Choose Mentor
+                      </button>
+                      <button mat-menu-item [routerLink]="['/mentee/mentor-profile/'+element.data]">
+                        View Complete Profile
+                      </button>
+                    </mat-menu>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [class.hidden]="hasMentor?true:false"></mat-paginator>
+    
+    </div>
+
+    <div class="custom-button" [class.hidden]="mentorList.length>0?true:false">
+        <h6>No Mentor at the moment</h6>
+    </div>
+    
+    <!-- END OF VIEW-->
+    
+    </div>
+    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+    <app-page-loading *ngIf="isConnecting"></app-page-loading>
+    
+    

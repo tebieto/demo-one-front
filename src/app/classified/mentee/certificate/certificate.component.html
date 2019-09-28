@@ -1,0 +1,93 @@
+<mat-toolbar color="primary" class="fixed-header main-header">
+    <mat-toolbar-row>
+      <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
+      <span class="welcome-logo">Certificate</span>
+      <span class="flexer"></span>
+
+      <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+
+    </mat-toolbar-row>
+</mat-toolbar>
+  
+  <div class="settings">
+      <input class="hidden" #fileUpload name="fileUrl" type="file" accept=".pdf" (change)="onChooseFile($event)" />
+    <h3 class="sub-title">Upload Certificate</h3>
+  
+    <div class="input">
+  
+        <mat-vertical-stepper linear #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                  <ng-template matStepLabel>Basic Information</ng-template>
+        
+                  <h6>Name on Certificate</h6>
+            
+                  <mat-form-field appearance="outline">
+                      <mat-label>Name on Certificate</mat-label>
+              
+                      <input matInput placeholder="Name on Certificate" type="text" formControlName="name" rows="6" required>
+                
+                      <button mat-button *ngIf="this.firstFormGroup.get('name').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('name')">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      
+                      <mat-error *ngIf="firstFormGroup.get('name').invalid">{{getNameErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <h6>Link to Certificate</h6>
+            
+  
+                  <mat-form-field appearance="outline">
+                      <mat-label>Link to Certificate</mat-label>
+                      <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                          <mat-icon>http</mat-icon>
+                      </button>
+                      <input matInput placeholder="http://link.com/to/my/certificate" type="text" formControlName="link" rows="6" required>
+                
+                      <button mat-button *ngIf="this.firstFormGroup.get('link').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('link')">
+                          <mat-icon>close</mat-icon>
+                      </button>
+                      
+                      <mat-error *ngIf="firstFormGroup.get('link').invalid">{{getLinkErrorMessage()}}</mat-error>
+                  </mat-form-field>
+          
+                    <div>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+    
+          
+            <mat-step>
+                <ng-template matStepLabel>Upload Certificate</ng-template>
+                <br>
+                <div class="doc-upload-div">
+                    <div class="upload" (click)="onFileUpload()" [class.hidden]="isUploadingFile">
+                      <button >Upload Bus. Plan</button>
+                      <button ><mat-icon>file_copy</mat-icon></button>
+                      <button >PDF</button>
+                    </div>
+                    <div class="upload" [class.hidden]="!isUploadingFile">
+                        <button >Uploading Plan...</button>
+                        <button ><mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon></button>
+                        <button></button>
+                    </div>
+                    <button mat-button [class.hidden]="newCertificate.length>0?false:true" (click)="newTab(newCertificate)">Preview Certificate</button>
+                </div>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>Save Certificate</ng-template>
+                <br>
+               
+                <button mat-button matStepperPrevious>Review</button>
+                <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+                </mat-spinner></mat-icon><span *ngIf="!persistingData">Save Certificate</span></button>
+            </mat-step>
+    
+          </mat-vertical-stepper> 
+  
+    </div>
+  
+  </div>

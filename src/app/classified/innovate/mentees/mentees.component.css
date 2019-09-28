@@ -1,0 +1,120 @@
+mat-toolbar-row button {
+    background: #03A9F4;
+    color: #fff;
+    margin: 5px;
+}
+
+mat-toolbar-row span {
+    cursor: pointer;
+}
+
+.login-button {
+    background: transparent !important;
+    color: #03A9F4 !important;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+
+}
+
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.main-header mat-icon {
+    color: #fff !important;
+}
+
+/* Structure */
+
+.settings, .custom-button {
+    position: relative;
+    display: block;
+    top: 80px;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+.settings table {
+    width: 100%;
+  }
+  
+.settings .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.settings .fab-button {
+    background: #fff !important;
+    color: #03A9F4;
+}
+
+.settings .fab-button:hover {
+    background: rgba(0, 0, 0, 0.082) !important;
+}
+
+.settings .sub-title {
+    float: left;
+    color: #9E9E9E;
+    margin-bottom: 30px;
+}
+
+.settings .add-new {
+ float: right;
+ background: rgba(3, 168, 244, 0.733);
+ color: #fff;
+ margin-bottom: 10px;
+ font-weight: bold;
+}
+
+.register-form-container .form-button {
+    width: 100% !important;
+    background: #03A9F4 !important;
+    color: #fff;
+    font-weight: bold;
+}
+
+.settings .add-new span mat-icon {
+    position: relative;
+    top: 6px;
+   }
+
+.more-icon {
+    cursor: pointer;
+    color: #03A9F4;
+}
+
+td, th {
+    padding: 10px !important;
+    outline-color: transparent !important;
+}
+
+.page-buttons {
+    position: relative;
+    background: transparent;
+    top: 50px;
+    width: 400px;
+    margin: auto;
+}
+
+
+.page-buttons .custom-button {
+    display: inline !important;   
+}
+
+.custom-button button{
+    background: #03A9F4;
+    color: #fff;  
+}
+
+.custom-button h6{
+    width: 230px;
+    display: block;
+    margin: auto;
+    color: #9E9E9E;
+}

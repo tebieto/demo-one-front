@@ -1,0 +1,161 @@
+<mat-toolbar color="primary" class="fixed-header main-header">
+  <mat-toolbar-row>
+    <span class="welcome-logo" [routerLink]="['/committee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB|Admin</span>
+    <span class="flexer"></span>
+
+    <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
+      Menu  
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+     <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['/innovate/admin']">
+          Custom Settings
+        </button>
+        <button mat-menu-item [routerLink]="['/innovate/mentors/']">
+          All Mentors
+        </button>
+        <button mat-menu-item [routerLink]="['/innovate/mentees/']">
+          All Mentees
+        </button>
+        <button mat-menu-item [routerLink]="['/innovate/mentees/certified/']">
+          Certified Mentees
+        </button>
+        <button mat-menu-item [routerLink]="['/innovate/ideas/approved/']">
+          Approved Ideas
+        </button>
+        <button mat-menu-item [routerLink]="['/innovate/ideas/top/']">
+          Top Ideas
+        </button>
+        <button mat-menu-item (click) = "logUserOut('You Logged out')">
+            Logout
+        </button>
+
+      </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="settings">
+  <h3 class="sub-title">Custom Settings</h3>
+
+  <div class="input">
+
+      <mat-vertical-stepper linear #stepper>
+          <mat-step [stepControl]="firstFormGroup">
+              <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Custom Settings</ng-template>
+              
+                <h6>Maximum Number of Mentees per Mentor</h6>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Maximum Mentee per Mentor</mat-label>
+                    <mat-select formControlName="maxMentee" name="maxMentee">
+                        <mat-option value="">
+                            Select Number
+                        </mat-option>
+                        <mat-option *ngFor="let item of numberArray" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('maxMentee').invalid">{{getMaxMenteeErrorMessage()}}</mat-error>
+                </mat-form-field>
+    
+                <h6>Minimum Average score for an Idea(x%/100)</h6>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Minimum Score for an Idea</mat-label>
+                    <mat-select formControlName="minIdea" name="minIdea">
+                        <mat-option value="">
+                            Select Score
+                        </mat-option>
+                        <mat-option *ngFor="let item of numberArray" [value]="item">
+                        {{item}}
+                        </mat-option>
+                    </mat-select>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('minIdea').invalid">{{getMinIdeaErrorMessage()}}</mat-error>
+                </mat-form-field>
+            
+                <h6>Custom Invite Email(For Mentors)</h6>
+            
+                <mat-form-field appearance="outline">
+                    <mat-label>Mentor Invite Email</mat-label>
+            
+                    <textarea matInput placeholder="Mentor Invite Email" type="text" formControlName="mentorMail" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('mentorMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('mentorMail')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('mentorMail').invalid">{{getMentorMailErrorMessage()}}</mat-error>
+                </mat-form-field>
+            
+                <h6>Custom Invite Email(For Mentees)</h6>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Mentee Invite Email</mat-label>
+            
+                    <textarea matInput placeholder="Mentee Invite Email" type="text" formControlName="menteeMail" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('menteeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('menteeMail')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('menteeMail').invalid">{{getMenteeMailErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <h6>Custom Welcome Email(For Mentors)</h6>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Mentor Welcome Email</mat-label>
+            
+                    <textarea matInput placeholder="Mentor Welcome Email" type="text" formControlName="mentorWelcomeMail" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('mentorWelcomeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('mentorWelcomeMail')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('mentorWelcomeMail').invalid">{{getMentorWelcomeMailErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <h6>Custom Welcome Email(For Mentees)</h6>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Mentee Welcome Email</mat-label>
+            
+                    <textarea matInput placeholder="Mentee Welcome Email" type="text" formControlName="menteeWelcomeMail" rows="6" required></textarea>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('menteeWelcomeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('menteeWelcomeMail')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('menteeWelcomeMail').invalid">{{getMenteeWelcomeMailErrorMessage()}}</mat-error>
+                </mat-form-field>
+        
+                  <div>
+                      <button mat-button matStepperNext>Next</button>
+                  </div>
+              </form>
+          </mat-step>
+  
+        
+          <mat-step>
+              <ng-template matStepLabel>Save Settings</ng-template>
+              <br>
+              <div>
+                  <button mat-button matStepperPrevious>Review Settings</button>
+                 
+                  <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
+                      </mat-spinner></mat-icon><span *ngIf="!persistingData">Save Settings</span></button>
+              </div>
+          </mat-step>
+  
+        </mat-vertical-stepper> 
+
+  </div>
+
+</div>

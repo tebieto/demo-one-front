@@ -63,3 +63,27 @@
     margin: auto;
 }
 
+.overview-card {
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    max-width: 90%;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+.overview-card button{
+    position: relative;
+    display: block;
+    margin: auto;
+    font-weight: bold;
+    top: 25%;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+}
+
+.overview-card button:hover{
+    color: #03A9F4;
+}
+

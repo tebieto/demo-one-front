@@ -9,6 +9,7 @@ import { MenteeDashComponent } from './mentee-dash/mentee-dash.component';
 import { MentorProfileComponent } from './mentor-profile/mentor-profile.component';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { CertificateComponent } from './certificate/certificate.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     MenteeDashComponent,
     MentorProfileComponent,
     ViewProfileComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    CertificateComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     MenteeComponent,
     MenteeHomeComponent,
     MenteeDashComponent,
-    MentorProfileComponent
+    MentorProfileComponent,
+    CertificateComponent
   ]
 })
 export class MenteeModule { }

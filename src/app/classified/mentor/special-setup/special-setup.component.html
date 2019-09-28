@@ -12,6 +12,7 @@
     </mat-toolbar>
 <br>
 <div class="login-form-container mat-elevation-z0" >
+    
     <h3>Quick Setup For New Mentors</h3><br>
 
     <mat-vertical-stepper linear #stepper>
@@ -34,6 +35,38 @@
                     
                     <mat-error *ngIf="firstFormGroup.get('phone').invalid">{{getPhoneErrorMessage()}}</mat-error>
                   </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>LinkedIn Url</mat-label>
+            
+                    <button mat-button matPrefix mat-icon-button aria-label="Clear">
+                        <mat-icon>insert_link</mat-icon>
+                    </button>
+            
+                    <input matInput placeholder="e.g. http://linkedin.com/in/john-doe/" type="text" formControlName="linkedin" (keyup.enter)="onSubmit()"  required>
+              
+                    <button mat-button *ngIf="this.firstFormGroup.get('linkedin').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('linkedin')">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    
+                    <mat-error *ngIf="firstFormGroup.get('linkedin').invalid">{{getLinkedInErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                        <mat-label>Add Specialisations and Interests</mat-label>
+                        <mat-chip-list #chipList aria-label="specialisation selection">
+                          <mat-chip *ngFor="let specialisation of specialisations" [selectable]="selectable"
+                                   [removable]="removable" (removed)="remove(specialisation)">
+                            {{specialisation.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input placeholder="Type and seperate with a comma"
+                                 [matChipInputFor]="chipList"
+                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                 [matChipInputAddOnBlur]="addOnBlur"
+                                 (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                      </mat-form-field>
 
                   <mat-form-field appearance="outline">
                     <mat-label>About Me</mat-label>
@@ -65,19 +98,19 @@
                   <mat-error *ngIf="secondFormGroup.get('pname').invalid">{{getPnameErrorMessage()}}</mat-error>
                 </mat-form-field>
 
-                  <mat-form-field appearance="outline">
-                      <mat-label>Programme Duration</mat-label>
-                      <mat-select formControlName="pduration" name="pduration">
-                          <mat-option value="">
-                              Programme Duration
-                            </mat-option>
-                          <mat-option *ngFor="let item of programmeDurations" [value]="item.duration">
-                            {{item.duration}}
-                          </mat-option>
-                      </mat-select>
-                      
-                      <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdurationErrorMessage()}}</mat-error>
-                    </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Programme Duration</mat-label>
+                    <mat-select formControlName="pduration" name="pduration">
+                        <mat-option value="">
+                            Programme Duration
+                        </mat-option>
+                        <mat-option *ngFor="let item of programmeDurations" [value]="item.duration">
+                        {{item.duration}}
+                        </mat-option>
+                    </mat-select>
+                    
+                    <mat-error *ngIf="secondFormGroup.get('pdescription').invalid">{{getPdurationErrorMessage()}}</mat-error>
+                </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Programme Description</mat-label>

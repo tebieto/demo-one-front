@@ -28,6 +28,7 @@ const routes: Routes = [
   {"path": 'mentor', loadChildren: './classified/mentor/mentor.module#MentorModule', data: { preload: true, delay: true },},
   {"path": 'mentee', loadChildren: './classified/mentee/mentee.module#MenteeModule', data: { preload: true, delay: true },},
   {"path": 'committee', loadChildren: './classified/committee/committee.module#CommitteeModule', data: { preload: true, delay: true },},
+  {"path": 'innovate', loadChildren: './classified/innovate/innovate.module#InnovateModule', data: { preload: true, delay: true },},
   {"path": '**', component:PageNotFoundComponent}
 ];
 

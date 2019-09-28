@@ -43,10 +43,10 @@ import { LandingComponent } from './landing/landing.component';
     BrowserAnimationsModule,
     HttpClientModule,
     HttpModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
-    SharedModule
+    SharedModule,
   ],
   providers: [CustomPreloadingStrategy],
   bootstrap: [AppComponent]

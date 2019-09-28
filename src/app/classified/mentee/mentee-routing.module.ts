@@ -5,6 +5,7 @@ import { MenteeDashComponent } from './mentee-dash/mentee-dash.component';
 import { MentorProfileComponent } from './mentor-profile/mentor-profile.component';
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { CertificateComponent } from './certificate/certificate.component';
 
 const routes: Routes = [
   {"path": '', component: MenteeDashComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {"path": 'view/profile', component: ViewProfileComponent},
   {"path": 'edit/profile', component: EditProfileComponent},
   {"path": 'mentor-profile/:code', component: MentorProfileComponent},
+  {"path": 'certificate', component: CertificateComponent},
 ];
 
 @NgModule({

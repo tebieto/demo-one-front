@@ -10,8 +10,11 @@
           </button>
     
             <mat-menu #menu="matMenu">
+              <button mat-menu-item [routerLink]="['/mentee/certificate']">
+                Upload Certificates
+              </button>
               <button mat-menu-item [routerLink]="['/mentee/main']" [class.hidden]="hasMentor?false:true">
-                Main Board
+                Chat Board
               </button>
               <button mat-menu-item (click)="newTab(learnUrl)">
                 GPI Learn
@@ -74,7 +77,7 @@
     </div>
     <div class="page-buttons">
       <div class="custom-button" [class.hidden]="hasMentor?false:true">
-        <button mat-button [routerLink]="['/mentee/main']">Goto Main Board</button>
+        <button mat-button [routerLink]="['/mentee/main']">Goto Chat Board</button>
       </div>
 
       <div class="custom-button" [class.hidden]="hasMentor && learnUrl?false:true">

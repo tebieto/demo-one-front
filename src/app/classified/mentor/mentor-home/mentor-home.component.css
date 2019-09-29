@@ -104,7 +104,7 @@ td, th {
 
 
 .page-buttons .custom-button {
-    display: inline !important;   
+    display: inline;   
 }
 
 .custom-button button{

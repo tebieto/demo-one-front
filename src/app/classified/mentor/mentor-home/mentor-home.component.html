@@ -41,10 +41,10 @@
          <h3 class="sub-title">Pending Mentees</h3>
     
           <mat-form-field >
-            <input #searchInput matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Mentees">
+            <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'pending')" placeholder="Search Mentees">
           </mat-form-field>
           
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+          <table mat-table [dataSource]="pendingDataSource" class="mat-elevation-z0">
               <!-- Position Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -83,7 +83,7 @@
          <h3 class="sub-title">My Mentees</h3>
     
           <mat-form-field >
-            <input #searchInput matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Mentees">
+            <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'all')" placeholder="Search Mentees">
           </mat-form-field>
           
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">

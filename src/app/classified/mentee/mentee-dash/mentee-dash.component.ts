@@ -29,6 +29,7 @@ export class MenteeDashComponent implements OnInit {
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.mentorList);
   learnUrl: string;
+  pendingMentor: boolean;
 
   applyFilter(filterValue: string) {
     this.titleService.setTitle('IDEAHUB| Mentor Profile')
@@ -96,7 +97,7 @@ export class MenteeDashComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.hasMentor = true
+          this.pendingMentor = true
           this.displayNewMentor(param)
           let notification = res.message
           this.openSnackBar(notification, 'snack-success')
@@ -185,9 +186,9 @@ export class MenteeDashComponent implements OnInit {
           this.user = res.body.user
           
           if(res.body.mentor) {
-            this.displayUserMentor(res.body.mentor)
-          } else {      
-          this.getMenteeMentors()
+            this.displayUserMentor(res.body.mentor);
+          } else {
+          this.getPendingMentors()
           }
 
          }
@@ -203,7 +204,7 @@ export class MenteeDashComponent implements OnInit {
     this.hasMentor = true;
     let mentorArray = [];
     mentorArray.push(data);
-    this.cleanData(mentorArray);
+    this.cleanData(mentorArray, 'all');
     this.learnUrl = data['profile']['e_learn']
     let pattern = /^(http|https):\/\//
     if (!this.learnUrl.match(pattern)) {
@@ -218,7 +219,7 @@ export class MenteeDashComponent implements OnInit {
     .subscribe(
         (res)=>{ 
         if(res.code==200) {
-         this.cleanData(res.body)
+         this.cleanData(res.body, 'all')
         } else {
           this.hasError = true;
           this.isConnecting = false;
@@ -233,7 +234,31 @@ export class MenteeDashComponent implements OnInit {
       });
   }
 
-  cleanData(data: object[]) {
+  getPendingMentors() {
+    this.isConnecting = true
+    const subscription = this.userService.pendingMentors()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{ 
+        if(res.code==200) {
+          if(res.body) {
+            this.cleanData(res.body, 'pending')
+          } else {  
+            this.getMenteeMentors()
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  cleanData(data: object[], type:string) {
     if(!data) {
       this.isConnecting = false;
       return
@@ -248,6 +273,10 @@ export class MenteeDashComponent implements OnInit {
       }
       this.mentorList.push(data)
     });
+    if(type=='pending') {
+      this.pendingMentor = true
+      this.hasMentor = false
+    }
     this.isConnecting = false
   }
 

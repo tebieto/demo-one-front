@@ -232,7 +232,7 @@ export class UserService {
   }
 
   addMentee(id: number) {
-    this.baseUrl = Config.api + 'mentee/pair/'+id
+    this.baseUrl = Config.api + 'mentee/pair/request/'+id
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}
@@ -407,8 +407,41 @@ export class UserService {
 
   }
 
+  pendingMentors() {
+    this.baseUrl = Config.api + 'mentee/pending/mentor/'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+
   mentorMentees() {
     this.baseUrl = Config.api + 'mentors/mentees'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  pendingMentorMentees() {
+    this.baseUrl = Config.api + 'mentors/mentees/pending'
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

@@ -26,12 +26,18 @@ export class MentorHomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
   menteeList: PeriodicElement[] = [];
+  pendingMenteeList: PeriodicElement[] = [];
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.menteeList);
+  pendingDataSource = new MatTableDataSource(this.pendingMenteeList);
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string, type: string) {
     this.titleService.setTitle('IDEAHUB| Mentor Profile')
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if(type=='all') {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    } else if(type=='pending') {
+      this.pendingDataSource.filter = filterValue.trim().toLowerCase();
+    }
   }
 
   isConnecting: boolean;
@@ -100,6 +106,7 @@ export class MentorHomeComponent implements OnInit {
   startPaginator() {
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
+    this.pendingDataSource.paginator = this.paginator;
     this.focusInput()
     },500);
   }
@@ -126,6 +133,7 @@ export class MentorHomeComponent implements OnInit {
           this.user = res.body.user
           this.profileCode = this.encrypt(this.user)
           this.getMyMentees()
+          this.getPendingMentees()
           this.verifyMentorSetup()
          }
   
@@ -195,8 +203,49 @@ export class MentorHomeComponent implements OnInit {
       });
   }
 
+  getPendingMentees() {
+    this.isConnecting = true
+    const subscription = this.userService.pendingMentorMentees()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{ 
+          console.log(res)
+        if(res.code==200) {
+        if(res.body==null) {
+          this.isConnecting = false;
+          return
+        }
+         this.cleanPendingData(res.body)
+        } else {
+          this.hasError = true;
+          this.isConnecting = false;
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
   cleanData(data: object[]) {
     this.menteeList.splice(0, this.menteeList.length)
+    data.forEach(x=> {
+      let encrypted = this.encrypt(x)
+      let data = {
+        'name' :  {name:x['full_name'], link: encrypted},
+        'about' : x['email'],
+        'data'  : encrypted
+      }
+      this.menteeList.push(data)
+    });
+    this.isConnecting = false;
+  }
+
+  cleanPendingData(data: object[]) {
+    this.pendingMenteeList.splice(0, this.pendingMenteeList.length)
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {

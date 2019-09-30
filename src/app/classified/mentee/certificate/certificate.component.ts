@@ -1,13 +1,19 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatTableDataSource } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user/user.service';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+
+export interface PeriodicElement {
+  'name': object;
+  'mentee': string;
+  'data': object;
+}
 
 @Component({
   selector: 'app-certificate',
@@ -18,6 +24,11 @@ export class CertificateComponent implements OnInit {
 
   
   @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('searchInput') searchInput: ElementRef;
+  certificates: PeriodicElement[] = [];
+  displayedColumns: string[] = ['name', 'mentee', 'data'];
+  dataSource = new MatTableDataSource(this.certificates);
 
   persistingData: boolean;
   isConnecting: boolean
@@ -25,8 +36,8 @@ export class CertificateComponent implements OnInit {
   hasError: boolean;
   firstFormGroup: FormGroup;
   programmeDurations = []
-  keyRole = 44;
-  optionalRole = 44;
+  keyRole = 55;
+  optionalRole = 55;
   numberArray= []
   isUploadingFile: boolean;
   subscription: Subscription;
@@ -45,8 +56,104 @@ export class CertificateComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('IDEAHUB|Admin')
+    this.validateUser()
     this.prepareFormInputValidation()
     this.numberArray = this.fillNumberArray(100)
+    this.startPaginator()
+    this.getMenteeCertificate()
+  }
+  
+
+  validateUser(){
+    this.isConnecting= true
+    const subscription = this.userService.validateUser()
+    this.subscription = subscription.subscribe(
+      (res)=>{
+        this.isConnecting=false
+        if(res.code != 200) {
+          this.hasError = true
+          let message ='Invalid Session, Login Again.'
+          this.logUserOut(message);
+        }
+  
+        if(res.code==200) {
+          if(!res.body.mentor) {
+            this.gotoHome()
+          }
+          this.inspectRole(res.body.role, 'match')
+          this.user = res.body.user
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.isConnecting=false;
+    });
+  }
+
+  getMenteeCertificate() {
+    this.isConnecting = true
+    const subscription = this.userService.menteeCertificates()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{ 
+        if(res.code==200) {
+          if(res.body) {
+            this.filterBody(res.body)
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  filterBody(body:object[]) {
+    body.forEach(data=> {
+      this.cleanData(data)
+    })
+  }
+
+  inspectRole(role: any, type: string) {
+    if(role[0]) {
+      // It is an array
+      this.inspectRoleArray(role, type)
+    } else if ((role.code == this.keyRole || role.code == this.optionalRole) && type=="unmatch"){
+      let message ='Invalid Session, Login Again.'
+      this.logUserOut(message);
+    } else if ((role.code != this.keyRole && role.code != this.optionalRole) && type=="match"){
+      let message ='Invalid Session, Login Again.'
+      this.logUserOut(message);
+    } 
+  }
+
+   
+   inspectRoleArray(role: any, type:string){
+     let isKey = role.find(x=>{
+       return x.code === this.keyRole
+     });
+
+     let isOptional = role.find(x=>{
+        return x.code === this.optionalRole
+      })
+   
+    if((isKey || isOptional) && type == 'unmatch'){
+      let message ='Invalid Session, Login Again.'
+      this.logUserOut(message);
+    } else if((!isKey && !isOptional) && type == 'match'){
+      let message ='Invalid Session, Login Again.'
+      this.logUserOut(message);
+    }
+  }
+
+  gotoHome(){
+    this.router.navigateByUrl('/mentee/home')
   }
 
   onFileUpload() {
@@ -123,6 +230,118 @@ persistFileData(data) {
 
    }
 
+
+   clearAllFields(){
+      this.firstFormGroup.get('name').setValue("");
+      this.firstFormGroup.get('link').setValue("");
+      this.newCertificate = ''
+   }
+
+   onSubmit(){
+
+    if(this.persistingData){return}
+  
+    if(this.firstFormGroup.invalid){
+      let notification = "You have errors in your form"
+      this.openSnackBar(notification, 'snack-error')
+      return
+    }
+    
+    if(this.newCertificate.length==0) {
+      let notification = "You have not uploaded a certificate"
+      this.openSnackBar(notification, 'snack-error')
+      return 
+    }
+
+  
+    let data ={
+      "name": this.firstFormGroup.controls['name'].value,
+      "url": this.firstFormGroup.controls['link'].value,
+      "certificate": this.newCertificate,
+    }
+
+    
+    data.url = data.url.trim()
+    let pattern = /^(http|https):\/\//
+    if (!data.url.match(pattern)) {
+      let notification = "Invalid Certificate Link"
+      this.openSnackBar(notification, 'snack-error')
+      return 
+    }
+    
+    this.persistData(data)
+  
+  }
+  
+  persistData(data: Object){
+    this.persistingData = true
+    this.userService.saveCertificate(data)
+    .subscribe(
+      (res)=>{
+        this.persistingData = false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.cleanData(res.body)
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+        }
+  
+    },
+    (error)=>{
+      this.persistingData = false;
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
+    });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  startPaginator() {
+    this.isConnecting = true
+    setTimeout(()=>{  
+    this.dataSource.paginator = this.paginator;
+    this.focusInput()
+    this.isConnecting = false
+    },500);
+  }
+
+  focusInput() {
+    if(!this.searchInput){return}
+    this.searchInput.nativeElement.focus()
+  }
+
+  cleanData(data: object) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
+      let newData = {
+        'name' :  data['name'],
+        'mentee' :  data['mentee'],
+        'data'  : {link:data['url'], certificate:data['certificate']}
+      }
+    this.certificates.push(newData)
+    this.startPaginator()
+    this.clearAllFields()
+    this.isConnecting = false
+  }
+
+  showErrorMessage(error: object){
+    this.persistingData = false;
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
+  }
+
    logUserOut(message:string){
     this.clearToken()
     let notification = message
@@ -143,11 +362,18 @@ persistFileData(data) {
   }
 
   newTab(link:string) {
+    link = link.trim()
+    let pattern = /^(http|https):\/\//
+    if (!link.match(pattern)) {
+      link = 'https://' +link
+    }
     window.open(
       link,
       '_blank' // <- This is what makes it open in a new window or tab.
     );
   }
+
+  
 
   goBack() {
     this._location.back()

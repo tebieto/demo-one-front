@@ -1646,7 +1646,7 @@ export class MenteeHomeComponent implements OnInit {
       
             if(res.code==200) {
               if(!res.body.mentor) {
-                this.gotoHome()
+                //this.gotoHome()
               }
               this.inspectRole(res.body.role, 'match')
               this.user = res.body.user
@@ -1861,6 +1861,7 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{ 
+            console.log(res)
           let notification = res.body
           if(res.code==200) {
           this.replaceNull('idea', res.ideas);
@@ -2361,10 +2362,7 @@ export class MenteeHomeComponent implements OnInit {
       .subscribe(
           (res)=>{ 
           if(res.code==200) {
-            if(res.conversations) {   
-            } else {
-
-            }
+            this.pendingIdea = false
           } else {
             this.hasError = true;
             this.isConnecting = false;

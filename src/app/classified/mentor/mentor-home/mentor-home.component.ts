@@ -74,11 +74,19 @@ export class MentorHomeComponent implements OnInit {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    let message = 'Are you sure you want to accept '+ data['value']['full_name']+' your Mentee?'
-    this.openDialog(data['value'], message, param)
+    let message = 'Are you sure you want to accept '+ data['value']['full_name']+'  asyour Mentee?'
+    this.openDialog(data['value'], message, param, 'accept')
   }
 
-  openDialog(data: object, message, param:string): void {
+  rejectMentee(param: string) {
+    let code = param
+    let secret = this.makeSecret()
+    let data = this.decrypt(code, secret)
+    let message = 'Are you sure you want to reject '+ data['value']['full_name']+'?'
+    this.openDialog(data['value'], message, param, 'reject')
+  }
+
+  openDialog(data: object, message, param:string, type:string): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['id'], message:message}
@@ -88,7 +96,12 @@ export class MentorHomeComponent implements OnInit {
       if(!result){
         return
       }
-      this.addMentee(result, param)
+      if(type=='accept') {
+        this.addMentee(result, param)
+      } else if(type=='reject') {
+        
+      this.removeMentee(result, param)
+      }
     });
   }
 
@@ -104,7 +117,7 @@ export class MentorHomeComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.moveMentee(param)
+          this.moveMentee(param, 'accepted')
           let notification = res.message
           this.openSnackBar(notification, 'snack-success')
          }
@@ -119,13 +132,43 @@ export class MentorHomeComponent implements OnInit {
 
   }
 
-  moveMentee(param: string){
+  removeMentee(id: number, param:string) {
+    this.persistingData = true
+    this.userService.removeMentee(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          
+          this.moveMentee(param, 'rejected')
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  moveMentee(param: string, type:string){
     let mentee =  this.pendingMenteeList.find(x=> {
       return x.data == param
     });
 
     let index = this.menteeList.indexOf(mentee)
-    this.menteeList.push(mentee)
+    if(type=='accepted') {
+      this.menteeList.push(mentee)
+    }
     this.pendingMenteeList.splice(index, 1)
     this.startPaginator()
   }

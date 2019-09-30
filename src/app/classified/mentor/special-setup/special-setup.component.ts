@@ -341,7 +341,6 @@ showErrorMessage(error: object){
     let notification = errorMessage.ConnectionError(error)
     this.openSnackBar(notification, 'snack-error')
     return
-
 }
 
   openSnackBar(message, panelClass) {

@@ -264,6 +264,22 @@ export class UserService {
 
   }
 
+  removeMentee(id: number) {
+    this.baseUrl = Config.api + 'mentors/pair/reject/'+id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   approveIdea(id: number) {
     this.baseUrl = Config.api + 'committee/idea/approve/'+id
     return this.http.get(
@@ -440,6 +456,22 @@ export class UserService {
 
   }
 
+  menteeCertificates() {
+    this.baseUrl = Config.api + 'mentee/certificate/'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   mentorMentees() {
     this.baseUrl = Config.api + 'mentors/mentees'
@@ -540,6 +572,23 @@ export class UserService {
 
   saveMentorSetup(data) {
     this.baseUrl = Config.api + 'mentors/programme/setup'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  saveCertificate(data) {
+    this.baseUrl = Config.api + 'mentee/certificate'
     return this.http.post(
       this.baseUrl,
       data,

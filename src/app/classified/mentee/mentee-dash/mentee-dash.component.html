@@ -10,10 +10,10 @@
           </button>
     
             <mat-menu #menu="matMenu">
-              <button mat-menu-item [routerLink]="['/mentee/certificate']">
+              <button mat-menu-item [routerLink]="['/mentee/certificate']" [class.hidden]="hasMentor?false:true">
                 Upload Certificates
               </button>
-              <button mat-menu-item [routerLink]="['/mentee/main']" [class.hidden]="hasMentor?false:true">
+              <button mat-menu-item [routerLink]="['/mentee/main']" [class.hidden]="hasMentor||pendingMentor?false:true">
                 Chat Board
               </button>
               <button mat-menu-item (click)="newTab(learnUrl)">
@@ -37,7 +37,7 @@
     
     <div class="settings">
     
-         <h3 class="sub-title" [class.hidden]="pendingMentor||hasMentor?true:false">Choose a Mentor</h3>
+         <h3 class="sub-title" [class.hidden]="pendingMentor||hasMentor?true:false">Recommended Mentors</h3>
          <h3 class="sub-title" [class.hidden]="hasMentor?false:true">My Mentor</h3>
          <h3 class="sub-title" [class.hidden]="pendingMentor?false:true">Pending Mentor</h3>
           
@@ -77,11 +77,11 @@
     
     </div>
     <div class="page-buttons">
-      <div class="custom-button" [class.hidden]="hasMentor?false:true">
+      <div class="custom-button" [class.hidden]="hasMentor||pendingMentor?false:true">
         <button mat-button [routerLink]="['/mentee/main']">Goto Chat Board</button>
       </div>
 
-      <div class="custom-button" [class.hidden]="hasMentor && learnUrl?false:true">
+      <div class="custom-button" [class.hidden]="hasMentor  && learnUrl?false:true">
         <button mat-button (click)="newTab(learnUrl)">Goto GPI Learn</button>
       </div>
     </div>

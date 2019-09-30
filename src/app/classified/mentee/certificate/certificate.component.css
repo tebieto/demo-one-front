@@ -29,7 +29,16 @@ mat-toolbar-row span {
 
 .settings {
     position: relative;
-    display: block;
+    top: 80px;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+.upload-certificate {
+    position: relative;
     top: 80px;
     width: 100%;
     max-width: 1000px;
@@ -42,7 +51,7 @@ mat-toolbar-row span {
     width: 100%;
   }
   
-.settings .mat-form-field {
+.upload-certificate .mat-form-field  {
     font-size: 14px;
     width: 100%;
 }
@@ -82,7 +91,7 @@ mat-toolbar-row span {
     top: 6px;
    }
 
-.settings .input {
+.upload-certificate .input {
     position: absolute;
     top: 70px;
     width: 100% !important;

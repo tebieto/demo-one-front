@@ -34,7 +34,6 @@ export class MenteeDashComponent implements OnInit {
   pendingMentor: boolean;
 
   applyFilter(filterValue: string) {
-    this.titleService.setTitle('IDEAHUB| Mentor Profile')
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

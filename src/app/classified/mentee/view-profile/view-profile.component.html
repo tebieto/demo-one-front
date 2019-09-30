@@ -16,11 +16,12 @@
 
     <div class="main-content">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big">
+        <div class="fake-avatar-big" *ngIf="profile.image.length==0">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
+        <img [src]="profile.image" alt="" *ngIf="profile.image.length>0">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>

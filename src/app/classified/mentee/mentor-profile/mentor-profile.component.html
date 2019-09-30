@@ -16,11 +16,12 @@
 
     <div class="main-content">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big">
+        <div class="fake-avatar-big" *ngIf="mentorProfile.mentor.image.length==0">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
+        <img [src]="mentorProfile.mentor.image" alt="" *ngIf="mentorProfile.mentor.image.length>0">
         <div class="user-name">
           <button class="content-button">
               <h4>{{mentorProfile.mentor.full_name}}</h4></button>

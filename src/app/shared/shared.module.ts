@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
-import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule, MatDialogModule, MatChipsModule} from '@angular/material';
+import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule, MatDialogModule, MatChipsModule, MatBottomSheetModule, MatListModule} from '@angular/material';
 import { SnackbarComponent } from '../extras/snackbar/snackbar.component';
 import { DialogComponent } from '../extras/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ import { PageLoadingComponent } from '../extras/page-loading/page-loading.compon
 import { RouterModule } from '@angular/router';
 import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
+import { SharedBottomSheetComponent } from './shared-bottom-sheet/shared-bottom-sheet.component';
+import { SharedMessageDialogComponent } from './shared-message-dialog/shared-message-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,13 @@ import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
     ErrorOccuredComponent,
     PageLoadingComponent,
     SharedDialogComponent,
-    SharedAvatarComponent
+    SharedAvatarComponent,
+    SharedBottomSheetComponent,
+    SharedMessageDialogComponent
   ],
 
   entryComponents: [
-    SnackbarComponent, DialogComponent, SharedDialogComponent
+    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent, SharedBottomSheetComponent
   ],
   
   imports: [
@@ -45,13 +49,17 @@ import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
     RouterModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatBottomSheetModule,
     MatChipsModule,
+    MatListModule
   ],
   exports:[
     HeaderComponent,
     SnackbarComponent,
     DialogComponent,
     SharedDialogComponent,
+    SharedMessageDialogComponent,
+    SharedBottomSheetComponent,
     ErrorOccuredComponent,
     PageLoadingComponent,
     MatIconModule,
@@ -75,7 +83,9 @@ import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
     MatSelectModule,
     MatDialogModule,
     SharedAvatarComponent,
-    MatChipsModule
+    MatChipsModule,
+    MatBottomSheetModule,
+    MatListModule
   ],
 })
 export class SharedModule { }

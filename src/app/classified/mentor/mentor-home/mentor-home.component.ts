@@ -8,11 +8,13 @@ import * as crypto from 'crypto-js';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
 import { Config } from 'src/app/config';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
 export interface PeriodicElement {
   'name': object;
   'about': string;
   'data': string;
+  'message': string;
 }
 
 
@@ -28,11 +30,11 @@ export class MentorHomeComponent implements OnInit {
   menteeList: PeriodicElement[] = [];
   pendingMenteeList: PeriodicElement[] = [];
   displayedColumns: string[] = ['name', 'about', 'data'];
+  displayedPendingColumns: string[] = ['name', 'about', 'msg', 'data',];
   dataSource = new MatTableDataSource(this.menteeList);
   pendingDataSource = new MatTableDataSource(this.pendingMenteeList);
 
   applyFilter(filterValue: string, type: string) {
-    this.titleService.setTitle('IDEAHUB| Mentor Profile')
     if(type=='all') {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     } else if(type=='pending') {
@@ -66,6 +68,66 @@ export class MentorHomeComponent implements OnInit {
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()
+  }
+
+  acceptMentee(param: string) {
+    let code = param
+    let secret = this.makeSecret()
+    let data = this.decrypt(code, secret)
+    let message = 'Are you sure you want to accept '+ data['value']['full_name']+' your Mentee?'
+    this.openDialog(data['value'], message, param)
+  }
+
+  openDialog(data: object, message, param:string): void {
+    const dialogRef = this.dialog.open(SharedDialogComponent, {
+      width: '250px',
+      data: {id:data['id'], message:message}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      this.addMentee(result, param)
+    });
+  }
+
+  addMentee(id: number, param:string) {
+    this.persistingData = true
+    this.userService.addMentee(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.moveMentee(param)
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  moveMentee(param: string){
+    let mentee =  this.pendingMenteeList.find(x=> {
+      return x.data == param
+    });
+
+    let index = this.menteeList.indexOf(mentee)
+    this.menteeList.push(mentee)
+    this.pendingMenteeList.splice(index, 1)
+    this.startPaginator()
   }
 
 
@@ -104,11 +166,13 @@ export class MentorHomeComponent implements OnInit {
  
 
   startPaginator() {
+    this.isConnecting = true
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
     this.pendingDataSource.paginator = this.paginator;
     this.focusInput()
-    },500);
+    this.isConnecting = false
+    },1000);
   }
 
   focusInput() {
@@ -209,7 +273,6 @@ export class MentorHomeComponent implements OnInit {
     this.subscription = subscription
     .subscribe(
         (res)=>{ 
-          console.log(res)
         if(res.code==200) {
         if(res.body==null) {
           this.isConnecting = false;
@@ -231,31 +294,36 @@ export class MentorHomeComponent implements OnInit {
   }
 
   cleanData(data: object[]) {
+    this.isConnecting = true
     this.menteeList.splice(0, this.menteeList.length)
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {
         'name' :  {name:x['full_name'], link: encrypted},
         'about' : x['email'],
-        'data'  : encrypted
+        'data'  : encrypted,
+        'message': ""
       }
       this.menteeList.push(data)
     });
-    this.isConnecting = false;
+    this.startPaginator()
   }
 
   cleanPendingData(data: object[]) {
+    this.isConnecting= true
     this.pendingMenteeList.splice(0, this.pendingMenteeList.length)
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {
         'name' :  {name:x['full_name'], link: encrypted},
         'about' : x['email'],
+        'message' : x['message'],
         'data'  : encrypted
       }
-      this.menteeList.push(data)
+      this.pendingMenteeList.push(data)
     });
     this.isConnecting = false;
+    this.startPaginator()
   }
 
   logUserOut(message:string){

@@ -16,11 +16,12 @@
 
     <div class="main-content">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big">
+        <div class="fake-avatar-big" [class.hidden]="profile.image.length==0?false:true">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
+        <img [src]="profile.image" alt="" [class.hidden]="profile.image.length==0?true:false">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>

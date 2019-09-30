@@ -104,7 +104,7 @@ export class EditProfileComponent implements OnInit {
     this.full_name.setValue(user['full_name'])
     this.email.setValue(user['email'])
     this.username.setValue(user['username'])
-    this.about.setValue(user['about'])
+    this.about.setValue(user['about_me'])
    }
 
   logUserOut(message:string){
@@ -129,7 +129,7 @@ export class EditProfileComponent implements OnInit {
     } 
   
     let data ={
-      "about": this.about.value,
+      "about_me": this.about.value,
       "email": this.email.value,
       "full_name": this.full_name.value,
       "username": this.username.value,

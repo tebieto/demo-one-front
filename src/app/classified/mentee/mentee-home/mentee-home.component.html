@@ -483,6 +483,9 @@
                 <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
                     <span class="more-option">Pin Idea</span>
                 </button>
+                <button mat-button (click)="onDeleteItem(item.type, item.id)">
+                    <span class="more-option">Delete Idea</span>
+                </button>
             </mat-menu>
           </div>
           
@@ -524,6 +527,9 @@
                     </button>
                     <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
                         <span class="more-option">Pin Idea</span>
+                    </button>
+                    <button mat-button (click)="onDeleteItem(item.type, item.id)">
+                        <span class="more-option">Delete Idea</span>
                     </button>
                 </mat-menu>
             </div>

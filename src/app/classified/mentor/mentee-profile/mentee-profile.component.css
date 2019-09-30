@@ -49,6 +49,12 @@
     border: none;
 }
 
+.content-button img{
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50%;
+}
+
 .profile-card, .custom-button {
     width: 800px;
     max-width: 100%;

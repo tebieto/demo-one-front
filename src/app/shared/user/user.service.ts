@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { throwError} from 'rxjs';
+import { throwError, Subject} from 'rxjs';
 import { Http, Headers, Response} from '@angular/http';
 import { map, catchError} from 'rxjs/operators';
 import { Config } from 'src/app/config';
@@ -9,8 +9,8 @@ import { Config } from 'src/app/config';
 })
 export class UserService {
 
-  baseUrl: string
-  locationUrl: string
+  baseUrl: string;
+  locationUrl: string;
 
   constructor(
     private http: Http, 
@@ -231,8 +231,25 @@ export class UserService {
 
   }
 
+  addMentor(data: object) {
+    this.baseUrl = Config.api + 'mentee/pair/request/'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   addMentee(id: number) {
-    this.baseUrl = Config.api + 'mentee/pair/request/'+id
+    this.baseUrl = Config.api + 'mentors/pair/'+id
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}
@@ -487,6 +504,23 @@ export class UserService {
     );
 
   }
+
+  deleteIdea(id: number) {
+    this.baseUrl = Config.api + 'ideas/'+id
+    return this.http.delete(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   verifyMentorSetup() {
     this.baseUrl = Config.api + 'mentors/setup/verify'

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatSnackBar, MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
+import { MatSnackBar, MatTableDataSource, MatPaginator, MatDialog, MatBottomSheet } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
@@ -8,6 +8,8 @@ import * as crypto from 'crypto-js';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import { SharedBottomSheetComponent } from 'src/app/shared/shared-bottom-sheet/shared-bottom-sheet.component';
+import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 
 export interface PeriodicElement {
   'name': object;
@@ -54,6 +56,7 @@ export class MenteeDashComponent implements OnInit {
     private route: ActivatedRoute,
     private titleService:Title,
     public dialog: MatDialog,
+    private _bottomSheet: MatBottomSheet
     ) {}
 
   ngOnInit() {
@@ -67,11 +70,28 @@ export class MenteeDashComponent implements OnInit {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?'
-    this.openDialog(data['value'], message, param)
+    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?';
+    let msg = 'Briefly tell us why you want '+ data['value']['mentor']['full_name']+' to be your Mentor'
+    this.openSheet(data.value, message, param, msg)
   }
 
-  openDialog(data: object, message, param:string): void {
+
+
+  openSheet(data: object, message, param:string, msg:string): void {
+    const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+      width: '400px',
+      data: {id:data['mentor']['id'], message:msg}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      this.openDialog(data, message, param, result)
+    });
+  }
+
+  openDialog(data: object, message, param:string, msg): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['mentor']['id'], message:message}
@@ -81,13 +101,17 @@ export class MenteeDashComponent implements OnInit {
       if(!result){
         return
       }
-      this.addMentee(result, param)
+      this.addMentor(result, param, msg)
     });
   }
 
-  addMentee(id: number, param:string) {
+  addMentor(id: number, param:string, message: string) {
+    let data = {
+      'mentor_id': id,
+      'mentee_message': message
+    }
     this.persistingData = true
-    this.userService.addMentee(id)
+    this.userService.addMentor(data)
     .subscribe(
       (res)=>{
         this.persistingData=false

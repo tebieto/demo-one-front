@@ -2318,6 +2318,67 @@ export class MenteeHomeComponent implements OnInit {
       this.openSnackBar(news, 'snack-news')
     }
 
+    onDeleteItem(type:string, id:number) {
+      let msg = "Are you sure you want to delete this Idea?"
+      this.openDialog(type, id, msg)
+    }
+
+    openDialog(type: string, id:number, msg: string): void {
+      const dialogRef = this.dialog.open(SharedDialogComponent, {
+        width: '250px',
+        data: {id:id, message:msg}
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result){
+          return
+        }
+        this.deleteItem(type, id)
+      });
+    }
+
+    deleteItem(type:string, id:number) {
+      if(type=='idea') {
+       let idea = this.ideaDatas.find(x=> {
+          return x['id'] == id
+        });
+
+        if(!idea) {return}
+
+        let index = this.ideaDatas.indexOf(idea)
+        this.ideaDatas.splice(index, 1)
+      }
+
+      this.persistDelete(type, id)
+    }
+
+    persistDelete(type:string, id: number) {
+      let subscription = this.userService.deleteIdea(id)
+      if(type=='idea') {
+        subscription = this.userService.deleteIdea(id)
+      }
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          if(res.code==200) {
+            if(res.conversations) {   
+            } else {
+
+            }
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
     ngOnDestroy() {
       if(!this.subscription) {return}
       if(!this.mobileQuery) {return}

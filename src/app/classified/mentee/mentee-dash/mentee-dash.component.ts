@@ -8,7 +8,6 @@ import * as crypto from 'crypto-js';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
-import { SharedBottomSheetComponent } from 'src/app/shared/shared-bottom-sheet/shared-bottom-sheet.component';
 import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 
 export interface PeriodicElement {

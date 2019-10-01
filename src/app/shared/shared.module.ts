@@ -10,7 +10,6 @@ import { PageLoadingComponent } from '../extras/page-loading/page-loading.compon
 import { RouterModule } from '@angular/router';
 import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
-import { SharedBottomSheetComponent } from './shared-bottom-sheet/shared-bottom-sheet.component';
 import { SharedMessageDialogComponent } from './shared-message-dialog/shared-message-dialog.component';
 
 @NgModule({
@@ -22,12 +21,11 @@ import { SharedMessageDialogComponent } from './shared-message-dialog/shared-mes
     PageLoadingComponent,
     SharedDialogComponent,
     SharedAvatarComponent,
-    SharedBottomSheetComponent,
     SharedMessageDialogComponent
   ],
 
   entryComponents: [
-    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent, SharedBottomSheetComponent
+    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent
   ],
   
   imports: [
@@ -59,7 +57,6 @@ import { SharedMessageDialogComponent } from './shared-message-dialog/shared-mes
     DialogComponent,
     SharedDialogComponent,
     SharedMessageDialogComponent,
-    SharedBottomSheetComponent,
     ErrorOccuredComponent,
     PageLoadingComponent,
     MatIconModule,

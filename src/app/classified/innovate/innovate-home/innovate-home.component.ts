@@ -91,6 +91,10 @@ export class InnovateHomeComponent implements OnInit {
       minIdea: ['', [Validators.required]],
     });
    }
+
+   onSubmit() {
+     
+   }
   
    clearFormField(field: string){
 

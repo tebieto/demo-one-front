@@ -2016,6 +2016,7 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{
+            console.log(res)
           if(res.code==200) {
 
             if(res.ideas) {   
@@ -2043,7 +2044,7 @@ export class MenteeHomeComponent implements OnInit {
       const subscription = this.userService.userForums()
       this.subscription = subscription
       .subscribe(
-          (res)=>{
+          (res)=>{ 
           if(res.code==200) {
             if(res.forums) {   
             this.forumDatas = res.forums;
@@ -2079,7 +2080,7 @@ export class MenteeHomeComponent implements OnInit {
       const subscription = this.userService.userChats()
       this.subscription = subscription
       .subscribe(
-          (res)=>{ 
+          (res)=>{
           if(res.code==200) {
             if(res.chats) {   
             this.datas = res.chats;

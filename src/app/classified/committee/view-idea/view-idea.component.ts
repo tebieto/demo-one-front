@@ -8,6 +8,7 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Location } from '@angular/common';
 import {Asset as crypto} from 'src/app/asset';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 
 @Component({
   selector: 'app-view-idea',
@@ -63,17 +64,52 @@ export class ViewIdeaComponent implements OnInit {
     });
   }
 
-  onApprove(idea: object) :void{
-    let message = "You are about to approve Idea with title '" + idea['title']+ "'?"
-    this.openDialog(idea, message, 'approve')
+  onApproveMessage(idea: object) {
+    let data = idea
+    let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?';
+    let msg = 'Briefly tell us why you want to approve this Idea';
+    this.openSheet(data, message, msg, 'approve')
   }
 
-  onReject(idea: object) :void{
-    let message = "You are about to reject Idea with title '" + idea['title']+ "'?"
-    this.openDialog(idea, message, 'reject')
+  onRejectMessage(idea: object) {
+    let data = idea
+    let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?';
+    let msg = 'Briefly tell us why you want to reject this Idea';
+    this.openSheet(data, message, msg, 'reject')
   }
 
-  openDialog(data: object, message, type: string): void {
+
+
+  openSheet(data: object, message, msg:string, type: string): void {
+    const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+      width: '400px',
+      data: {id:data['id'], message:msg}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      if(type=='approve') {
+        this.onApprove(data, result)
+      } else if(type=='reject') {
+        this.onReject(data, result)
+      }
+    });
+  }
+
+
+  onApprove(idea: object, msg: string) :void{
+    let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?'
+    this.openDialog(idea, message, msg, 'approve')
+  }
+
+  onReject(idea: object, msg: string) :void{
+    let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?'
+    this.openDialog(idea, message, msg, 'reject')
+  }
+
+  openDialog(data: object, message, mentorMessage, type: string): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['id'], message:message}
@@ -83,19 +119,18 @@ export class ViewIdeaComponent implements OnInit {
       if(!result){
         return
       }
-
       if(type=='approve') {   
-        this.approveIdea(data['id'])
+        this.approveIdea(data['id'], mentorMessage)
       } else if(type=='reject') {
-        this.rejectIdea(data['id'])
+        this.rejectIdea(data['id'], mentorMessage)
       }
     });
   }
 
-  approveIdea(id: number) {
-
+  approveIdea(id: number, message: string) {
+    let data = {id: id, committee_comment: message }
     this.persistingData = true
-    this.userService.approveIdea(id)
+    this.userService.committeeApproveIdea(data)
     .subscribe(
       (res)=>{
         this.persistingData=false
@@ -120,9 +155,10 @@ export class ViewIdeaComponent implements OnInit {
 
   }
 
-  rejectIdea(id: number) {
+  rejectIdea(id: number, message: string) {
+    let data = {id: id, committee_comment: message }
     this.persistingData = true
-    this.userService.rejectIdea(id)
+    this.userService.committeeRejectIdea(data)
     .subscribe(
       (res)=>{
         this.persistingData=false

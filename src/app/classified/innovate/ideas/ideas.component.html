@@ -62,13 +62,7 @@
                   </button>
                   <mat-menu #action="matMenu">
                       <button mat-menu-item [routerLink]="'/committee/view/idea/'+ element.link">
-                          More Info
-                      </button>
-                      <button mat-menu-item (click)="onApprove(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
-                        Approve Invite
-                      </button>
-                      <button mat-menu-item (click)="onReject(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
-                        Reject Invite
+                        More Info
                       </button>
                   </mat-menu>
               </td>

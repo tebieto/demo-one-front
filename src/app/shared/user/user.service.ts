@@ -315,10 +315,12 @@ export class UserService {
 
   }
 
-  approveIdea(id: number) {
-    this.baseUrl = Config.api + 'committee/idea/approve/'+id
-    return this.http.get(
+  approveIdea(data: object) {
+    
+    this.baseUrl = Config.api + 'mentors/idea/approve'
+    return this.http.post(
       this.baseUrl,
+      data,
       {headers:this.getCommonHeaders()}
     ).pipe(
       map(res => res.json()),
@@ -331,10 +333,48 @@ export class UserService {
 
   }
 
-  rejectIdea(id: number) {
-    this.baseUrl = Config.api + 'committee/idea/reject/'+id
-    return this.http.delete(
+  rejectIdea(data: object) {
+    
+    this.baseUrl = Config.api + 'mentors/idea/reject'
+    return this.http.post(
       this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  committeeApproveIdea(data: object) {
+    
+    this.baseUrl = Config.api + 'committee/idea/approve'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  committeeRejectIdea(data: object) {
+    
+    this.baseUrl = Config.api + 'committee/idea/reject'
+    return this.http.post(
+      this.baseUrl,
+      data,
       {headers:this.getCommonHeaders()}
     ).pipe(
       map(res => res.json()),

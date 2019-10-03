@@ -869,7 +869,17 @@
             </div>
     
             <div class="description">
-                <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
+                <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD PLAN</button>
+            </div>
+            <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
+                <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">APPROVE IDEA</button>
+            </div>
+            <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
+                <button mat-button (click)="onRejectMessage(activatedIdea)" class="bg-danger">REJECT IDEA</button>
+            </div>
+
+            <div class="description" [class.hidden]="activatedIdea.status=='rejected'?false:true">
+                <h6></h6> 
             </div>
 
         <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">

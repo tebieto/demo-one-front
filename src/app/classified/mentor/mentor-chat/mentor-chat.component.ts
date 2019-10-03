@@ -12,6 +12,8 @@ import { LocationStrategy, PlatformLocation } from '@angular/common';
 import Pusher from 'pusher-js';
 import { Config } from 'src/app/config';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-mentor-chat',
@@ -1920,7 +1922,7 @@ export class MentorChatComponent implements OnInit {
       .subscribe(
           (res)=>{ 
           if(res.code==200) {
-
+            console.log(res)
             if(res.ideas) {   
             this.ideaDatas = res.ideas;
             } else {
@@ -2337,6 +2339,125 @@ export class MentorChatComponent implements OnInit {
         return
     
       });
+    }
+
+    onApproveMessage(idea: object) {
+      let data = idea
+      let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?';
+      let msg = 'Briefly tell us why you want to approve this Idea';
+      this.openSheet(data, message, msg, 'approve')
+    }
+
+    onRejectMessage(idea: object) {
+      let data = idea
+      let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?';
+      let msg = 'Briefly tell us why you want to reject this Idea';
+      this.openSheet(data, message, msg, 'reject')
+    }
+  
+  
+  
+    openSheet(data: object, message, msg:string, type: string): void {
+      const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+        width: '400px',
+        data: {id:data['id'], message:msg}
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result){
+          return
+        }
+        if(type=='approve') {
+          this.onApprove(data, result)
+        } else if(type=='reject') {
+          this.onReject(data, result)
+        }
+      });
+    }
+  
+
+    onApprove(idea: object, msg: string) :void{
+      let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?'
+      this.openDialog(idea, message, msg, 'approve')
+    }
+  
+    onReject(idea: object, msg: string) :void{
+      let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?'
+      this.openDialog(idea, message, msg, 'reject')
+    }
+  
+    openDialog(data: object, message, mentorMessage, type: string): void {
+      const dialogRef = this.dialog.open(SharedDialogComponent, {
+        width: '250px',
+        data: {id:data['id'], message:message}
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        if(!result){
+          return
+        }
+        if(type=='approve') {   
+          this.approveIdea(data['id'], mentorMessage)
+        } else if(type=='reject') {
+          this.rejectIdea(data['id'], mentorMessage)
+        }
+      });
+    }
+  
+    approveIdea(id: number, message: string) {
+      let data = {id: id, mentor_comment: message }
+      this.userService.approveIdea(data)
+      .subscribe(
+        (res)=>{
+          console.log(res)
+          if(res.code != 200) {
+            this.hasError = true
+            this.showErrorMessage(res)
+          }
+    
+          if(res.code==200) {
+            let notification = res.body
+            this.openSnackBar(notification, 'snack-success')
+           }
+    
+      },
+      (error)=>{
+        this.hasError = true
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+      });
+  
+    }
+  
+    rejectIdea(id: number, message: string) {
+      let data = {id: id, mentor_comment: message }
+      this.userService.rejectIdea(data)
+      .subscribe(
+        (res)=>{
+          if(res.code != 200) {
+            this.hasError = true
+            this.showErrorMessage(res)
+          }
+    
+          if(res.code==200) {
+            let notification = res.body;
+            this.openSnackBar(notification, 'snack-success')
+           }
+    
+      },
+      (error)=>{
+        
+        this.hasError = true
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+      });
+    }
+
+    showErrorMessage(error: object){
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+        return
+    
     }
   
 

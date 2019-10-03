@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
 import { SharedMessageDialogComponent } from './shared-message-dialog/shared-message-dialog.component';
+import { SharedScoreComponent } from './shared-score/shared-score.component';
 
 @NgModule({
   declarations: [
@@ -21,11 +22,12 @@ import { SharedMessageDialogComponent } from './shared-message-dialog/shared-mes
     PageLoadingComponent,
     SharedDialogComponent,
     SharedAvatarComponent,
-    SharedMessageDialogComponent
+    SharedMessageDialogComponent,
+    SharedScoreComponent
   ],
 
   entryComponents: [
-    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent
+    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent, SharedScoreComponent
   ],
   
   imports: [
@@ -49,7 +51,9 @@ import { SharedMessageDialogComponent } from './shared-message-dialog/shared-mes
     MatDialogModule,
     MatBottomSheetModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   exports:[
     HeaderComponent,
@@ -82,7 +86,10 @@ import { SharedMessageDialogComponent } from './shared-message-dialog/shared-mes
     SharedAvatarComponent,
     MatChipsModule,
     MatBottomSheetModule,
-    MatListModule
+    MatListModule,
+    MatOptionModule,
+    MatSelectModule,
+    SharedScoreComponent
   ],
 })
 export class SharedModule { }

@@ -8,7 +8,7 @@ import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Asset as crypto} from 'src/app/asset';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
-import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
+import { SharedScoreComponent } from 'src/app/shared/shared-score/shared-score.component';
 
 export interface PeriodicElement {
   'title': string;
@@ -144,9 +144,9 @@ export class CommitteeHomeComponent implements OnInit {
 
   data.forEach(idea=> {
 
-    if(this.sub=='pending' && idea['status']=='pending') {
+    if(this.sub=='pending' && idea['committee_status']=='pending') {
         this.allIdeas.push(idea)
-    } else if (this.sub=='approved' && idea['status']=='approved') {
+    } else if (this.sub=='approved' && idea['committee_status']=='approved') {
         this.allIdeas.push(idea)
     }
 
@@ -192,9 +192,10 @@ export class CommitteeHomeComponent implements OnInit {
 
 
   openSheet(data: object, message, msg:string, type: string): void {
-    const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+    let scoreMessage = "Grade this Idea over 100"
+    const dialogRef = this.dialog.open(SharedScoreComponent, {
       width: '400px',
-      data: {id:data['id'], message:msg}
+      data: {id:data['id'], message:msg, scoreMessage: scoreMessage}
     });
   
     dialogRef.afterClosed().subscribe(result => {
@@ -210,17 +211,17 @@ export class CommitteeHomeComponent implements OnInit {
   }
 
 
-  onApprove(idea: object, msg: string) :void{
+  onApprove(idea: object, sheetData: object) :void{
     let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?'
-    this.openDialog(idea, message, msg, 'approve')
+    this.openDialog(idea, message, sheetData, 'approve')
   }
 
-  onReject(idea: object, msg: string) :void{
+  onReject(idea: object, sheetData: object) :void{
     let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?'
-    this.openDialog(idea, message, msg, 'reject')
+    this.openDialog(idea, message, sheetData, 'reject')
   }
 
-  openDialog(data: object, message, mentorMessage, type: string): void {
+  openDialog(data: object, message, sheetData, type: string): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['id'], message:message}
@@ -231,15 +232,15 @@ export class CommitteeHomeComponent implements OnInit {
         return
       }
       if(type=='approve') {   
-        this.approveIdea(data['id'], mentorMessage)
+        this.approveIdea(data['id'], sheetData)
       } else if(type=='reject') {
-        this.rejectIdea(data['id'], mentorMessage)
+        this.rejectIdea(data['id'], sheetData)
       }
     });
   }
 
-  approveIdea(id: number, message: string) {
-    let data = {id: id, committee_comment: message }
+  approveIdea(id: number, sheetData: object) {
+    let data = {id: id, committee_comment: sheetData['msg'], committee_score: sheetData['score'] }
     this.persistingData = true
     this.userService.committeeApproveIdea(data)
     .subscribe(
@@ -251,6 +252,7 @@ export class CommitteeHomeComponent implements OnInit {
         }
   
         if(res.code==200) {
+          this.markIdea(id, 'approved')
           let notification = res.body
           this.openSnackBar(notification, 'snack-success')
          }
@@ -265,8 +267,8 @@ export class CommitteeHomeComponent implements OnInit {
 
   }
 
-  rejectIdea(id: number, message: string) {
-    let data = {id: id, committee_comment: message }
+  rejectIdea(id: number, sheetData: object) {
+    let data = {id: id, committee_comment: sheetData['msg'], committee_score: sheetData['score'] }
     this.persistingData = true
     this.userService.committeeRejectIdea(data)
     .subscribe(
@@ -278,6 +280,7 @@ export class CommitteeHomeComponent implements OnInit {
         }
   
         if(res.code==200) {
+         this.markIdea(id, 'rejected')
           let notification = res.body;
           this.openSnackBar(notification, 'snack-success')
          }
@@ -292,12 +295,22 @@ export class CommitteeHomeComponent implements OnInit {
     });
   }
 
+  markIdea(id:number, type:string) {
+   let idea = this.allIdeas.find(x=> {
+      return x.id==id
+    });
+
+    if(!idea) {return}
+
+    idea['committee_status'] = type;
+  }
+
 
   logUserOut(message:string){
-    this.clearToken()
-    let notification = message
-    this.openSnackBar(notification, 'snack-error')
-    this.router.navigateByUrl('/login')
+    this.clearToken();
+    let notification = message;
+    this.openSnackBar(notification, 'snack-error');
+    this.router.navigateByUrl('/login');
   }
 
   pageNotFound(){

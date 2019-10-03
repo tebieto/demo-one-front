@@ -64,10 +64,10 @@
                   <button mat-menu-item [routerLink]="'/committee/view/idea/'+ element.link">
                       More Info
                   </button>
-                  <button mat-menu-item (click)="onApproveMessage(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
+                  <button mat-menu-item (click)="onApproveMessage(element.idea)" [class.hidden] = "element.idea.committee_status=='pending'?false:true">
                     Approve Invite
                   </button>
-                  <button mat-menu-item (click)="onRejectMessage(element.idea)" [class.hidden] = "element.status=='pending'?false:true">
+                  <button mat-menu-item (click)="onRejectMessage(element.idea)" [class.hidden] = "element.idea.committee_status=='pending'?false:true">
                     Reject Invite
                   </button>
               </mat-menu>

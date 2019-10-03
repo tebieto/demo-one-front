@@ -1,0 +1,30 @@
+
+<div mat-dialog-content>
+    <p>{{data.message}}</p>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Type Here</mat-label>
+
+        <textarea matInput placeholder="Type Here" type="text" rows="6" required  [(ngModel)]="result.msg"></textarea>
+
+    </mat-form-field>
+
+    <p>{{data.scoreMessage}}</p>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Score</mat-label>
+        <mat-select [(ngModel)]="result.score" name="maxMentee">
+            <mat-option value="">
+                Select Number
+            </mat-option>
+            <mat-option *ngFor="let item of numberArray" [value]="item">
+            {{item}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+  
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="result" cdkFocusInitial>Continue</button>
+</div>
+  

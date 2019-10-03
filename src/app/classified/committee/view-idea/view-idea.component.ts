@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import {Asset as crypto} from 'src/app/asset';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
+import { SharedScoreComponent } from 'src/app/shared/shared-score/shared-score.component';
 
 @Component({
   selector: 'app-view-idea',
@@ -81,9 +82,10 @@ export class ViewIdeaComponent implements OnInit {
 
 
   openSheet(data: object, message, msg:string, type: string): void {
-    const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+    let scoreMessage = "Grade this Idea over 100"
+    const dialogRef = this.dialog.open(SharedScoreComponent, {
       width: '400px',
-      data: {id:data['id'], message:msg}
+      data: {id:data['id'], message:msg, scoreMessage: scoreMessage}
     });
   
     dialogRef.afterClosed().subscribe(result => {
@@ -99,17 +101,17 @@ export class ViewIdeaComponent implements OnInit {
   }
 
 
-  onApprove(idea: object, msg: string) :void{
+  onApprove(idea: object, sheetData: object) :void{
     let message = 'Sure you want to approve Idea with title: "' + idea['title']+ '"?'
-    this.openDialog(idea, message, msg, 'approve')
+    this.openDialog(idea, message, sheetData, 'approve')
   }
 
-  onReject(idea: object, msg: string) :void{
+  onReject(idea: object, sheetData: object) :void{
     let message = 'Sure you want to reject Idea with title: "' + idea['title']+ '"?'
-    this.openDialog(idea, message, msg, 'reject')
+    this.openDialog(idea, message, sheetData, 'reject')
   }
 
-  openDialog(data: object, message, mentorMessage, type: string): void {
+  openDialog(data: object, message, sheetData, type: string): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['id'], message:message}
@@ -120,15 +122,15 @@ export class ViewIdeaComponent implements OnInit {
         return
       }
       if(type=='approve') {   
-        this.approveIdea(data['id'], mentorMessage)
+        this.approveIdea(data['id'], sheetData)
       } else if(type=='reject') {
-        this.rejectIdea(data['id'], mentorMessage)
+        this.rejectIdea(data['id'], sheetData)
       }
     });
   }
 
-  approveIdea(id: number, message: string) {
-    let data = {id: id, committee_comment: message }
+  approveIdea(id: number, sheetData: object) {
+    let data = {id: id, committee_comment: sheetData['msg'], committee_score: sheetData['score'] }
     this.persistingData = true
     this.userService.committeeApproveIdea(data)
     .subscribe(
@@ -140,7 +142,7 @@ export class ViewIdeaComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.idea['status'] = 'approved'
+          this.idea['committee_status'] = 'approved';
           let notification = res.body
           this.openSnackBar(notification, 'snack-success')
          }
@@ -155,8 +157,8 @@ export class ViewIdeaComponent implements OnInit {
 
   }
 
-  rejectIdea(id: number, message: string) {
-    let data = {id: id, committee_comment: message }
+  rejectIdea(id: number, sheetData: object) {
+    let data = {id: id, committee_comment: sheetData['msg'], committee_score: sheetData['score'] }
     this.persistingData = true
     this.userService.committeeRejectIdea(data)
     .subscribe(
@@ -168,7 +170,7 @@ export class ViewIdeaComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.idea['status'] = 'approved'
+          this.idea['committee_status'] = 'rejected';
           let notification = res.body;
           this.openSnackBar(notification, 'snack-success')
          }
@@ -182,6 +184,7 @@ export class ViewIdeaComponent implements OnInit {
       this.openSnackBar(notification, 'snack-error')
     });
   }
+
 
   decodeIdea(code:string, secret: string) {
    let idea = crypto.decrypt(code, secret)

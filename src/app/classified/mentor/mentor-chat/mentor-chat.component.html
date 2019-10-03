@@ -878,8 +878,11 @@
                 <button mat-button (click)="onRejectMessage(activatedIdea)" class="bg-danger">REJECT IDEA</button>
             </div>
 
-            <div class="description" [class.hidden]="activatedIdea.status=='rejected'?false:true">
-                <h6></h6> 
+            <div class="description" [class.hidden]="activatedIdea.status=='approved'?false:true" class="text-success">
+                <button mat-button> You approved this idea</button>
+            </div>
+            <div class="description" [class.hidden]="activatedIdea.status=='rejected'?false:true" class="text-danger">
+                <button mat-button> You rejected this idea</button>
             </div>
 
         <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">

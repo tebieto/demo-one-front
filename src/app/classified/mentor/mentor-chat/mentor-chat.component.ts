@@ -1922,7 +1922,6 @@ export class MentorChatComponent implements OnInit {
       .subscribe(
           (res)=>{ 
           if(res.code==200) {
-            console.log(res)
             if(res.ideas) {   
             this.ideaDatas = res.ideas;
             } else {
@@ -2409,13 +2408,13 @@ export class MentorChatComponent implements OnInit {
       this.userService.approveIdea(data)
       .subscribe(
         (res)=>{
-          console.log(res)
           if(res.code != 200) {
             this.hasError = true
             this.showErrorMessage(res)
           }
     
           if(res.code==200) {
+            this.activatedIdea['status']='approved'
             let notification = res.body
             this.openSnackBar(notification, 'snack-success')
            }
@@ -2440,6 +2439,7 @@ export class MentorChatComponent implements OnInit {
           }
     
           if(res.code==200) {
+            this.activatedIdea['status']='rejected'
             let notification = res.body;
             this.openSnackBar(notification, 'snack-success')
            }

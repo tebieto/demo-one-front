@@ -21,9 +21,9 @@
            <h4>{{idea.title}}</h4> 
         </div>
 
-        <div class="action" [class.hidden]="idea.status=='pending'?false:true">
-            <button mat-button class="success" (click)="onApprove(idea)">Approve</button>
-            <button mat-button class="error" (click)="onReject(idea)">Reject</button> 
+        <div class="action" [class.hidden]="idea.committee_status=='pending'?false:true">
+            <button mat-button class="success" (click)="onApproveMessage(idea)">Approve</button>
+            <button mat-button class="error" (click)="onRejectMessage(idea)">Reject</button> 
         </div>
 
         <div class="description">

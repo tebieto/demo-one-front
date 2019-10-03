@@ -1241,7 +1241,7 @@ export class MentorChatComponent implements OnInit {
 
         let now = new Date()
         let months = ['01','02','03','04','05','06','07','08','09','10','11','12']
-        let date = now.getUTCFullYear()+'-'+months[now.getUTCMonth()]+'-'+now.getUTCDate()+' '+ this.appendZero(now.getUTCHours())+':'+this.appendZero(now.getUTCMinutes())+':'+this.appendZero(now.getUTCSeconds())
+        let date = this.appendZero(now.getUTCFullYear())+'-'+this.appendZero(parseInt(months[now.getUTCMonth()]))+'-'+this.appendZero(now.getUTCDate())+' '+ this.appendZero(now.getUTCHours())+':'+this.appendZero(now.getUTCMinutes())+':'+this.appendZero(now.getUTCSeconds())
         return date;
       }
 

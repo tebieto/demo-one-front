@@ -6,8 +6,9 @@
           <span class="flexer"></span>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+              Menu  
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
     
             <mat-menu #menu="matMenu">
               <button mat-menu-item [routerLink]="['/mentee/certificate']" [class.hidden]="hasMentor?false:true">

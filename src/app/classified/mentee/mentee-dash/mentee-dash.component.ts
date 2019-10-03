@@ -27,6 +27,7 @@ export class MenteeDashComponent implements OnInit {
   mentorList: PeriodicElement[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('sharedAvatar') sharedAvatar: ElementRef;
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.mentorList);
   learnUrl: string;

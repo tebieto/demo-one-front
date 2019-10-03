@@ -170,6 +170,10 @@ export class SpecialRegistrationComponent implements OnInit {
       //Redirect to user page
       this.gotoMenteePage()
       return
+    } else if (role.code == 44){
+      //Redirect to user page
+      this.gotoInnovatePage()
+      return
     }else {
       // User should not login
      this.loginNotAllowed()
@@ -181,6 +185,12 @@ export class SpecialRegistrationComponent implements OnInit {
   gotoMenteePage(){
     this.router.navigateByUrl('/mentee/home')
     let notification = "Logged In as a Mentee";
+    this.openSnackBar(notification, 'snack-success')
+  }
+
+  gotoInnovatePage(){
+    this.router.navigateByUrl('/innovate')
+    let notification = "Logged In as an Administrator";
     this.openSnackBar(notification, 'snack-success')
   }
 
@@ -222,6 +232,8 @@ getRoleString(role: number) :string{
     return 'a Mentor'
   } else if(role==55) {
     return 'a Mentee'
+  } else if(role==44) {
+    return 'an Innovate Administrator'
   } else {
     return ''
   }

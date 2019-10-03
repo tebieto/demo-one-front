@@ -121,6 +121,8 @@ redirectUser(role:any) {
 
 } else if(role.code == 55) {
   this.gotoMenteePage()
+} else if(role.code == 44) {
+  this.gotoInnovatePage()
 } else {
    // User should not login
   this.loginNotAllowed()
@@ -144,7 +146,11 @@ redirectByArray(role: any){
 
   let isMentee = role.find(x=>{
     return x.code === 55
-  })
+  });
+
+  let isInnovate = role.find(x=>{
+    return x.code === 44
+  });
 
 if(isAdmin || isCommittee || isMentor){
   // go to classified user page
@@ -152,6 +158,9 @@ if(isAdmin || isCommittee || isMentor){
 } else if(isMentee) {
   //gotoMenteePage
   this.gotoMenteePage()
+}  else if(isInnovate) {
+  //gotoMenteePage
+  this.gotoInnovatePage()
 }  else {
   // User should not login
   this.loginNotAllowed()
@@ -176,6 +185,10 @@ gotoUserPage(){
 
 gotoMenteePage(){
   this.router.navigateByUrl('/mentee')
+}
+
+gotoInnovatePage(){
+  this.router.navigateByUrl('/innovate')
 }
 
 showErrorMessage(error: object){

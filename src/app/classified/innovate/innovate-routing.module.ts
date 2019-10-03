@@ -6,6 +6,7 @@ import { MentorsComponent } from './mentors/mentors.component';
 import { MenteesComponent } from './mentees/mentees.component';
 
 const routes: Routes = [
+  {"path": '', component: InnovateHomeComponent},
   {"path": 'admin', component: InnovateHomeComponent},
   {"path": 'ideas/:page', component: IdeasComponent},
   {"path": 'ideas/:page', component: IdeasComponent},

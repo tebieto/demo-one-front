@@ -47,6 +47,10 @@ export class SharedAvatarComponent implements OnChanges {
     e.srcElement.value = '';
   }
 
+  updateImageUrl() {
+    this.authUser['avatar'] = '';
+  }
+
   persistAvatarData(data) {
     this.isUploadingAvatar = true
     const subscription = this.userService.uploadImage(data)

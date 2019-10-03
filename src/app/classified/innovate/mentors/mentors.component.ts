@@ -44,8 +44,8 @@ export class MentorsComponent implements OnInit {
   title='All Mentors'
   user: object;
   hasError: boolean;
-  keyRole = 55;
-  optionalRole = 55;
+  keyRole = 44;
+  optionalRole = 44;
 
   constructor(
     private userService: UserService,

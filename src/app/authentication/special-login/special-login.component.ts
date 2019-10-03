@@ -129,6 +129,8 @@ getRoleString(role: number) :string{
     return 'a Mentor'
   } else if(role==55) {
     return 'a Mentee'
+  } else if(role==44) {
+    return 'an Innovate Admin'
   } else {
     return ''
   }

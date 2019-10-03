@@ -125,7 +125,10 @@ export class AdminHomeComponent implements OnInit {
       } else if (this.sub=='mentee' && invite['role']==55) {
           invite['role_name'] = 'Mentee'
           this.allInvites.push(invite)
-      }
+      } else if (this.sub=='innovate' && invite['role']==44) {
+        invite['role_name'] = 'Innovate Administrator'
+        this.allInvites.push(invite)
+    }
   
       });
   
@@ -288,7 +291,15 @@ export class AdminHomeComponent implements OnInit {
       this.page = params['page']
       this.sub = params['sub']
       this.title = 'Mentee'
-    }  else {
+    } else if(params['page']=='settings' && params['sub']=='innovate') {
+      this.page = params['page']
+      this.sub = params['sub']
+      this.title = 'Innovate Administrator'
+    }else if(params['page']=='new' && params['sub']=='innovate') {
+      this.page = params['page']
+      this.sub = params['sub']
+      this.title = 'Innovate Administrator'
+    } else {
       this.pageNotFound()
     }
     
@@ -369,6 +380,8 @@ getActiveRole() :number{
     return 66
   } else if(this.sub=='mentee') {
     return 55
+  } else if(this.sub=='innovate') {
+    return 44
   } else {
     return 0
   }

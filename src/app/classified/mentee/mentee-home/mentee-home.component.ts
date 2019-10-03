@@ -1147,7 +1147,6 @@ export class MenteeHomeComponent implements OnInit {
           
             if(this.typedMessage.length==0){return}
               let  now = this.utcNow()
-
               let parentId = 0
 
              if(this.parentMessage['id']>0) {
@@ -1211,8 +1210,44 @@ export class MenteeHomeComponent implements OnInit {
 
         let now = new Date()
         let months = ['01','02','03','04','05','06','07','08','09','10','11','12']
-        let date = now.getUTCFullYear()+'-'+months[now.getUTCMonth()]+'-'+now.getUTCDate()+' '+ this.appendZero(now.getUTCHours())+':'+this.appendZero(now.getUTCMinutes())+':'+this.appendZero(now.getUTCSeconds())
+        let date = this.appendZero(now.getUTCFullYear())+'-'+this.appendZero(parseInt(months[now.getUTCMonth()]))+'-'+this.appendZero(now.getUTCDate())+' '+ this.appendZero(now.getUTCHours())+':'+this.appendZero(now.getUTCMinutes())+':'+this.appendZero(now.getUTCSeconds())
         return date;
+      }
+
+      reformatTime(time:string) {
+        let newTime = time
+        let reformat = [
+          {find: '-1-', replace: '-01-', find2: '-1 ', replace2: '-01 '},
+          {find: '-2-', replace: '-02-', find2: '-2 ', replace2: '-02 '},
+          {find: '-3-', replace: '-03-', find2: '-3 ', replace2: '-03 '},
+          {find: '-4-', replace: '-04-', find2: '-4 ', replace2: '-04 '},
+          {find: '-5-', replace: '-05-', find2: '-5 ', replace2: '-05 '},
+          {find: '-6-', replace: '-06-', find2: '-6 ', replace2: '-06 '},
+          {find: '-7-', replace: '-07-', find2: '-7 ', replace2: '-07 '},
+          {find: '-8-', replace: '-08-', find2: '-8 ', replace2: '-08 '},
+          {find: '-9-', replace: '-09-', find2: '-9 ', replace2: '-09 '},
+        ]
+
+        reformat.forEach(x=> {
+          let regX = new RegExp(x.find, "i")
+          let match = time.match(regX)
+          if(match) {  
+            let matched = newTime.replace(regX, x.replace);
+            newTime = matched;
+            }
+
+          //Have to to run regX again for second probability
+          regX = new RegExp(x.find2, "i")
+          match = newTime.match(regX) 
+          if(match) {
+            let matched = newTime.replace(regX, x.replace2);
+            newTime = matched;
+          }
+           
+        });
+
+        return newTime
+        
       }
 
       appendZero(num: number){
@@ -1247,10 +1282,10 @@ export class MenteeHomeComponent implements OnInit {
         
 
         if(available){
-
+          
           // Too Late
           if(this.getGroupTime(data['created_at'])!='Today') {return}
-
+          
           //Check if latest data was sent same day as the latest
           if(this.getGroupTime(available['latest']['created_at']) != this.getGroupTime(data['created_at'])) {
             data['groupTime'] = true;
@@ -1861,7 +1896,6 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{ 
-            console.log(res)
           let notification = res.body
           if(res.code==200) {
           this.replaceNull('idea', res.ideas);

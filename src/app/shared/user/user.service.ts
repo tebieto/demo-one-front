@@ -163,6 +163,41 @@ export class UserService {
 
   }
 
+  fetchInnovateSettings() {
+    this.baseUrl = Config.api + 'admin/custom/settings'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+        
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+
+  saveInnovateSettings(data) {
+    this.baseUrl = Config.api + 'admin/custom/settings'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   idea(data) {
     this.baseUrl = Config.api + 'ideas/create'
     return this.http.post(

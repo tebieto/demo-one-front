@@ -1,7 +1,7 @@
 <div *ngIf="!isConnecting && user && !hasError">
 <mat-toolbar color="primary" class="fixed-header main-header">
   <mat-toolbar-row>
-    <span class="welcome-logo" [routerLink]="['/committee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB|Admin</span>
+    <span class="welcome-logo" [routerLink]="['/innovate']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB|Admin</span>
     <span class="flexer"></span>
 
     <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
@@ -12,6 +12,9 @@
      <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
 
       <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="['/innovate']">
+          Admin Dashboard
+        </button>
         <button mat-menu-item [routerLink]="['/innovate/admin']">
           Custom Settings
         </button>

@@ -14,11 +14,12 @@
 
   <div class="main-content">
       <button class="content-button centralised-button">
-          <div class="fake-avatar-big">
+          <div class="fake-avatar-big" [class.hidden]="user.image.length==0?false:true">
               <div class="icon">
                   <mat-icon>camera_alt</mat-icon>
               </div>
           </div>
+          <img [class.hidden]="user.image.length>0?false:true" [src]="user.image" alt="" (error)="updateImageUrl()">
           <div class="user-name">
             <button class="content-button">
                 <h4>Welcome, {{user.full_name}}</h4>

@@ -164,7 +164,11 @@ export class ClassifiedComponent implements OnInit {
       panelClass: [panelClass],
       duration: 2000
     })
-  }  
+  }
+  
+  updateImageUrl() {
+    this.user['image'] = '';
+  }
 
 
 ngOnDestroy() {

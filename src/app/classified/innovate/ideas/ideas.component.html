@@ -3,7 +3,7 @@
     <input class="hidden" #csvUpload name="csvUrl" type="file" accept=".csv" (change)="onChooseCSV($event)" />
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/committee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="welcome-logo" [routerLink]="['/innovate']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
           <span class="flexer"></span>
     
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
@@ -14,16 +14,30 @@
            <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
     
             <mat-menu #menu="matMenu">
-    
-              <button mat-menu-item [routerLink]="['/committee/ideas/all/']">
-                All Ideas
-              </button>
-              <button mat-menu-item [routerLink]="['/committee/ideas/pending/']">
-                Pending Ideas
-              </button>
-              <button mat-menu-item [routerLink]="['/committee/ideas/approved/']">
-                Approved Ideas
-              </button>
+                <button mat-menu-item [routerLink]="['/innovate']">
+                  Admin Dashboard
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/admin']">
+                  Custom Settings
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentors/']">
+                  All Mentors
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentees/']">
+                  All Mentees
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/mentees/certified/']">
+                  Certified Mentees
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/ideas/approved/']">
+                  Approved Ideas
+                </button>
+                <button mat-menu-item [routerLink]="['/innovate/ideas/top/']">
+                  Top Ideas
+                </button>
+                <button mat-menu-item (click) = "logUserOut('You Logged out')">
+                    Logout
+                </button>
       
             </mat-menu>
     

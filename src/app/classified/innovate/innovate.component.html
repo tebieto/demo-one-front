@@ -1,3 +1,82 @@
-<p>
-  innovate works!
-</p>
+<div *ngIf="!isConnecting && user && !hasError">
+    <mat-toolbar color="primary" class="fixed-header main-header">
+      <mat-toolbar-row>
+        <span class="welcome-logo" [routerLink]="['/innovate']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB|Admin</span>
+        <span class="flexer"></span>
+    
+        <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
+          Menu  
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+    
+         <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+    
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/innovate']">
+              Admin Dashboard
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/admin']">
+              Custom Settings
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/mentors/']">
+              All Mentors
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/mentees/']">
+              All Mentees
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/mentees/certified/']">
+              Certified Mentees
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/ideas/approved/']">
+              Approved Ideas
+            </button>
+            <button mat-menu-item [routerLink]="['/innovate/ideas/top/']">
+              Top Ideas
+            </button>
+            <button mat-menu-item (click) = "logUserOut('You Logged out')">
+                Logout
+            </button>
+    
+          </mat-menu>
+    
+      </mat-toolbar-row>
+    </mat-toolbar>
+    
+      <div class="settings">
+        <h3 class="sub-title">Overview</h3>
+        <button mat-button class="add-new" [routerLink]="['/innovate/admin']"><mat-icon>settings</mat-icon> Custom Settings</button>
+        
+        <div class="overview-boxes">
+          <div class="box mat-elevation-z2" [routerLink]="['/innovate/mentors/']">
+            <div> 
+              <h1>100</h1>
+              <h4>Mentors</h4>
+            </div>
+          </div>
+          <div class="box mat-elevation-z2" [routerLink]="['/innovate/mentees/']">
+            <div>
+                <h1>2</h1>
+                <h4>Mentees</h4>
+            </div>
+            </div>
+          <div class="box mat-elevation-z2" [routerLink]="['/innovate/ideas/approved/']">
+            <div>
+                <h1>50</h1>
+                <h4>Ideas</h4>
+            </div>
+          </div>
+          <div class="box mat-elevation-z2" [routerLink]="['/innovate/ideas/top/']">
+            <div>
+                <h1>10</h1>
+                <h4>Top Ideas</h4>
+            </div>
+          </div>
+        </div>
+
+      
+      </div>
+    </div>
+    
+    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+    <app-page-loading *ngIf="isConnecting"></app-page-loading>

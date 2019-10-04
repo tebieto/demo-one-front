@@ -17,6 +17,10 @@
     border-radius: 100%;
     cursor: pointer;
 }
+.main-content img {
+    width: 100px;
+    height: 100px;
+}
 
 .fake-avatar-big .icon {
     position: relative;

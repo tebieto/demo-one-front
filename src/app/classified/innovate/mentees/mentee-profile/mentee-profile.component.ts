@@ -107,8 +107,8 @@ export class MenteeProfileComponent implements OnInit {
       }
     });
 
-    data.programme_certificates.forEach(cert => {
-      if(cert['status']=='pending') {
+    data.program_certificates.forEach(cert => {
+      if(cert['status']=='approved') {
         data['certificates'].push(cert)
       }
     });

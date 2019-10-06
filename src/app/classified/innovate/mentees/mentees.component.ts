@@ -39,8 +39,8 @@ export class MenteesComponent implements OnInit {
   subscription: Subscription;
   hasMentor: boolean;
   
-  page="mentors"
-  title='All Mentors'
+  page="mentees"
+  title='All Mentees'
   user: object;
   hasError: boolean;
   keyRole = 44;
@@ -125,9 +125,8 @@ export class MenteesComponent implements OnInit {
           this.user = res.body.user
           
           if(res.body.mentor) {
-            this.displayUserMentor(res.body.mentor)
           } else {      
-          this.getMentors()
+          this.getMentees()
           }
 
          }
@@ -139,26 +138,15 @@ export class MenteesComponent implements OnInit {
     });
   }
 
-  displayUserMentor(data: object) {
-    this.hasMentor = true;
-    let mentorArray = [];
-    mentorArray.push(data);
-    this.cleanData(mentorArray);
-    this.learnUrl = data['profile']['e_learn']
-    let pattern = /^(http|https):\/\//
-    if (!this.learnUrl.match(pattern)) {
-      this.learnUrl = 'https://' +this.learnUrl
-    }
-  }
 
-  getMentors() {
+  getMentees() {
     this.isConnecting = true
-    const subscription = this.userService.menteeMentors()
+    const subscription = this.userService.systemOverview()
     this.subscription = subscription
     .subscribe(
         (res)=>{ 
         if(res.code==200) {
-         this.cleanData(res.body)
+         this.cleanData(res.body.mentees)
         } else {
           this.hasError = true;
           this.isConnecting = false;
@@ -182,8 +170,8 @@ export class MenteesComponent implements OnInit {
     data.forEach(x=> {
       let encrypted = this.encrypt(x)
       let data = {
-        'name' :  {name:x['mentor']['full_name'], link: encrypted},
-        'about' : x['profile']['about_me'],
+        'name' :  {name:x['mentee']['full_name'], link: encrypted},
+        'about' : x['mentee']['about_me'],
         'data'  : encrypted
       }
       this.mentorList.push(data)
@@ -222,15 +210,7 @@ export class MenteesComponent implements OnInit {
   }
 
   consumeRouteParams(params: object) {
-    this.manipulateParams(params)
     this.startPaginator()
-  }
-
-  manipulateParams(params: object) {
-    if(params['page']=='certified') {
-      this.page = 'certified';
-      this.title = 'Certified Mentees'
-    }
   }
 
   inspectRole(role: any, type: string) {
@@ -284,5 +264,6 @@ ngOnDestroy() {
   if(!this.subscription){return}
   this.subscription.unsubscribe();
 }
+
 
 }

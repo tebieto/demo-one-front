@@ -1,0 +1,120 @@
+mat-toolbar-row button {
+    background: #03A9F4;
+    color: #fff;
+    margin: 5px;
+}
+
+mat-toolbar-row span {
+    cursor: pointer;
+}
+
+.login-button {
+    background: transparent !important;
+    color: #03A9F4 !important;
+}
+
+.welcome-logo mat-icon {
+    font-size: 15px !important;
+
+}
+
+.main-header {
+    background: #03A9F4 !important;
+    color: #fff !important;
+}
+
+.main-header mat-icon {
+    color: #fff !important;
+}
+
+/* Structure */
+
+.settings {
+    position: relative;
+    display: block;
+    top: 80px;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+.settings table {
+    width: 100%;
+  }
+  
+.settings .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.settings .fab-button {
+    background: #fff !important;
+    color: #03A9F4;
+}
+
+.settings .fab-button:hover {
+    background: rgba(0, 0, 0, 0.082) !important;
+}
+
+.settings .sub-title {
+    float: left;
+    color: #9E9E9E;
+    margin-bottom: 30px;
+}
+
+.settings .add-new {
+ float: right;
+ background: rgba(3, 168, 244, 0.733);
+ color: #fff;
+ margin-bottom: 10px;
+ font-weight: bold;
+}
+
+.register-form-container .form-button {
+    width: 100% !important;
+    background: #03A9F4 !important;
+    color: #fff;
+    font-weight: bold;
+}
+
+.settings .add-new span mat-icon {
+    position: relative;
+    top: 6px;
+   }
+
+.idea-arrow-back {
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.title img {
+    border-radius: 50% !important;
+    width: 50px;
+    height: 50px;
+}
+
+.title h4 {
+    display: inline;
+    margin: 10px
+}
+
+.action button{
+    display: inline-block;
+    margin: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.description {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.description button {
+    background: #03A9F4;
+    color: #fff;
+}

@@ -50,7 +50,7 @@
             <!-- Position Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name</th>
-              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentee/mentor-profile/'+element.name.link]"> {{element.name.name}} </td>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/innovate/mentee-profile/'+element.name.link]"> {{element.name.name}} </td>
             </ng-container>
           
             <!-- Weight Column -->
@@ -68,7 +68,7 @@
                       <button mat-menu-item (click)="chooseMentor(element.data)" [class.hidden]="hasMentor?true:false">
                         Choose Mentor
                       </button>
-                      <button mat-menu-item [routerLink]="['/mentee/mentor-profile/'+element.data]">
+                      <button mat-menu-item [routerLink]="['/innovate/mentee-profile/'+element.data]">
                         View Complete Profile
                       </button>
                     </mat-menu>

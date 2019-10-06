@@ -1,3 +1,67 @@
 <p>
   mentee-profile works!
 </p>
+<div *ngIf="!isConnecting && user && !hasError">
+
+    <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
+        <mat-toolbar-row>
+          <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
+          <span class="welcome-logo">{{profile.full_name}}'s Profile</span>
+          <span class="flexer"></span>
+    
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <br><br>
+
+
+    <div class="main-content">
+      <button class="content-button centralised-button">
+        <div class="fake-avatar-big" [class.hidden]="profile.image.length==0?false:true">
+            <div class="icon">
+                <mat-icon>camera_alt</mat-icon>
+            </div>
+        </div>
+        <img [src]="profile.image" alt="" [class.hidden]="profile.image.length==0?true:false">
+        <div class="user-name">
+          <button class="content-button">
+              <h4>{{profile.full_name}}</h4></button>
+        </div>
+      </button>
+
+      <div class="profile-card mat-elevation-z2">
+        <h6>Email</h6>
+          <p>{{profile.email}}</p>
+      </div>
+
+      <div class="profile-card mat-elevation-z0">
+
+        <div class="overview-card mat-elevation-z2">
+          <button>Mentors <br>{{overview.mentorCount}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2">
+          <button>Certificates <br>{{overview.certificates.length}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2">
+          <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2">
+          <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
+        </div>
+      
+
+      </div>
+
+    </div>
+
+
+</div>
+
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+<app-page-loading *ngIf="isConnecting"></app-page-loading>

@@ -50,6 +50,8 @@ export class IdeasComponent implements OnInit {
   title='Pending Idea'
   keyRole = 44
   optionalRole = 44
+  overview = []
+  cutOff = 50
 
   constructor(
     private userService: UserService,
@@ -90,9 +92,8 @@ export class IdeasComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match');
           this.user = res.body.user;
-          this.fetchIdeas()
+          this.fetchCustomData()
          } 
-        this.isConnecting=false
   
     },
     (error)=>{
@@ -101,13 +102,42 @@ export class IdeasComponent implements OnInit {
     });
   }
 
-  fetchIdeas() {
-    const subscription = this.userService.allUserIdeas()
+  fetchCustomData(){
+    this.isConnecting = true
+    const subscription = this.userService.fetchInnovateSettings();
+    this.subscription = subscription
+    .subscribe(
+      (res)=>{
+        if(res.code == 200) {
+          if(!res.body || res.body.idea_cut_off==0 || res.body.maximum_mentee==0) {return}
+          this.manipulateSettings(res.body)
+        } else {
+          this.hasError = true
+        }
+    },
+    (error)=>{
+      this.isConnecting = false;
+        this.hasError = true;
+        let notification = errorMessage.ConnectionError(error);
+        this.openSnackBar(notification, 'snack-error');
+    });
+  }
+
+  manipulateSettings(data: object) {
+    if(data['idea_cut_off']>0) {
+      this.cutOff = data['idea_cut_off']
+    }
+    this.fetchSystemOverview()
+  }
+
+
+  fetchSystemOverview() {
+    const subscription = this.userService.systemOverview()
     this.subscription = subscription
     .subscribe(
         (res)=>{
         if(res.code==200) {
-          this.manipulateIdea(res.body)
+          this.manipulateOverview(res.body)
         } else {
           this.hasError = true;
           this.isConnecting = false;
@@ -122,24 +152,30 @@ export class IdeasComponent implements OnInit {
       });
   }
 
-  manipulateIdea(data: object[]) {
-  this.isConnecting = true;
-  this.allIdeas = []
-  if (!data) {
-    this.isConnecting=false
-     return
-    }
-  if(data.length==0) {
-    this.isConnecting=false
-    return
+  manipulateOverview(data: any) {
+    this.overview =data
+    this.overview['top'] = []
+    this.overview['ideas'] = []
+    data.mentees.forEach(mentee => {
+      this.pushMenteeIdeas(mentee.idea)
+    });
+
+    if(this.page=='approved') {
+      this.pushIdea(this.overview['ideas'])
+    } else if(this.page=='top') {
+      this.pushIdea(this.overview['top'])
+    }  
   }
 
-  if(this.page=='approved' || this.page=='top') {
-    this.allIdeas = data
-    this.pushIdea(this.allIdeas)
-    return
-  }
-
+  pushMenteeIdeas(idea: object[]) {
+    idea.forEach(x=> {
+      if(x['committee_status']=='approved') {
+        this.overview['ideas'].push(x)
+      }
+      if(x['committee_score']>this.cutOff) {
+        this.overview['top'].push(x)
+      }
+    })
   }
 
 

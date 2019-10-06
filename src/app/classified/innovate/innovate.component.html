@@ -48,27 +48,27 @@
         
         <div class="overview-boxes">
           <div class="box mat-elevation-z2" [routerLink]="['/innovate/mentors/']">
-            <div> 
-              <h1>100</h1>
-              <h4>Mentors</h4>
+            <div>
+              <h4>Mentors</h4> 
+              <h1>{{overview.mentors.length}}</h1>
             </div>
           </div>
           <div class="box mat-elevation-z2" [routerLink]="['/innovate/mentees/']">
             <div>
-                <h1>2</h1>
                 <h4>Mentees</h4>
+                <h1>{{overview.mentees.length}}</h1>
             </div>
             </div>
           <div class="box mat-elevation-z2" [routerLink]="['/innovate/ideas/approved/']">
             <div>
-                <h1>50</h1>
                 <h4>Ideas</h4>
+                <h1>{{overview.ideas.length}}</h1>
             </div>
           </div>
           <div class="box mat-elevation-z2" [routerLink]="['/innovate/ideas/top/']">
             <div>
-                <h1>10</h1>
                 <h4>Top Ideas</h4>
+                <h1>{{overview.top.length}}</h1>
             </div>
           </div>
         </div>

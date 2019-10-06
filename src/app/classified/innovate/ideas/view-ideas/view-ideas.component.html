@@ -1,3 +1,47 @@
-<p>
-  view-ideas works!
-</p>
+<div *ngIf="!isConnecting && user">
+  
+    <mat-toolbar color="primary" class="fixed-header main-header">
+        <mat-toolbar-row>
+          <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
+          <span class="welcome-logo">{{idea.shortTitle.toUpperCase()}}</span>
+          <span class="flexer"></span>
+    
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+
+    
+        </mat-toolbar-row>
+    </mat-toolbar>
+    
+    <!--View-->
+    
+    <div class="settings idea">
+    
+        <div class="title">
+          <img [src]="idea.logo" alt="" [class.hidden]="idea.logo.length==0?true:false">
+           <h4>{{idea.title}}</h4> 
+        </div>
+
+        <div class="description">
+            <h6>Description</h6> 
+            {{idea.description}} 
+        </div>
+
+        <div class="description">
+            <h6>Summary</h6> 
+            {{idea.summary}}
+        </div>
+
+        <div class="description">
+            <button mat-button (click)="newTab(idea.attachment)">DOWNLOAD BUSINESS PLAN</button>
+        </div>
+    
+    </div>
+    
+    <!-- END OF VIEW-->
+    
+    </div>
+    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+    
+    <app-page-loading *ngIf="isConnecting"></app-page-loading>
+    
+    

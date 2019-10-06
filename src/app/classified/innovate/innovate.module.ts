@@ -11,6 +11,7 @@ import { IdeasComponent } from './ideas/ideas.component';
 import { MentorProfileComponent } from './mentors/mentor-profile/mentor-profile.component';
 import { MenteeProfileComponent } from './mentees/mentee-profile/mentee-profile.component';
 import { ViewIdeasComponent } from './ideas/view-ideas/view-ideas.component';
+import { MenteeReportComponent } from './mentees/mentee-report/mentee-report.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ViewIdeasComponent } from './ideas/view-ideas/view-ideas.component';
     MentorProfileComponent,
     MenteeProfileComponent,
     ViewIdeasComponent,
+    MenteeReportComponent,
   ],
   imports: [
     CommonModule,

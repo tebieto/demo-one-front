@@ -48,7 +48,12 @@
     
     <div class="settings" *ngIf="page=='top' || page=='approved'">
     
-         <h3 class="sub-title">{{title}}s</h3>
+         <h3 class="sub-title">{{title}}s <br><br>
+
+          <h6  *ngIf="page=='approved'">All Ideas approved by Idea Commitee</h6>
+          <h6  *ngIf="page=='top'">All Approved Ideas that are over {{cutOff}}% mark</h6>
+
+         </h3>
     
           <mat-form-field >
             <input #searchInput matInput (keyup)="applyFilter($event.target.value)" [placeholder]="'Search ' +title+ 's'">
@@ -58,7 +63,7 @@
             <!-- Position Column -->
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef> Idea Title </th>
-              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/committee/view/idea/'+ element.link"> {{element.title}} </td>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/innovate/view/idea/'+ element.link"> {{element.title}} </td>
             </ng-container>
           
             <!-- Weight Column -->
@@ -75,7 +80,7 @@
                       <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #action="matMenu">
-                      <button mat-menu-item [routerLink]="'/committee/view/idea/'+ element.link">
+                      <button mat-menu-item [routerLink]="'/innovate/view/idea/'+ element.link">
                         More Info
                       </button>
                   </mat-menu>
@@ -87,7 +92,10 @@
           </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     
-          <div class="custom-button" [class.hidden]="allIdeas.length>0?true:false">
+          <div class="custom-button" [class.hidden]="page=='approved' && overview.ideas.length==0?false:true">
+              <h6>No {{title}} at the moment</h6>
+          </div>
+          <div class="custom-button" [class.hidden]="page=='top' && overview.top.length==0?false:true">
               <h6>No {{title}} at the moment</h6>
           </div>
     

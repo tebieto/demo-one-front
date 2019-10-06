@@ -21,7 +21,7 @@
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="mentorProfile.mentor.image" alt="" *ngIf="mentorProfile.mentor.image.length>0">
+        <img [src]="mentorProfile.mentor.image" alt="" *ngIf="mentorProfile.mentor.image.length>0" (error)="mentorProfile.mentor.image=''">
         <div class="user-name">
           <button class="content-button">
               <h4>{{mentorProfile.mentor.full_name}}</h4></button>

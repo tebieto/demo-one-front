@@ -126,7 +126,6 @@ export class MentorsComponent implements OnInit {
           this.user = res.body.user
           
           if(res.body.mentor) {
-            this.displayUserMentor(res.body.mentor)
           } else {      
           this.getMentors()
           }
@@ -140,26 +139,15 @@ export class MentorsComponent implements OnInit {
     });
   }
 
-  displayUserMentor(data: object) {
-    this.hasMentor = true;
-    let mentorArray = [];
-    mentorArray.push(data);
-    this.cleanData(mentorArray);
-    this.learnUrl = data['profile']['e_learn']
-    let pattern = /^(http|https):\/\//
-    if (!this.learnUrl.match(pattern)) {
-      this.learnUrl = 'https://' +this.learnUrl
-    }
-  }
 
   getMentors() {
     this.isConnecting = true
-    const subscription = this.userService.menteeMentors()
+    const subscription = this.userService.systemOverview()
     this.subscription = subscription
     .subscribe(
         (res)=>{ 
         if(res.code==200) {
-         this.cleanData(res.body)
+         this.cleanData(res.body.mentors)
         } else {
           this.hasError = true;
           this.isConnecting = false;
@@ -181,6 +169,7 @@ export class MentorsComponent implements OnInit {
     }
     this.mentorList.splice(0, this.mentorList.length)
     data.forEach(x=> {
+      x['profile'] = x['mentor_program']
       let encrypted = this.encrypt(x)
       let data = {
         'name' :  {name:x['mentor']['full_name'], link: encrypted},

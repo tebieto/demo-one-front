@@ -350,6 +350,22 @@ export class UserService {
 
   }
 
+  approveCertificate(id: number) {
+    this.baseUrl = Config.api + 'mentors/verifi/certificate/'+id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
   removeMentee(id: number) {
     this.baseUrl = Config.api + 'mentors/pair/reject/'+id
     return this.http.get(

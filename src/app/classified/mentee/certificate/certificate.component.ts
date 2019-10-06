@@ -9,8 +9,8 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
-export interface PeriodicElement {
-  'name': object;
+export interface CertificateElement {
+  'name': string;
   'mentee': string;
   'data': object;
 }
@@ -26,9 +26,9 @@ export class CertificateComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
-  certificates: PeriodicElement[] = [];
-  displayedColumns: string[] = ['name', 'mentee', 'data'];
-  dataSource = new MatTableDataSource(this.certificates);
+  certificates: CertificateElement[] = [];
+  displayedCertificateColumns: string[] = ['name', 'mentee', 'data'];
+  certificateDataSource = new MatTableDataSource(this.certificates);
 
   persistingData: boolean;
   isConnecting: boolean
@@ -301,13 +301,13 @@ persistFileData(data) {
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.certificateDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   startPaginator() {
     this.isConnecting = true
     setTimeout(()=>{  
-    this.dataSource.paginator = this.paginator;
+    this.certificateDataSource.paginator = this.paginator;
     this.focusInput()
     this.isConnecting = false
     },500);

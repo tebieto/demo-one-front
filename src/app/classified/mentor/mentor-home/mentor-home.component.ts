@@ -10,17 +10,17 @@ import { Title } from '@angular/platform-browser';
 import { Config } from 'src/app/config';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
+
+export interface CertificateElement {
+  'name': string;
+  'mentee': string;
+  'data': object;
+}
 export interface PeriodicElement {
   'name': object;
   'about': string;
   'data': string;
   'message': string;
-}
-
-export interface CertificateElement {
-  'name': object;
-  'mentee': string;
-  'data': object;
 }
 
 @Component({
@@ -34,12 +34,12 @@ export class MentorHomeComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   menteeList: PeriodicElement[] = [];
   pendingMenteeList: PeriodicElement[] = [];
+  certificates: CertificateElement[] = [];
   displayedColumns: string[] = ['name', 'about', 'data'];
   displayedPendingColumns: string[] = ['name', 'about', 'msg', 'data',];
+  certificateColumns: string[] = ['name', 'mentee', 'data'];
   dataSource = new MatTableDataSource(this.menteeList);
   pendingDataSource = new MatTableDataSource(this.pendingMenteeList);
-  certificates: CertificateElement[] = [];
-  cerificateColumns: string[] = ['name', 'mentee', 'data'];
   certificateDataSource = new MatTableDataSource(this.certificates);
 
   applyFilter(filterValue: string, type: string) {
@@ -220,11 +220,17 @@ export class MentorHomeComponent implements OnInit {
     this.isConnecting = true
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
-    this.pendingDataSource.paginator = this.paginator;
-    this.certificateDataSource.paginator = this.paginator;
     this.focusInput()
     this.isConnecting = false
-    },2000);
+    },1000);
+
+    setTimeout(()=>{  
+      this.certificateDataSource.paginator = this.paginator;
+      this.pendingDataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator;
+      this.focusInput()
+      this.isConnecting = false
+      },2000);
   }
 
   focusInput() {
@@ -352,7 +358,6 @@ export class MentorHomeComponent implements OnInit {
     this.subscription = subscription
     .subscribe(
         (res)=>{
-          console.log(res) 
         if(res.code==200) {
           if(res.body) {
             this.filterBody(res.body)
@@ -384,11 +389,50 @@ export class MentorHomeComponent implements OnInit {
       let newData = {
         'name' :  data['name'],
         'mentee' :  data['mentee'],
-        'data'  : {link:data['url'], certificate:data['certificate']}
+        'data'  : {id:data['id'], link:data['url'], certificate:data['certificate']}
       }
     this.certificates.push(newData)
     this.startPaginator()
     this.isConnecting = false
+  }
+
+  approveCertificate(id: number) {
+    this.persistingData = true
+    this.userService.approveCertificate(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+          this.removeCertificate(id)
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+  
+  removeCertificate(id:number) {
+    let cert = this.certificates.find(x=> {
+      return x['data']['id'] == id
+    });
+    if(!cert) {return}
+
+    let  index = this.certificates.indexOf(cert)
+
+    this.certificates.splice(index, 1)
+    this.startPaginator()
   }
 
   cleanData(data: object[]) {

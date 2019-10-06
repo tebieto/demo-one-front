@@ -1940,11 +1940,10 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{ 
-          console.log(res)
           let notification = res.body
           if(res.code==200) {
           this.openSnackBar(notification, 'snack-success');
-          this.updateLocalIdea(data.id)
+          this.updateLocalIdea(data)
           } else {
             this.hasError = true;
             this.isConnecting = false;
@@ -1960,21 +1959,19 @@ export class MenteeHomeComponent implements OnInit {
         });
     }
 
-    updateLocalIdea(id: number) {
+    updateLocalIdea(data:object) {
       let idea = this.ideas.find(x=> {
-        return x.id == id
+        return x.id == data['id']
       })
 
       if(!idea){return}
-      
-      idea['title'] = this.firstIdeaGroup.controls['title'].value;
-      idea['industry'] = this.firstIdeaGroup.controls['industry'].value;
-      idea['description'] = this.secondIdeaGroup.controls['description'].value
-      idea['summary'] = this.thirdIdeaGroup.controls['summary'].value
-      idea['attachment'] = this.newIdeaPlan
-      idea['logo'] = this.newIdeaLogo
+      idea['title'] = data['title'];
+      idea['industry'] = data['industry'];
+      idea['description'] = data['description'];
+      idea['summary'] = data['summary'];
+      idea['attachment'] = data['attachment'];
+      idea['logo'] = data['logo'];
       this.toNewIdea = false
-
     }
 
     persistForum(data) {

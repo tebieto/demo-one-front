@@ -1443,7 +1443,7 @@ export class MenteeHomeComponent implements OnInit {
 
         this.firstIdeaGroup = this._formBuilder.group({
           title: ['', [Validators.required, Validators.minLength(10)]],
-          industry: ['', []]
+          industry: ['', [Validators.required]]
         });
         this.secondIdeaGroup = this._formBuilder.group({
           description: ['', [Validators.required, Validators.minLength(20)]]
@@ -1540,7 +1540,6 @@ export class MenteeHomeComponent implements OnInit {
           'pinned': false,
           'status': 'pending'
         }
-
 
         if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0 || data.logo.length==0){      
           
@@ -1937,7 +1936,6 @@ export class MenteeHomeComponent implements OnInit {
     }
 
     updateIdea(data) {
-      console.log(data)
       const subscription = this.userService.updateIdea(data)
       this.subscription = subscription
       .subscribe(

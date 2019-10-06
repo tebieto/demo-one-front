@@ -569,7 +569,7 @@
           <mat-step [stepControl]="firstIdeaGroup">
               <form [formGroup]="firstIdeaGroup">
                   <ng-template matStepLabel>Title</ng-template>
-<!--
+
                   <mat-form-field appearance="outline">
                       <mat-label>Select Industry</mat-label>
                       <mat-select formControlName="industry" name="industry">
@@ -582,7 +582,7 @@
                       </mat-select>
                       <mat-error *ngIf="firstIdeaGroup.get('industry').invalid">Industry is required</mat-error>
                   </mat-form-field>
-  -->                 
+                 
                   <mat-form-field appearance="outline">
                       <mat-label class="title-text">Idea Title</mat-label>
                       <textarea matInput placeholder="Title" class="title-text" formControlName="title" rows="3" required autocomplete="off"></textarea>

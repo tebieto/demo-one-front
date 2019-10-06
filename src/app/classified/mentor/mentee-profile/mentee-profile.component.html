@@ -1,3 +1,6 @@
+<p>
+  mentee-profile works!
+</p>
 <div *ngIf="!isConnecting && user && !hasError">
 
     <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
@@ -36,19 +39,19 @@
       <div class="profile-card mat-elevation-z0">
 
         <div class="overview-card mat-elevation-z2">
-          <button>1 <br> Mentor</button>
+          <button>Mentors <br>{{overview.mentorCount}}</button>
         </div>
 
         <div class="overview-card mat-elevation-z2">
-          <button>3 <br> Certificates</button>
+          <button>Verified <br> Certificates <br>{{overview.certificates.length}}</button>
         </div>
 
         <div class="overview-card mat-elevation-z2">
-          <button>20 <br> Ideas</button>
+          <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
         </div>
 
         <div class="overview-card mat-elevation-z2">
-          <button>10<br>Approved</button>
+          <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
         </div>
       
 

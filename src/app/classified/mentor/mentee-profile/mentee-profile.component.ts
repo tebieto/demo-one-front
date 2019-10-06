@@ -21,6 +21,7 @@ export class MenteeProfileComponent implements OnInit {
   profile: object;
   hasMentor: boolean;
   persistingData: boolean;
+  overview = []
 
   constructor(
     private _location: Location,
@@ -63,13 +64,19 @@ export class MenteeProfileComponent implements OnInit {
     });
   }
 
+  getprofile(param: string){
+    let code = param
+    let secret = this.makeSecret()
+    let data = this.decrypt(code, secret)
+    this.profile = data['value']
+    this.getUserOverview(this.profile['id'])
+  }
+
   getUserOverview(id: number){
     this.isConnecting= true
     this.userService.userOverview(id)
     .subscribe(
       (res)=>{
-        console.log(res)
-        this.isConnecting=false
         if(res.code != 200) {
           this.hasError = true
           let message ='Invalid Session, Login Again.'
@@ -77,7 +84,7 @@ export class MenteeProfileComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.user = res.body.user
+          this.manipulateOverview(res.body)
          }
   
     },
@@ -87,13 +94,27 @@ export class MenteeProfileComponent implements OnInit {
     });
   }
 
+  manipulateOverview(data: any) {
+    data['approved'] = []
+    data['certificates'] = []
+    data['mentorCount'] = 0
+    if(data['mentors']) {
+      data['mentorCount'] = 1
+    }
+    data.ideas.forEach(idea => {
+      if(idea['committee_status']=='approved') {
+        data['approved'].push(idea)
+      }
+    });
 
-  getprofile(param: string){
-    let code = param
-    let secret = this.makeSecret()
-    let data = this.decrypt(code, secret)
-    this.profile = data['value']
-    this.getUserOverview(this.profile['id'])
+    data.program_certificates.forEach(cert => {
+      if(cert['status']=='approved') {
+        data['certificates'].push(cert)
+      }
+    });
+    
+    this.overview =data
+    this.isConnecting = false;
   }
   
 
@@ -167,5 +188,6 @@ export class MenteeProfileComponent implements OnInit {
   goBack() {
     this._location.back()
   }
+
 
 }

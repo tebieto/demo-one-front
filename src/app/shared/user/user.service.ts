@@ -198,7 +198,7 @@ export class UserService {
   }
 
   userOverview(id: number) {
-    this.baseUrl = Config.api + 'admin/user/report/'+ id
+    this.baseUrl = Config.api + 'user/report/'+ id
     return this.http.get(
       this.baseUrl,
       {headers:this.getCommonHeaders()}

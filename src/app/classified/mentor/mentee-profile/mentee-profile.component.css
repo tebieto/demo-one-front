@@ -71,11 +71,10 @@
 
 .overview-card {
     display: inline-block;
-    width: 160px;
+    width: 180px;
     height: 160px;
     max-width: 90%;
     margin: 5px;
-    border-radius: 50%;
 }
 
 .overview-card button{
@@ -89,7 +88,12 @@
     border: none;
 }
 
+
 .overview-card button:hover{
     color: #03A9F4;
+}
+
+.overview-card:hover{
+    background: rgba(238, 238, 238, 0.397)
 }
 

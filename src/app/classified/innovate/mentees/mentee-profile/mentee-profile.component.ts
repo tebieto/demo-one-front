@@ -65,6 +65,7 @@ export class MenteeProfileComponent implements OnInit {
   }
 
   getprofile(param: string){
+
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)

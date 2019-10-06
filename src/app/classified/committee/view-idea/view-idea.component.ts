@@ -8,7 +8,6 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Location } from '@angular/common';
 import {Asset as crypto} from 'src/app/asset';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
-import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 import { SharedScoreComponent } from 'src/app/shared/shared-score/shared-score.component';
 
 @Component({

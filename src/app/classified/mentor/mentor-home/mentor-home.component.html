@@ -36,6 +36,48 @@
     
     <!--View-->
 
+    <!--For Certificates-->
+
+    <div class="settings" [class.hidden]="certificates.length==0?true:false">
+
+        <h3 class="sub-title">Your Certificates</h3>
+            
+            <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z0">
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name on Certificate</th>
+                <td mat-cell *matCellDef="let element" class="bold custom-grey underline"> {{element.name}} </td>
+            </ng-container>
+            
+            <!-- Weight Column -->
+            <ng-container matColumnDef="mentee">
+                <th mat-header-cell *matHeaderCellDef>Name of Mentee</th>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.mentee}} </td>
+            </ng-container>
+            
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="data">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <mat-icon class="more-icon" [matMenuTriggerFor]="menu1">more_vert</mat-icon>
+                    <mat-menu #menu1="matMenu">
+                        <button mat-menu-item (click)="newTab(element.data.link)">
+                        Original Certificate Link
+                        </button>
+                        <button mat-menu-item (click)="newTab(element.data.certificate)">
+                        View Certificate 
+                        </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="certificateColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: certificateColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+    </div>
+
     <!--For Pending-->
     <div class="settings" [class.hidden]="pendingMenteeList.length==0?true:false">
     

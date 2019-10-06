@@ -10,6 +10,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SpecialSetupComponent } from './special-setup/special-setup.component';
 import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
 import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
+import { EditProgramComponent } from './edit-program/edit-program.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
     SpecialSetupComponent,
     MenteeProfileComponent,
     MentorChatComponent,
+    EditProgramComponent,
   ],
   imports: [
     CommonModule,

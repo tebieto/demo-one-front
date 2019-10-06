@@ -86,7 +86,7 @@ export class MenteeHomeComponent implements OnInit {
   optionalRole = 55;
   hideMobileLeft: boolean;
   ideaDatas = [];
-
+  editableIdea = 0
   forumDatas = [];
 
   datas = [];
@@ -1414,8 +1414,21 @@ export class MenteeHomeComponent implements OnInit {
         this.toNewForum = true;
       }
 
-      gotoNewIdea() {
+      gotoNewIdea(type:string) {
+        if(type=='new' && this.editableIdea>0) {
+          this.clearEditable()
+        }
         this.toNewIdea = true;
+      }
+
+      clearEditable() {
+      this.firstIdeaGroup.get('title').setValue("");
+      this.firstIdeaGroup.get('industry').setValue("");
+      this.secondIdeaGroup.get('description').setValue("");
+      this.thirdIdeaGroup.get('summary').setValue("");
+      this.newIdeaPlan = "";
+      this.newIdeaLogo = "";
+      this.editableIdea = 0
       }
 
       
@@ -1430,7 +1443,7 @@ export class MenteeHomeComponent implements OnInit {
 
         this.firstIdeaGroup = this._formBuilder.group({
           title: ['', [Validators.required, Validators.minLength(10)]],
-          industry: ['', [Validators.required,]]
+          industry: ['', []]
         });
         this.secondIdeaGroup = this._formBuilder.group({
           description: ['', [Validators.required, Validators.minLength(20)]]
@@ -1513,10 +1526,10 @@ export class MenteeHomeComponent implements OnInit {
       }
 
       postToIdea() {
-        
         let  now = this.utcNow();
 
         let data = {
+          'id': this.editableIdea,
           'title': this.firstIdeaGroup.controls['title'].value,
           'industry': this.firstIdeaGroup.controls['industry'].value,
           'description': this.secondIdeaGroup.controls['description'].value,
@@ -1527,6 +1540,7 @@ export class MenteeHomeComponent implements OnInit {
           'pinned': false,
           'status': 'pending'
         }
+
 
         if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0 || data.logo.length==0){      
           
@@ -1540,7 +1554,13 @@ export class MenteeHomeComponent implements OnInit {
 
           this.openSnackBar(notification, 'snack-error')
           return
-        } 
+        }
+
+
+        if (this.editableIdea>0) {
+          this.updateIdea(data)
+          return
+        }
 
         let ideaData = {
           id: null,
@@ -1916,6 +1936,49 @@ export class MenteeHomeComponent implements OnInit {
         });
     }
 
+    updateIdea(data) {
+      console.log(data)
+      const subscription = this.userService.updateIdea(data)
+      this.subscription = subscription
+      .subscribe(
+          (res)=>{ 
+          console.log(res)
+          let notification = res.body
+          if(res.code==200) {
+          this.openSnackBar(notification, 'snack-success');
+          this.updateLocalIdea(data.id)
+          } else {
+            this.hasError = true;
+            this.isConnecting = false;
+            this.openSnackBar(notification, 'snack-error');
+          }
+        },
+        (error)=>{
+          this.hasError = true
+          this.isConnecting = false
+          let notification = errorMessage.ConnectionError(error)
+          this.openSnackBar(notification, 'snack-error')
+    
+        });
+    }
+
+    updateLocalIdea(id: number) {
+      let idea = this.ideas.find(x=> {
+        return x.id == id
+      })
+
+      if(!idea){return}
+      
+      idea['title'] = this.firstIdeaGroup.controls['title'].value;
+      idea['industry'] = this.firstIdeaGroup.controls['industry'].value;
+      idea['description'] = this.secondIdeaGroup.controls['description'].value
+      idea['summary'] = this.thirdIdeaGroup.controls['summary'].value
+      idea['attachment'] = this.newIdeaPlan
+      idea['logo'] = this.newIdeaLogo
+      this.toNewIdea = false
+
+    }
+
     persistForum(data) {
       
       const subscription = this.userService.forum(data)
@@ -2016,7 +2079,6 @@ export class MenteeHomeComponent implements OnInit {
       this.subscription = subscription
       .subscribe(
           (res)=>{
-            console.log(res)
           if(res.code==200) {
 
             if(res.ideas) {   
@@ -2357,6 +2419,26 @@ export class MenteeHomeComponent implements OnInit {
     onDeleteItem(type:string, id:number) {
       let msg = "Are you sure you want to delete this Idea?"
       this.openDialog(type, id, msg)
+    }
+
+    onEdit(type:string, id:number) {
+     let idea = this.ideas.find(x=> {
+        return x.id == id
+      })
+
+      if(!idea){return}
+      this.editableIdea = id
+      this.fillIdeaForm(idea)
+    }
+
+    fillIdeaForm(idea: object) {
+      this.firstIdeaGroup.get('title').setValue(idea['title']);
+      this.firstIdeaGroup.get('industry').setValue(idea['industry']);
+      this.secondIdeaGroup.get('description').setValue(idea['description']);
+      this.thirdIdeaGroup.get('summary').setValue(idea['summary']);
+      this.newIdeaPlan = idea['attachment'];
+      this.newIdeaLogo = idea['logo'];
+      this.gotoNewIdea('update')
     }
 
     openDialog(type: string, id:number, msg: string): void {

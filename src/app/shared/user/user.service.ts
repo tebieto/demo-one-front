@@ -180,6 +180,40 @@ export class UserService {
 
   }
 
+  systemOverview() {
+    this.baseUrl = Config.api + 'admin/system/overview'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+        
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  userOverview(id: number) {
+    this.baseUrl = Config.api + 'admin/user/report/'+ id
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+        
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   saveInnovateSettings(data) {
     this.baseUrl = Config.api + 'admin/custom/settings'
@@ -200,6 +234,23 @@ export class UserService {
 
   idea(data) {
     this.baseUrl = Config.api + 'ideas/create'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  updateIdea(data) {
+    this.baseUrl = Config.api + 'ideas/edit'
     return this.http.post(
       this.baseUrl,
       data,
@@ -547,6 +598,22 @@ export class UserService {
 
   }
 
+  pendingCertificates() {
+    this.baseUrl = Config.api + 'mentors/pending/certificate/'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   mentorMentees() {
     this.baseUrl = Config.api + 'mentors/mentees'
@@ -647,6 +714,23 @@ export class UserService {
 
   saveMentorSetup(data) {
     this.baseUrl = Config.api + 'mentors/programme/setup'
+    return this.http.post(
+      this.baseUrl,
+      data,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
+  editMentorSetup(data) {
+    this.baseUrl = Config.api + 'mentors/programme/edit'
     return this.http.post(
       this.baseUrl,
       data,

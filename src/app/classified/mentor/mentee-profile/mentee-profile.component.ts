@@ -63,12 +63,37 @@ export class MenteeProfileComponent implements OnInit {
     });
   }
 
+  getUserOverview(id: number){
+    this.isConnecting= true
+    this.userService.userOverview(id)
+    .subscribe(
+      (res)=>{
+        console.log(res)
+        this.isConnecting=false
+        if(res.code != 200) {
+          this.hasError = true
+          let message ='Invalid Session, Login Again.'
+          this.logUserOut(message);
+        }
+  
+        if(res.code==200) {
+          this.user = res.body.user
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.isConnecting=false;
+    });
+  }
+
 
   getprofile(param: string){
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
     this.profile = data['value']
+    this.getUserOverview(this.profile['id'])
   }
   
 

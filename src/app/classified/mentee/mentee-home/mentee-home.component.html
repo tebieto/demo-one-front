@@ -418,7 +418,7 @@
       <!--When Search is Off-->
       <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
 
-          <div [class.hidden]="pendingIdea?true:false" class="user-list row" (click)="gotoNewIdea()">
+          <div [class.hidden]="pendingIdea?true:false" class="user-list row" (click)="gotoNewIdea('new')">
           
               <div class="col-xs-6 user-avatar">
                 <button mat-fab class="add-button">
@@ -483,6 +483,9 @@
                 <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
                     <span class="more-option">Pin Idea</span>
                 </button>
+                <button mat-button (click)="onEdit(item.type, item.id)" [class.hidden]="item.status=='pending'?false:true" >
+                    <span class="more-option">Edit Idea</span>
+                </button>
                 <button mat-button (click)="onDeleteItem(item.type, item.id)">
                     <span class="more-option">Delete Idea</span>
                 </button>
@@ -528,6 +531,9 @@
                     <button mat-button *ngIf="!item.pinned" (click)="pinChat(item.type, item.id)">
                         <span class="more-option">Pin Idea</span>
                     </button>
+                    <button mat-button (click)="onEdit(item.type, item.id)" [class.hidden]="item.status=='pending'?false:true" >
+                        <span class="more-option">Edit Idea</span>
+                    </button>
                     <button mat-button (click)="onDeleteItem(item.type, item.id)">
                         <span class="more-option">Delete Idea</span>
                     </button>
@@ -563,7 +569,7 @@
           <mat-step [stepControl]="firstIdeaGroup">
               <form [formGroup]="firstIdeaGroup">
                   <ng-template matStepLabel>Title</ng-template>
-
+<!--
                   <mat-form-field appearance="outline">
                       <mat-label>Select Industry</mat-label>
                       <mat-select formControlName="industry" name="industry">
@@ -576,7 +582,7 @@
                       </mat-select>
                       <mat-error *ngIf="firstIdeaGroup.get('industry').invalid">Industry is required</mat-error>
                   </mat-form-field>
-                  
+  -->                 
                   <mat-form-field appearance="outline">
                       <mat-label class="title-text">Idea Title</mat-label>
                       <textarea matInput placeholder="Title" class="title-text" formControlName="title" rows="3" required autocomplete="off"></textarea>
@@ -882,6 +888,12 @@
           <button mat-button *ngIf="!activatedIdea.pinned" (click)="pinChat(activatedIdea.type, activatedIdea.id)">
               <span class="more-option">Pin Idea</span>
           </button>
+          <button mat-button (click)="onEdit(activatedIdea.type, activatedIdea.id)" [class.hidden]="activatedIdea.status=='pending'?false:true" >
+              <span class="more-option">Edit Idea</span>
+          </button>
+          <button mat-button (click)="onDeleteItem(activatedIdea.type, activatedIdea.id)">
+              <span class="more-option">Delete Idea</span>
+          </button>
         </mat-menu>
 
         <mat-menu #activeIdea="matMenu" class="mat-menu">
@@ -917,6 +929,26 @@
       
               <div class="description">
                   <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
+              </div>
+              <div class="description" [class.hidden]="activatedIdea.status=='approved'?false:true" class="text-success">
+                  <button mat-button> Your Mentor approved this idea</button>
+              </div>
+              <div class="description" [class.hidden]="activatedIdea.status=='rejected'?false:true" class="text-danger">
+                  <button mat-button> Your Mentor did not approve this idea</button>
+              </div>
+
+              <div class="description" [class.hidden]="activatedIdea.committee_status=='approved'?false:true" class="text-success">
+                  <button mat-button> Idea Committee approved this idea, Wow. You did a great job.</button>
+              </div>
+              <div class="description" [class.hidden]="activatedIdea.committee_status=='rejected'?false:true" class="text-danger">
+                  <button mat-button> Idea Committee did not approve this idea</button>
+              </div>
+
+              <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true" class="text-black">
+                  <button mat-button>This idea is yet to be reviewed by your Mentor</button>
+              </div>
+              <div class="description" [class.hidden]="activatedIdea.committee_status=='pending'&&activatedIdea.status=='approved'?false:true" class="text-black">
+                  <button mat-button> This idea is yet to be reviewed by our Idea Committee </button>
               </div>
   
           <button mat-fab mat-raised-button class="back-to-bottom" *ngIf="scrollHeight>scrollTop && !parentMessage.id" (click)="backToBottom()">

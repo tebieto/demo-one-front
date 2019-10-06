@@ -28,20 +28,19 @@ export class AdminLoginComponent implements OnInit {
     this.titleService.setTitle('IDEAHUB| Admin Login')
   }
 
-  email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20) ]);
-  password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]);
+  email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(200) ]);
+  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   getEmailErrorMessage() {
     return this.email.hasError('required') ? 'Email is required' :
         this.email.hasError('minlength') ? 'Minimum length is 6' :
-        this.email.hasError('maxlength') ? 'Maximum length is 20' :
+        this.email.hasError('maxlength') ? 'Maximum length is 200' :
             '';
   }
 
   getPasswordErrorMessage() {
     return this.password.hasError('required') ? 'Password is required' :
         this.password.hasError('minlength') ? 'Minimum length is 6' :
-        this.password.hasError('maxlength') ? 'Maximum length is 20' :
             '';
   }
 

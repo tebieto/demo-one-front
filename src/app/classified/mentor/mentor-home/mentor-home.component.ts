@@ -17,6 +17,11 @@ export interface PeriodicElement {
   'message': string;
 }
 
+export interface CertificateElement {
+  'name': object;
+  'mentee': string;
+  'data': object;
+}
 
 @Component({
   selector: 'app-mentor-home',
@@ -33,6 +38,9 @@ export class MentorHomeComponent implements OnInit {
   displayedPendingColumns: string[] = ['name', 'about', 'msg', 'data',];
   dataSource = new MatTableDataSource(this.menteeList);
   pendingDataSource = new MatTableDataSource(this.pendingMenteeList);
+  certificates: CertificateElement[] = [];
+  cerificateColumns: string[] = ['name', 'mentee', 'data'];
+  certificateDataSource = new MatTableDataSource(this.certificates);
 
   applyFilter(filterValue: string, type: string) {
     if(type=='all') {
@@ -213,9 +221,10 @@ export class MentorHomeComponent implements OnInit {
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
     this.pendingDataSource.paginator = this.paginator;
+    this.certificateDataSource.paginator = this.paginator;
     this.focusInput()
     this.isConnecting = false
-    },1000);
+    },2000);
   }
 
   focusInput() {
@@ -240,6 +249,7 @@ export class MentorHomeComponent implements OnInit {
           this.user = res.body.user
           this.profileCode = this.encrypt(this.user)
           this.getMyMentees()
+          this.getMenteeCertificate()
           this.getPendingMentees()
           this.verifyMentorSetup()
          }
@@ -334,6 +344,51 @@ export class MentorHomeComponent implements OnInit {
         this.openSnackBar(notification, 'snack-error')
   
       });
+  }
+
+  getMenteeCertificate() {
+    this.isConnecting = true
+    const subscription = this.userService.pendingCertificates()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+          console.log(res) 
+        if(res.code==200) {
+          if(res.body) {
+            this.filterBody(res.body)
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  filterBody(body:object[]) {
+    body.forEach(data=> {
+      this.cleanCertificateData(data)
+    })
+  }
+
+  cleanCertificateData(data: object) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
+      let newData = {
+        'name' :  data['name'],
+        'mentee' :  data['mentee'],
+        'data'  : {link:data['url'], certificate:data['certificate']}
+      }
+    this.certificates.push(newData)
+    this.startPaginator()
+    this.isConnecting = false
   }
 
   cleanData(data: object[]) {

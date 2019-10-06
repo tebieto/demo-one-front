@@ -9,17 +9,19 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user/user.service';
 import { Config } from 'src/app/config';
 import {MatChipInputEvent} from '@angular/material/chips';
+import { Location } from '@angular/common';
 
 export interface Specialisation {
   name: string;
 }
 
+
 @Component({
-  selector: 'app-special-setup',
-  templateUrl: './special-setup.component.html',
-  styleUrls: ['./special-setup.component.css']
+  selector: 'app-edit-program',
+  templateUrl: './edit-program.component.html',
+  styleUrls: ['./edit-program.component.css']
 })
-export class SpecialSetupComponent implements OnInit {
+export class EditProgramComponent implements OnInit {
 
   hidePassword= true;
   persistingData: boolean;
@@ -41,6 +43,7 @@ export class SpecialSetupComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   specialisations: Specialisation[] = [
   ];
+  profile: object;
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -82,6 +85,7 @@ export class SpecialSetupComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
+    private _location: Location
     ) {
 
    }
@@ -157,8 +161,10 @@ export class SpecialSetupComponent implements OnInit {
   
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
-          this.user = res.body.user
           this.verifyMentorSetup()
+          this.user = res.body.user
+          this.profile = res.body.mentor
+          this.populateForm(this.profile)
          }
   
     },
@@ -166,6 +172,58 @@ export class SpecialSetupComponent implements OnInit {
       this.hasError = true
       this.isConnecting=false;
     });
+  }
+
+  verifyMentorSetup(){
+    this.isConnecting = true
+    this.userService.verifyMentorSetup()
+    .subscribe(
+      (res)=>{
+        this.isConnecting = false
+        if(res.code != 200) {
+          res['status']= res['code']
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+         if(res.status==false){
+           this.gotoMentorSetupPage()
+         }
+        }
+  
+    },
+    (error)=>{
+      this.isConnecting = false
+      this.hasError = true
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+      return
+  
+    });
+  }
+
+  gotoMentorSetupPage(){
+    this.router.navigateByUrl('/mentor/quick/setup')
+  }
+
+  populateForm(data:object) {
+      console.log(data)
+      this.firstFormGroup.get('phone').setValue(data['phone_number']);
+  
+      this.firstFormGroup.get('about').setValue(data['about_me']);
+  
+      this.secondFormGroup.get('pname').setValue(data['programme_name']);
+    
+      this.secondFormGroup.get('pdescription').setValue(data['description']);
+    
+      this.firstFormGroup.get('linkedin').setValue(data['linkedin']);
+      this.secondFormGroup.get('pduration').setValue(data['duration']);
+      this.populateSpecialisation(data['specialisation'])
+  }
+
+  populateSpecialisation(data:string) {
+    console.log(data)
   }
 
   logUserOut(message:string){
@@ -212,10 +270,9 @@ export class SpecialSetupComponent implements OnInit {
 
 persistData(data: Object){
   this.persistingData = true
-  this.userService.saveMentorSetup(data)
+  this.userService.editMentorSetup(data)
   .subscribe(
     (res)=>{
-      console.log(res)
       this.persistingData = false
       if(res.code != 200) {
         res['status']= res['code']
@@ -230,35 +287,6 @@ persistData(data: Object){
   },
   (error)=>{
     this.persistingData = false;
-    let notification = errorMessage.ConnectionError(error)
-    this.openSnackBar(notification, 'snack-error')
-    return
-
-  });
-}
-
-verifyMentorSetup(){
-  this.isConnecting = true
-  this.userService.verifyMentorSetup()
-  .subscribe(
-    (res)=>{
-      this.isConnecting = false
-      if(res.code != 200) {
-        res['status']= res['code']
-        this.hasError = true
-        this.showErrorMessage(res)
-      }
-
-      if(res.code==200) {
-       if(res.status==true){
-         this.gotoMentorPage()
-       }
-      }
-
-  },
-  (error)=>{
-    this.isConnecting = false
-    this.hasError = true
     let notification = errorMessage.ConnectionError(error)
     this.openSnackBar(notification, 'snack-error')
     return
@@ -344,6 +372,10 @@ showErrorMessage(error: object){
     return
 }
 
+goBack() {
+  this._location.back()
+}
+
   openSnackBar(message, panelClass) {
     this.snackBar.openFromComponent(SnackbarComponent, {
       data: message,
@@ -351,5 +383,6 @@ showErrorMessage(error: object){
       duration: 2000
     })
   }
+
 
 }

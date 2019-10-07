@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user/user.service';
 import { Subscription } from 'rxjs';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
-import { IdeasComponent } from './ideas/ideas.component';
 
 
 @Component({
@@ -76,10 +75,14 @@ export class InnovateComponent implements OnInit {
     .subscribe(
       (res)=>{
         if(res.code == 200) {
-          if(!res.body || res.body.idea_cut_off==0 || res.body.maximum_mentee==0) {return}
+          if(!res.body || res.body.idea_cut_off==0 || res.body.maximum_mentee==0) {
+            this.gotoSettings() 
+            return
+          }
           this.manipulateSettings(res.body)
         } else {
-          this.hasError = true
+          this.hasError = true;
+          this.isConnecting = false;
         }
     },
     (error)=>{
@@ -91,6 +94,10 @@ export class InnovateComponent implements OnInit {
   }
 
   manipulateSettings(data: object) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
     if(data['idea_cut_off']>0) {
       this.cutOff = data['idea_cut_off']
     }
@@ -108,6 +115,7 @@ export class InnovateComponent implements OnInit {
          this.manipulateOverview(res.body)
         } else {
           this.hasError = true
+          this.isConnecting = false;
         }
     },
     (error)=>{
@@ -119,6 +127,10 @@ export class InnovateComponent implements OnInit {
   }
  
   manipulateOverview(data: any) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
     this.overview =data
     this.overview['top'] = []
     this.overview['ideas'] = []
@@ -129,6 +141,10 @@ export class InnovateComponent implements OnInit {
   }
 
   pushMenteeIdeas(idea: object[]) {
+    if(!idea) {
+      this.isConnecting = false
+      return
+    }
     idea.forEach(x=> {
       if(x['committee_status']=='approved') {
         this.overview['ideas'].push(x)
@@ -136,7 +152,8 @@ export class InnovateComponent implements OnInit {
       if(x['committee_score']>this.cutOff) {
         this.overview['top'].push(x)
       }
-    })
+    });
+    this.isConnecting = false
   }
 
   inspectRole(role: any, type: string) {
@@ -176,6 +193,10 @@ export class InnovateComponent implements OnInit {
     let notification = message
     this.openSnackBar(notification, 'snack-error')
     this.router.navigateByUrl('/login')
+  }
+
+  gotoSettings(){
+    this.router.navigateByUrl('/innovate/admin')
   }
 
   clearToken() {

@@ -110,6 +110,7 @@ export class InnovateHomeComponent implements OnInit {
       (res)=>{
         this.isConnecting = false;
         if(res.code == 200) {
+          
           if(!res.body || res.body.idea_cut_off==0 || res.body.maximum_mentee==0) {return}
           this.manipulateSettings(res.body)
         } else {
@@ -151,6 +152,7 @@ export class InnovateHomeComponent implements OnInit {
       (res)=>{
         this.persistingData = false;
         this.openSnackBar(res.body, 'snack-success')
+        this.gotoHome()
     },
     (error)=>{
       this.persistingData = false;
@@ -159,6 +161,11 @@ export class InnovateHomeComponent implements OnInit {
   
     });
   }
+
+  gotoHome(){
+    this.router.navigateByUrl('/innovate')
+  }
+
   
   isForbidden(data:object) :void{
     if(data['code'] == 403) {

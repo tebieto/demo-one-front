@@ -65,10 +65,10 @@
                       More Info
                   </button>
                   <button mat-menu-item (click)="onApproveMessage(element.idea)" [class.hidden] = "element.idea.committee_status=='pending'?false:true">
-                    Approve Invite
+                    Approve Idea
                   </button>
                   <button mat-menu-item (click)="onRejectMessage(element.idea)" [class.hidden] = "element.idea.committee_status=='pending'?false:true">
-                    Reject Invite
+                    Reject Idea
                   </button>
               </mat-menu>
           </td>

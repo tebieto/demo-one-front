@@ -192,7 +192,7 @@ export class CommitteeHomeComponent implements OnInit {
 
 
   openSheet(data: object, message, msg:string, type: string): void {
-    let scoreMessage = "Grade this Idea over 100"
+    let scoreMessage = "Grade this Idea over 100%"
     const dialogRef = this.dialog.open(SharedScoreComponent, {
       width: '400px',
       data: {id:data['id'], message:msg, scoreMessage: scoreMessage}

@@ -96,9 +96,9 @@ mat-toolbar-row span {
 }
 
 .box {
-    width: 355px;
+    width: 23.5%;
     height: 350px;
-    max-width: 355px;
+    max-width: 23.5%;
     max-height: 350px;
     display: inline-block;
     margin: 10px;
@@ -112,3 +112,12 @@ mat-toolbar-row span {
     top: 120px;
     left: 120px;
 }
+
+@media only screen and (max-width: 600px) {
+    
+    .box {
+        width: 90% !important;
+        min-width: 90% !important;
+    }
+
+  }

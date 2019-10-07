@@ -51,6 +51,10 @@
       <div class="custom-button" [class.hidden]="hasMentor?true:false">
         <button mat-button (click)="chooseMentor(params['code'])">Choose Mentor</button>
       </div>
+
+      <div class="custom-button">
+        <button mat-button (click)="newTab(mentorProfile.profile.linkedin)">My Linkedin Profile</button>
+      </div>
       
       </div>
 

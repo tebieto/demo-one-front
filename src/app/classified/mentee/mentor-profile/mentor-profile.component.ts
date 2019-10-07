@@ -185,6 +185,18 @@ export class MentorProfileComponent implements OnInit {
   
   }
 
+  newTab(link:string) {
+    if(link.length==0){
+      let notification = 'Invalid Url'
+      this.openSnackBar(notification, 'snack-error')
+      return
+    }
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window or tab.
+    );
+  }
+
 
   goBack() {
     this._location.back()

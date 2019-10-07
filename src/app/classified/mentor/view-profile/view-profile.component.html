@@ -21,7 +21,7 @@
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="profile.image" alt="" *ngIf="profile.image.length>0">
+        <img [src]="profile.image" alt="" *ngIf="profile.image.length>0" (error)="profile.image=''">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>

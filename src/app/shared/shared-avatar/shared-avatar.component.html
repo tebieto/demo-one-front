@@ -1,4 +1,4 @@
-<div class="shared-avatar" *ngIf="authUser">
+<div class="shared-avatar" *ngIf="authUser && !isUploadingAvatar">
     <input class="hidden" #avatarUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseAvatar($event)" />
     <div [class.hidden]="authUser.avatar.length==0?false:true" class="fake-avatar" [title]="authUser.full_name">
         <button mat-fab class="mat-elevation-z1" [matMenuTriggerFor]="user">{{authUser.full_name.slice(0,1)}}</button>
@@ -17,3 +17,7 @@
     </mat-menu>
 
 </div>
+
+<button mat-button class="form-button"  *ngIf="isUploadingAvatar">
+  <mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon> Uploading Avatar...
+</button>

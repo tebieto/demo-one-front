@@ -101,18 +101,26 @@ export class MenteeProfileComponent implements OnInit {
     if(data['mentors']) {
       data['mentorCount'] = 1
     }
+
+    if(data.ideas) {
     data.ideas.forEach(idea => {
       if(idea['committee_status']=='approved') {
         data['approved'].push(idea)
       }
     });
+  } else {
+    data['approved'] = []
+  }
 
+  if(data.program_certificates) {
     data.program_certificates.forEach(cert => {
       if(cert['status']=='approved') {
         data['certificates'].push(cert)
       }
     });
-    
+  } else {
+    data['certificates']= []
+  }
     this.overview =data
     this.isConnecting = false;
   }

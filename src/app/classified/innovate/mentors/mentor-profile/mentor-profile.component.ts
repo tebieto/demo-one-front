@@ -22,6 +22,7 @@ export class MentorProfileComponent implements OnInit {
   mentorProfile: object;
   hasMentor: boolean;
   persistingData: boolean;
+  overview = []
 
   constructor(
     private _location: Location,
@@ -118,8 +119,40 @@ export class MentorProfileComponent implements OnInit {
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
     this.mentorProfile = data['value']
+    this.getUserOverview(this.mentorProfile['id'])
   }
 
+  getUserOverview(id: number){
+    this.isConnecting= true
+    this.userService.userOverview(id)
+    .subscribe(
+      (res)=>{
+        if(res.code != 200) {
+          this.hasError = true
+          let message ='Invalid Session, Login Again.'
+          this.logUserOut(message);
+        }
+  
+        if(res.code==200) {
+          this.manipulateOverview(res.body)
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.isConnecting=false;
+    });
+  }
+
+  manipulateOverview(data: any) {
+    if(!data.mentees) {
+      data.mentees = []
+    }
+    
+    this.overview =data
+    this.isConnecting = false;
+  }
+  
   startCustomRouter(){
     this.route.params.subscribe(params=>{
           this.consumeRouteParams(params)

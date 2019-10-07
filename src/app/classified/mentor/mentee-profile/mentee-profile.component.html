@@ -24,7 +24,7 @@
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="profile.image" alt="" [class.hidden]="profile.image.length==0?true:false">
+        <img [src]="profile.image" alt="" [class.hidden]="profile.image.length==0?true:false" (error)="profile.image=''">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>

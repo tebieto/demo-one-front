@@ -21,6 +21,7 @@ export class SharedAvatarComponent implements OnChanges {
   subscription: Subscription;
   newAvatar: any;
   previousAvatar: any;
+  persistingData: boolean;
 
   constructor(
     private loginService: LoginService,

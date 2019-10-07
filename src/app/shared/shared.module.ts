@@ -8,10 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorOccuredComponent } from '../extras/error-occured/error-occured.component';
 import { PageLoadingComponent } from '../extras/page-loading/page-loading.component';
 import { RouterModule } from '@angular/router';
-import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
 import { SharedMessageDialogComponent } from './shared-message-dialog/shared-message-dialog.component';
 import { SharedScoreComponent } from './shared-score/shared-score.component';
+import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { SharedScoreComponent } from './shared-score/shared-score.component';
     SharedDialogComponent,
     SharedAvatarComponent,
     SharedMessageDialogComponent,
-    SharedScoreComponent
+    SharedScoreComponent,
   ],
 
   entryComponents: [
@@ -53,14 +53,12 @@ import { SharedScoreComponent } from './shared-score/shared-score.component';
     MatChipsModule,
     MatListModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   exports:[
     HeaderComponent,
     SnackbarComponent,
     DialogComponent,
-    SharedDialogComponent,
-    SharedMessageDialogComponent,
     ErrorOccuredComponent,
     PageLoadingComponent,
     MatIconModule,
@@ -89,7 +87,9 @@ import { SharedScoreComponent } from './shared-score/shared-score.component';
     MatListModule,
     MatOptionModule,
     MatSelectModule,
-    SharedScoreComponent
+    SharedScoreComponent,
+    SharedDialogComponent,
+    SharedMessageDialogComponent,
   ],
 })
 export class SharedModule { }

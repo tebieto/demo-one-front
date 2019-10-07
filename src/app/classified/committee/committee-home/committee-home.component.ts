@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { Asset as crypto} from 'src/app/asset';
-import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import { SharedScoreComponent } from 'src/app/shared/shared-score/shared-score.component';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 
 export interface PeriodicElement {
   'title': string;

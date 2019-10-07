@@ -211,6 +211,7 @@ export class SpecialSetupComponent implements OnInit {
 }
 
 persistData(data: Object){
+  console.log(data)
   this.persistingData = true
   this.userService.saveMentorSetup(data)
   .subscribe(

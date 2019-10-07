@@ -158,7 +158,7 @@ export class AdminHomeComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.focusInput()
     this.isConnecting = false;
-    },200);
+    },1000);
   }
 
   focusInput() {

@@ -16,9 +16,10 @@ export interface PeriodicElement {
   'link': string;
   'status': string;
   'idea': object;
+  'score': string;
+  'comment': string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [];
 
 @Component({
   selector: 'app-ideas',
@@ -30,8 +31,9 @@ export class IdeasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('csvUpload') csvUpload: ElementRef;
-  displayedColumns: string[] = ['title', 'description', 'id'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  ideas: PeriodicElement[] = [];
+  displayedColumns: string[] = ['title', 'description','comment', 'score', 'id'];
+  dataSource = new MatTableDataSource(this.ideas);
   
 
   applyFilter(filterValue: string) {
@@ -124,7 +126,8 @@ export class IdeasComponent implements OnInit {
   }
 
   manipulateSettings(data: object) {
-    if(data['idea_cut_off']>0) {
+    this.isConnecting = true;
+    if(data['idea_cut_off']>=0) {
       this.cutOff = data['idea_cut_off']
     }
     this.fetchSystemOverview()
@@ -132,6 +135,7 @@ export class IdeasComponent implements OnInit {
 
 
   fetchSystemOverview() {
+    this.isConnecting = true
     const subscription = this.userService.systemOverview()
     this.subscription = subscription
     .subscribe(
@@ -153,7 +157,6 @@ export class IdeasComponent implements OnInit {
   }
 
   manipulateOverview(data: any) {
-    this.overview =data
     this.overview['top'] = []
     this.overview['ideas'] = []
     data.mentees.forEach(mentee => {
@@ -172,7 +175,7 @@ export class IdeasComponent implements OnInit {
       if(x['committee_status']=='approved') {
         this.overview['ideas'].push(x)
       }
-      if(x['committee_score']>this.cutOff) {
+      if(x['committee_score']>=this.cutOff) {
         this.overview['top'].push(x)
       }
     })
@@ -180,17 +183,19 @@ export class IdeasComponent implements OnInit {
 
 
   pushIdea(data: object[]) {
-    ELEMENT_DATA.splice(0, ELEMENT_DATA.length)
+    this.ideas.splice(0, this.ideas.length)
     data.forEach(idea=> {
       let encrypted = crypto.encrypt(idea, this.user['id'])
-      let element = {id:0, description:'', title: '', link: '', status: '', idea:{}}
+      let element = {id:0, description:'', title: '', comment: '', score: '', link: '', status: '', idea:{}}
       element['id']= idea['id']
+      element['score']= idea['committee_score']
+      element['comment']= idea['committee_comment']
       element['link'] = encrypted
       element['description']= idea['description']
       element['title'] = idea['title']
       element['status'] = idea['status']
       element['idea'] = idea
-      ELEMENT_DATA.push(element)
+      this.ideas.push(element)
     });
 
     this.startPaginator()

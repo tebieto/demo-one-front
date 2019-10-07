@@ -1541,7 +1541,7 @@ export class MenteeHomeComponent implements OnInit {
           'status': 'pending'
         }
 
-        if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0 || data.logo.length==0){      
+        if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0){      
           
           let notification = "All fields are required"
 
@@ -1564,11 +1564,13 @@ export class MenteeHomeComponent implements OnInit {
         let ideaData = {
           id: null,
           owner: this.authUser,
+          'industry': this.firstIdeaGroup.controls['industry'].value,
           'title': this.firstIdeaGroup.controls['title'].value,
           'logo': this.newIdeaLogo,
           'description': this.secondIdeaGroup.controls['description'].value,
           'summary': this.thirdIdeaGroup.controls['summary'].value,
           'attachment': this.newIdeaPlan,
+          status:"pending",
           active: false,
           pinned: false,
           type: 'idea',

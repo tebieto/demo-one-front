@@ -8,6 +8,7 @@ import { InnovateComponent } from './innovate.component';
 import { ViewIdeasComponent } from './ideas/view-ideas/view-ideas.component';
 import { MentorProfileComponent } from './mentors/mentor-profile/mentor-profile.component';
 import { MenteeProfileComponent } from './mentees/mentee-profile/mentee-profile.component';
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 const routes: Routes = [
   {"path": '', component: InnovateComponent},
@@ -20,6 +21,8 @@ const routes: Routes = [
   {"path": ':view/idea/:code', component: ViewIdeasComponent},
   {"path": 'mentor-profile/:code', component: MentorProfileComponent},
   {"path": 'mentee-profile/:code', component: MenteeProfileComponent},
+  {"path": 'admin/home', component: AdminHomeComponent},
+  {"path": 'admin/:page/:sub', component: AdminHomeComponent},
 ];
 
 @NgModule({

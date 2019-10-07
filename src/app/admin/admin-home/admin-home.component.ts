@@ -167,6 +167,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   validateUser(){
+    let token = localStorage.getItem('token')
     this.isConnecting= true
     const subscription = this.userService.validateUser()
     this.subscription = subscription.subscribe(

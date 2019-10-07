@@ -208,7 +208,6 @@ export class EditProgramComponent implements OnInit {
   }
 
   populateForm(data:object) {
-      console.log(data)
       this.firstFormGroup.get('phone').setValue(data['phone_number']);
   
       this.firstFormGroup.get('about').setValue(data['about_me']);
@@ -223,7 +222,10 @@ export class EditProgramComponent implements OnInit {
   }
 
   populateSpecialisation(data:string) {
-    console.log(data)
+    let specialisations = (data.split(","))
+    specialisations.forEach(x=> {
+      this.specialisations.push({name: x.trim()});
+    })
   }
 
   logUserOut(message:string){
@@ -307,9 +309,9 @@ prepareFormInputValidation(){
   });
 
   this.secondFormGroup = this.formBuilder.group({
-    pname: ['', ],
-    pdescription: ['', ],
-    pduration: ['', ]
+    pname: [],
+    pdescription: [],
+    pduration: []
   });
  }
 

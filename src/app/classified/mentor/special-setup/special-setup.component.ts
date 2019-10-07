@@ -211,12 +211,10 @@ export class SpecialSetupComponent implements OnInit {
 }
 
 persistData(data: Object){
-  console.log(data)
   this.persistingData = true
   this.userService.saveMentorSetup(data)
   .subscribe(
     (res)=>{
-      console.log(res)
       this.persistingData = false
       if(res.code != 200) {
         res['status']= res['code']

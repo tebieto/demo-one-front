@@ -310,7 +310,7 @@ export class AdminHomeComponent implements OnInit {
 
 
   email = new FormControl('', [Validators.required, Validators.email]);
-  name = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(100) ]);
+  name = new FormControl('', [Validators.required]);
 
   getEmailErrorMessage() {
     return this.email.hasError('required') ? 'Email is required' :

@@ -79,11 +79,11 @@
     </div>
     <div class="page-buttons">
       <div class="custom-button" [class.hidden]="hasMentor||pendingMentor?false:true">
-        <button mat-button [routerLink]="['/mentee/main']">Goto Chat Board</button>
+        <button mat-button [routerLink]="['/mentee/main']">Go to Chat Board</button>
       </div>
 
       <div class="custom-button" [class.hidden]="hasMentor  && learnUrl?false:true">
-        <button mat-button (click)="newTab(learnUrl)">Goto GPI Learn</button>
+        <button mat-button (click)="newTab(learnUrl)">Go to GPI Learn</button>
       </div>
     </div>
 

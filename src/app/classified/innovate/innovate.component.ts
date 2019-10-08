@@ -136,7 +136,9 @@ export class InnovateComponent implements OnInit {
     this.overview['ideas'] = []
     if(data.mentees) {
       data.mentees.forEach(mentee => {
+        if(mentee.idea) {   
         this.pushMenteeIdeas(mentee.idea)
+        }
       });
     } else {
       data['mentees'] = []
@@ -151,7 +153,6 @@ export class InnovateComponent implements OnInit {
 
   pushMenteeIdeas(idea: object[]) {
     if(!idea) {
-      this.isConnecting = false
       return
     }
     idea.forEach(x=> {

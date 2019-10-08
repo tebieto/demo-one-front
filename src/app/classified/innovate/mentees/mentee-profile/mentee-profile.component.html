@@ -1,6 +1,3 @@
-<p>
-  mentee-profile works!
-</p>
 <div *ngIf="!isConnecting && user && !hasError">
 
     <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
@@ -38,7 +35,7 @@
 
       <div class="profile-card mat-elevation-z0">
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/mentor/'+params['code']]">
           <button>Mentors <br>{{overview.mentorCount}}</button>
         </div>
 

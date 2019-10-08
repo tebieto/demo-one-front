@@ -82,7 +82,7 @@ export class MentorHomeComponent implements OnInit {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    let message = 'Are you sure you want to accept '+ data['value']['full_name']+'  asyour Mentee?'
+    let message = 'Are you sure you want to accept '+ data['value']['full_name']+'  as your Mentee?'
     this.openDialog(data['value'], message, param, 'accept')
   }
 

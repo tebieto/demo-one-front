@@ -146,7 +146,6 @@ export class MentorProfileComponent implements OnInit {
 
   manipulateOverview(data: any) {
     console.log(data)
-    return
     if(!data.mentees) {
       data.mentees = []
     }

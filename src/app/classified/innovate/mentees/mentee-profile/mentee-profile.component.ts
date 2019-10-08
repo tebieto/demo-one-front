@@ -98,9 +98,11 @@ export class MenteeProfileComponent implements OnInit {
   manipulateOverview(data: any) {
     data['approved'] = []
     data['certificates'] = []
-    data['mentorCount'] = 0
-    if(data['mentors']) {
+    if(data['mentors'] && data.mentors.id>0) {
       data['mentorCount'] = 1
+    } else {
+      data['mentorCount'] = 0
+      data['mentors']= []
     }
     if(data.ideas) {
     data.ideas.forEach(idea => {

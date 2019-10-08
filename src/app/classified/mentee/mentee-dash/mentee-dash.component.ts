@@ -9,6 +9,7 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Title } from '@angular/platform-browser';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
+import { Config } from 'src/app/config';
 
 export interface PeriodicElement {
   'name': object;
@@ -30,7 +31,7 @@ export class MenteeDashComponent implements OnInit {
   @ViewChild('sharedAvatar') sharedAvatar: ElementRef;
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.mentorList);
-  learnUrl: string;
+  learnUrl = Config.menteeLearn
   pendingMentor: boolean;
 
   applyFilter(filterValue: string) {
@@ -233,6 +234,7 @@ export class MenteeDashComponent implements OnInit {
     if (!this.learnUrl.match(pattern)) {
       this.learnUrl = 'https://' +this.learnUrl
     }
+    this.learnUrl = Config.menteeLearn
   }
 
   getMenteeMentors() {

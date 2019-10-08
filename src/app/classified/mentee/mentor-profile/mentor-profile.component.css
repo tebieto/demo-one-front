@@ -61,10 +61,16 @@
     margin: auto;
     padding: 10PX;
 }
+.custom-button {
+    width: 400px;
+    max-width: 90%;
+    display: block;
+    margin: auto;
+}
 
 .custom-button button{
     background: #03A9F4;
     color: #fff;
-    display: block;
-    margin: auto;
+    display: inline-block;
+    margin: 5px;
 }

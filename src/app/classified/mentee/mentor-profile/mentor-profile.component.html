@@ -48,12 +48,12 @@
             <p>{{mentorProfile.profile.description}}</p>
       </div><br>
 
-      <div class="custom-button" [class.hidden]="hasMentor?true:false">
-        <button mat-button (click)="chooseMentor(params['code'])">Choose Mentor</button>
+      <div class="custom-button">
+        <button mat-button (click)="chooseMentor(params['code'])" [class.hidden]="hasMentor|| hasPendingMentor?true:false">Choose Mentor</button>
+        <button mat-button (click)="newTab(mentorProfile.profile.linkedin)">Mentor Linkedin Profile</button>
       </div>
 
       <div class="custom-button">
-        <button mat-button (click)="newTab(mentorProfile.profile.linkedin)">My Linkedin Profile</button>
       </div>
       
       </div>

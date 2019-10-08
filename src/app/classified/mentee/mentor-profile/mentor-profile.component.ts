@@ -7,6 +7,8 @@ import { UserService } from 'src/app/shared/user/user.service';
 import * as crypto from 'crypto-js';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import {CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
+import { Subscription } from 'rxjs';
+import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 
 @Component({
   selector: 'app-mentor-profile',
@@ -22,6 +24,8 @@ export class MentorProfileComponent implements OnInit {
   mentorProfile: object;
   hasMentor: boolean;
   persistingData: boolean;
+  subscription: Subscription;
+  hasPendingMentor: boolean;
 
   constructor(
     private _location: Location,
@@ -55,6 +59,7 @@ export class MentorProfileComponent implements OnInit {
           }
           this.user = res.body.user
           this.getMentorProfile(this.params['code'])
+          this.getPendingMentors()
          }
   
     },
@@ -64,15 +69,60 @@ export class MentorProfileComponent implements OnInit {
     });
   }
 
+  getPendingMentors() {
+    this.isConnecting = true
+    const subscription = this.userService.pendingMentors()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        this.isConnecting = false; 
+        if(res.code==200) {
+          if(res.body) {
+           this.consumeResponse(res.body)
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  consumeResponse(data: object[]) {
+    if(data.length>0) {this.hasPendingMentor=true}
+  }
+
   chooseMentor(param: string) {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?'
-    this.openDialog(data['value'], message, param)
+    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?';
+    let msg = 'Briefly tell us why you want '+ data['value']['mentor']['full_name']+' to be your Mentor'
+    this.openSheet(data.value, message, param, msg)
   }
 
-  openDialog(data: object, message, param:string): void {
+
+
+  openSheet(data: object, message, param:string, msg:string): void {
+    const dialogRef = this.dialog.open(SharedMessageDialogComponent, {
+      width: '400px',
+      data: {id:data['mentor']['id'], message:msg}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      this.openDialog(data, message, param, result)
+    });
+  }
+
+  openDialog(data: object, message, param:string, msg): void {
     const dialogRef = this.dialog.open(SharedDialogComponent, {
       width: '250px',
       data: {id:data['mentor']['id'], message:message}
@@ -82,13 +132,17 @@ export class MentorProfileComponent implements OnInit {
       if(!result){
         return
       }
-      this.addMentee(result, param)
+      this.addMentor(result, param, msg)
     });
   }
 
-  addMentee(id: number, param:string) {
+  addMentor(id: number, param:string, message: string) {
+    let data = {
+      'mentor_id': id,
+      'mentee_message': message
+    }
     this.persistingData = true
-    this.userService.addMentee(id)
+    this.userService.addMentor(data)
     .subscribe(
       (res)=>{
         this.persistingData=false
@@ -98,7 +152,7 @@ export class MentorProfileComponent implements OnInit {
         }
   
         if(res.code==200) {
-          this.hasMentor = true
+          this.hasPendingMentor = true
           let notification = res.message
           this.openSnackBar(notification, 'snack-success')
          }
@@ -200,6 +254,11 @@ export class MentorProfileComponent implements OnInit {
 
   goBack() {
     this._location.back()
+  }
+
+  ngOnDestroy() {
+    if(!this.subscription){return}
+    this.subscription.unsubscribe();
   }
 
 }

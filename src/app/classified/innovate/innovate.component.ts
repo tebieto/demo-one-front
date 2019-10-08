@@ -134,9 +134,18 @@ export class InnovateComponent implements OnInit {
     this.overview =data
     this.overview['top'] = []
     this.overview['ideas'] = []
-    data.mentees.forEach(mentee => {
-      this.pushMenteeIdeas(mentee.idea)
-    });
+    if(data.mentees) {
+      data.mentees.forEach(mentee => {
+        this.pushMenteeIdeas(mentee.idea)
+      });
+    } else {
+      data['mentees'] = []
+    }
+
+    if(!data.mentors) {
+     data.mentors = []
+    }
+    
     this.isConnecting = false;
   }
 

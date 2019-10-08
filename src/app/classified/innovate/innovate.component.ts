@@ -147,6 +147,10 @@ export class InnovateComponent implements OnInit {
     if(!data.mentors) {
      data.mentors = []
     }
+
+    if(!data.committees) {
+      data.committees = []
+     }
     
     this.isConnecting = false;
   }

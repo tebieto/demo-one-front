@@ -53,7 +53,7 @@
             <!-- Position Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name</th>
-              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/innovate/mentor-profile/'+element.name.link]"> {{element.name.name}} </td>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/innovate/committee-profile/'+element.name.link]"> {{element.name.name}} </td>
             </ng-container>
           
             <!-- Weight Column -->
@@ -68,7 +68,7 @@
               <td mat-cell *matCellDef="let element"> 
                   <mat-icon class="more-icon" [matMenuTriggerFor]="menu1">more_vert</mat-icon>
                   <mat-menu #menu1="matMenu">
-                      <button mat-menu-item [routerLink]="['/innovate/mentor-profile/'+element.data]">
+                      <button mat-menu-item [routerLink]="['/innovate/committee-profile/'+element.data]">
                         View Complete Profile
                       </button>
                     </mat-menu>
@@ -83,7 +83,7 @@
     </div>
 
     <div class="custom-button" [class.hidden]="mentorList.length>0?true:false">
-        <h6>No Mentor at the moment</h6>
+        <h6>No Committee at the moment</h6>
     </div>
     
     <!-- END OF VIEW-->

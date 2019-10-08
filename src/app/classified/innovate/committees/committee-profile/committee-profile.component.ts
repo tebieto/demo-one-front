@@ -7,11 +7,11 @@ import { UserService } from 'src/app/shared/user/user.service';
 import {CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 
 @Component({
-  selector: 'app-view-profile',
-  templateUrl: './view-profile.component.html',
-  styleUrls: ['./view-profile.component.css']
+  selector: 'app-committee-profile',
+  templateUrl: './committee-profile.component.html',
+  styleUrls: ['./committee-profile.component.css']
 })
-export class ViewProfileComponent implements OnInit {
+export class CommitteeProfileComponent implements OnInit {
 
   user: object;
   isConnecting: boolean;

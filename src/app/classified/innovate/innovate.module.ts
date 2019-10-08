@@ -13,6 +13,8 @@ import { MenteeProfileComponent } from './mentees/mentee-profile/mentee-profile.
 import { ViewIdeasComponent } from './ideas/view-ideas/view-ideas.component';
 import { MenteeReportComponent } from './mentees/mentee-report/mentee-report.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
+import { CommitteesComponent } from './committees/committees.component';
+import { CommitteeProfileComponent } from './committees/committee-profile/committee-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
     ViewIdeasComponent,
     MenteeReportComponent,
     AdminHomeComponent,
+    CommitteesComponent,
+    CommitteeProfileComponent,
   ],
   imports: [
     CommonModule,

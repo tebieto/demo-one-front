@@ -21,6 +21,9 @@
             <button mat-menu-item [routerLink]="['/innovate/admin/home']">
               Invite Users
             </button>
+            <button mat-menu-item [routerLink]="['/innovate/committees/']">
+              Committee Members
+            </button>
             <button mat-menu-item [routerLink]="['/innovate/mentors/']">
               All Mentors
             </button>
@@ -50,6 +53,12 @@
         <button mat-button class="add-new" [routerLink]="['/innovate/admin']"><mat-icon>settings</mat-icon> Custom Settings</button>
         
         <div class="overview-boxes">
+          <div class="box mat-elevation-z2" [routerLink]="['/innovate/committees/']">
+            <div>
+              <h4>Committees</h4> 
+              <h1>{{overview.committees.length}}</h1>
+            </div>
+          </div>
           <div class="box mat-elevation-z2" [routerLink]="['/innovate/mentors/']">
             <div>
               <h4>Mentors</h4> 

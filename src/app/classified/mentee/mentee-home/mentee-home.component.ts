@@ -1742,7 +1742,7 @@ export class MenteeHomeComponent implements OnInit {
         this.snackBar.openFromComponent(SnackbarComponent, {
           data: message,
           panelClass: [panelClass],
-          duration: 2000
+          duration: 4000
         })
       }
       
@@ -1754,6 +1754,29 @@ export class MenteeHomeComponent implements OnInit {
       
       onChooseFile(e) {
         var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+        if(!file){return}
+        let size = this.byteToMb(file['size'])
+        var reader = new FileReader();
+        reader.readAsBinaryString(file)
+        reader.onloadend = ()=>{
+          var binary =''+reader.result
+          if(binary) {
+         let  pageCount = binary.match(/\/Type\s*\/Page\b/g).length;
+          
+         if(pageCount>1) {
+          this.pageCountError()
+          return
+        }
+          }
+      }
+        
+
+        if(size>1) {
+          this.fileSizeError()
+          return
+        }
+
+       
         var pattern = /.pdf/;
         const formData: FormData = new FormData();
         if (!file.name.match(pattern)) {
@@ -1763,6 +1786,20 @@ export class MenteeHomeComponent implements OnInit {
         formData.append('file', file, file.name)
         this.persistFileData(formData);
         e.srcElement.value = '';
+      }
+
+      byteToMb(byte: number) {
+        return byte/1024/1024
+      }
+
+      fileSizeError() { 
+        let notification = 'File too large, Max. size is 1mb'
+        this.openSnackBar(notification, 'snack-error')
+      }
+
+      pageCountError() { 
+        let notification = 'PDF must be maximum of 1 page.'
+        this.openSnackBar(notification, 'snack-error')
       }
       
       persistFileData(data) {
@@ -1791,6 +1828,7 @@ export class MenteeHomeComponent implements OnInit {
     
     onChooseImage(e) {
       var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+      if(!file) {return}
       var pattern = /image-*/;
       const formData: FormData = new FormData();
       if (!file.type.match(pattern)) {

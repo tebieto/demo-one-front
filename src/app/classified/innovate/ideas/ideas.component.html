@@ -105,7 +105,7 @@
           </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     
-          <div class="custom-button" [class.hidden]="page=='approved' && ideas.length==0?false:true">
+          <div class="custom-button" [class.hidden]="ideas.length==0?false:true">
               <h6>No {{title}} at the moment</h6>
           </div>
     

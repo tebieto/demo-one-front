@@ -39,15 +39,15 @@
           <button>Mentors <br>{{overview.mentorCount}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/certificate/'+params['code']]">
           <button>Verified <br> Certificates <br>{{overview.certificates.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/idea/'+params['code']]">
           <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/approved-idea/'+params['code']]">
           <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
         </div>
       

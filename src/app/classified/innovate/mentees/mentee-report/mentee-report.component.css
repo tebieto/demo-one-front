@@ -8,6 +8,13 @@ mat-toolbar-row span {
     cursor: pointer;
 }
 
+.idea-arrow-back {
+    position: relative;
+    top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 .login-button {
     background: transparent !important;
     color: #03A9F4 !important;
@@ -117,4 +124,21 @@ td, th {
     display: block;
     margin: auto;
     color: #9E9E9E;
+}
+
+.alternative {
+    position: relative;
+    top: 10px;
+}
+
+.settings {
+    margin-bottom: 20px;
+}
+
+.grey-text {
+    color: rgba(0, 0, 0, 0.432) !important;
+}
+
+.active-page {
+    color: #03A9F4 !important;
 }

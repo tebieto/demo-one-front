@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/shared/user/user.service';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import * as crypto from 'crypto-js';
+import { Asset as cryptojs} from 'src/app/asset';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Title } from '@angular/platform-browser';
 import { Config } from 'src/app/config';
-import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import { Location } from '@angular/common';
 
 
 export interface CertificateElement {
@@ -20,7 +21,17 @@ export interface PeriodicElement {
   'name': object;
   'about': string;
   'data': string;
-  'message': string;
+}
+
+export interface ideaElement {
+  'title': string;
+  'description': string;
+  'id': number;
+  'link': string;
+  'status': string;
+  'idea': object;
+  'score': string;
+  'comment': string;
 }
 
 @Component({
@@ -32,21 +43,33 @@ export class MenteeReportComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('toMentor') toMentor: ElementRef;
+  @ViewChild('toCertificates') toCertificates: ElementRef;
+  @ViewChild('toIdeas') toIdeas: ElementRef;
+  @ViewChild('toApproved') toApproved: ElementRef;
   mentorList: PeriodicElement[] = [];
   certificates: CertificateElement[] = [];
+  approvedList: ideaElement[] = [];
+  ideaList: ideaElement[] = [];
   displayedColumns: string[] = ['name', 'about', 'data'];
-  displayedPendingColumns: string[] = ['name', 'about', 'msg', 'data',];
   certificateColumns: string[] = ['name', 'mentee', 'data'];
+  approvedColumns: string[] = ['title', 'description','comment', 'score', 'id'];
+  ideaColumns: string[] = ['title', 'description', 'status', 'id'];
   dataSource = new MatTableDataSource(this.mentorList);
   certificateDataSource = new MatTableDataSource(this.certificates);
+  approvedDataSource = new MatTableDataSource(this.approvedList);
+  ideaDataSource = new MatTableDataSource(this.ideaList);
 
   applyFilter(filterValue: string, type: string) {
     if(type=='all') {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    } else if(type=='pending') {
-      //
+      this.ideaDataSource.filter = filterValue.trim().toLowerCase();
+    } else if(type=='certs') {
+      this.certificateDataSource.filter = filterValue.trim().toLowerCase();
+    } else if(type=='approved') {
+      this.approvedDataSource.filter = filterValue.trim().toLowerCase();
     }
   }
+
 
   isConnecting: boolean;
   onStartUpload: boolean;
@@ -62,6 +85,8 @@ export class MenteeReportComponent implements OnInit {
   overview = []
   params: object
   profile: object
+  allIdeas: object
+  page = "mentor"
 
   constructor(
     private userService: UserService,
@@ -70,29 +95,66 @@ export class MenteeReportComponent implements OnInit {
     private route: ActivatedRoute,
     private titleService:Title,
     public dialog: MatDialog,
+    public _location: Location
     ) {}
 
   ngOnInit() {
     this.titleService.setTitle('IDEAHUB| Mentor Home')
     this.validateUser()
     this.startCustomRouter()
+    this.startPaginator()
   }
 
   startPaginator() {
     this.isConnecting = true
     setTimeout(()=>{  
-    this.dataSource.paginator = this.paginator;
-    this.focusInput()
-    this.isConnecting = false
-    },1000);
-
-    setTimeout(()=>{  
       this.certificateDataSource.paginator = this.paginator;
       this.dataSource.paginator = this.paginator;
+      this.approvedDataSource.paginator = this.paginator;
+      this.ideaDataSource.paginator = this.paginator;
       this.focusInput()
       this.isConnecting = false
+      this.onScrollToPage()
       },2000);
   }
+
+  onScrollToPage() {
+    if(this.page=='approved-idea') {
+      this.scrollToPage('approved')
+    }
+
+    if(this.page=='idea') {
+      this.scrollToPage('ideas')
+    }
+
+    if(this.page=='certificate') {
+      this.scrollToPage('certificates')
+    }
+
+    if(this.page=='mentor') {
+      this.scrollToPage('mentor')
+    }
+  }
+
+  
+  scrollToPage(page: string): void {
+
+    try {
+      if(page=='approved') {   
+      this.toApproved.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      if(page=='ideas') {   
+        this.toIdeas.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      if(page=='certificates') {   
+        this.toCertificates.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+      if(page=='mentor') {   
+        this.toMentor.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    } catch(err) { } 
+
+}
 
   focusInput() {
     if(!this.searchInput){return}
@@ -183,25 +245,32 @@ export class MenteeReportComponent implements OnInit {
     data['mentorCount'] = 0
     if(data['mentors'] && data.mentors.id>0) {
       data['mentorCount'] = 1
+      let newData = {}
+      newData['mentor'] = data.mentors
+      newData['profile'] = data.mentorship_profile
+      this.cleanMentorData(newData)
     } else {
       data['mentorCount'] = 0
       data['mentors']= []
     }
+
     if(data.ideas) {
-    data.ideas.forEach(idea => {
-      if(idea['committee_status']=='approved') {
-        data['approved'].push(idea)
-      }
-    });
-  } else {
-    data['approved'] = []
-  }
+      this.allIdeas = {}
+      this.allIdeas['approved'] = []
+      this.allIdeas['all'] = []
+      this.pushMenteeIdeas(data.ideas)
+      this.pushIdea(this.allIdeas['approved'], 'approved')
+      this.pushIdea(this.allIdeas['all'], 'all')
+    } else {
+      data['ideas'] = []
+    }
+
 
   if(data.program_certificates) {
 
     data.program_certificates.forEach(cert => {
       if(cert['status']=='approved') {
-        data['certificates'].push(cert)
+        this.cleanCertificateData(cert)
       }
     });
   } else {
@@ -209,10 +278,81 @@ export class MenteeReportComponent implements OnInit {
   }
     
     this.overview =data
-    this.certificates = this.overview['certificates']
-    this.mentorList = this.overview['mentors']
     this.startPaginator()
+    
   }
+
+  cleanMentorData(data: object) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
+    let encrypted = this.encrypt(data)
+    let newData = {
+      'name' :  {name:data['mentor']['full_name'], link: encrypted},
+      'about' : data['profile']['about_me'],
+      'data'  : encrypted
+    }
+    this.mentorList.push(newData)
+  }
+
+  cleanCertificateData(data: object) {
+    if(!data) {
+      this.isConnecting = false;
+      return
+    }
+      let newData = {
+        'name' :  data['name'],
+        'mentee' :  data['mentee'],
+        'data'  : {id:data['id'], link:data['url'], certificate:data['certificate']}
+      }
+    this.certificates.push(newData)
+  }
+
+   pushMenteeIdeas(idea: object[]) {
+    if(!idea) {return}
+    idea.forEach(x=> {
+      if(x['committee_status']=='approved') {
+        this.allIdeas['approved'].push(x)
+      }
+      this.allIdeas['all'].push(x)
+    })
+  }
+
+
+  pushIdea(data: object[], type: string) {
+    let ideas = this.ideaList
+    if(type=='approved') {
+      ideas = this.approvedList
+    }
+    ideas.splice(0, ideas.length)
+    data.forEach(idea=> {
+      let encrypted = cryptojs.encrypt(idea, this.user['id'])
+      let element = {id:0, description:'', title: '', comment: '', score: '', link: '', status: '', idea:{}}
+      element['id']= idea['id']
+      element['score']= idea['committee_score']
+      element['comment']= idea['committee_comment']
+      element['link'] = encrypted
+      element['description']= idea['description']
+      element['title'] = idea['title']
+      element['status'] = idea['status']
+      element['idea'] = idea
+      ideas.push(element)
+    });
+
+  }
+
+
+  encrypt(value : object) : string{
+    let secret = this.makeSecret()
+    let d = {secret: secret, value: value}
+
+    let code = JSON.stringify(d)
+    let data = {secret: secret, code: crypto.AES.encrypt(code.trim(), secret.trim()).toString().replace(/\//g,'atala')}
+    data['link'] = data.code
+    return data['link'];
+  }
+ 
   
 
   logUserOut(message:string){
@@ -247,6 +387,10 @@ export class MenteeReportComponent implements OnInit {
 
   consumeRouteParams(params: object) {
     this.params = params
+    if(params['page'] !='approved-idea' && params['page']!='idea' && params['page']!='mentor' && params['page']!='certificate') {
+      this.pageNotFound()
+    }
+    this.page = params['page']
     return
   }
 
@@ -300,6 +444,10 @@ export class MenteeReportComponent implements OnInit {
 ngOnDestroy() {
   if(!this.subscription){return}
   this.subscription.unsubscribe();
+}
+
+goBack() {
+  this._location.back()
 }
 
 }

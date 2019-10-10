@@ -38,19 +38,19 @@
 
       <div class="profile-card mat-elevation-z0">
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/mentor/'+params['code']]">
           <button>Mentors <br>{{overview.mentorCount}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/certificate/'+params['code']]">
           <button>Verified <br> Certificates <br>{{overview.certificates.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/idea/'+params['code']]">
           <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/approved-idea/'+params['code']]">
           <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
         </div>
       

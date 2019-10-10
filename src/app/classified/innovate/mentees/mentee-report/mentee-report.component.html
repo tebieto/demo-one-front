@@ -7,8 +7,6 @@
           <span class="flexer"></span>
     
           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
-
-    
         </mat-toolbar-row>
     </mat-toolbar>
     <br><br>
@@ -235,9 +233,9 @@
     
     <!-- END OF VIEW-->
     
-    </div>
-    <app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
-    
-    <app-page-loading *ngIf="isConnecting"></app-page-loading>
+</div>
+<app-error-occured *ngIf="hasError && !isConnecting"></app-error-occured>
+
+<app-page-loading *ngIf="isConnecting"></app-page-loading>
     
     

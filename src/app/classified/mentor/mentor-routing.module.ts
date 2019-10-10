@@ -7,6 +7,7 @@ import { SpecialSetupComponent } from './special-setup/special-setup.component';
 import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
 import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
 import { EditProgramComponent } from './edit-program/edit-program.component';
+import { MenteeReportComponent } from './mentee-report/mentee-report.component';
 
 const routes: Routes = [
   {"path": '', component: MentorHomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {"path": 'edit/programme', component: EditProgramComponent},
   {"path": 'quick/setup', component: SpecialSetupComponent}, 
   {"path": 'mentee-profile/:code', component: MenteeProfileComponent},
+  {"path": 'mentee/report/:page/:code', component: MenteeReportComponent},
 ];
 
 @NgModule({

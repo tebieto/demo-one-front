@@ -11,6 +11,7 @@ import { SpecialSetupComponent } from './special-setup/special-setup.component';
 import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
 import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
 import { EditProgramComponent } from './edit-program/edit-program.component';
+import { MenteeReportComponent } from './mentee-report/mentee-report.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { EditProgramComponent } from './edit-program/edit-program.component';
     MenteeProfileComponent,
     MentorChatComponent,
     EditProgramComponent,
+    MenteeReportComponent,
   ],
   imports: [
     CommonModule,

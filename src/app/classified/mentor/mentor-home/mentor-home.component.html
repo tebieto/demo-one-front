@@ -38,7 +38,7 @@
 
     <!--For Certificates-->
 
-    <div class="settings mat-elevation-z8" [class.hidden]="certificates.length==0?true:false">
+    <div class="settings mat-elevation-z8 add-radius" [class.hidden]="certificates.length==0?true:false">
 
         <h3 class="sub-title">Your Certificates</h3>
             
@@ -82,7 +82,7 @@
     </div>
 
     <!--For Pending-->
-    <div class="settings mat-elevation-z8" [class.hidden]="pendingMenteeList.length==0?true:false">
+    <div class="settings mat-elevation-z8 add-radius" [class.hidden]="pendingMenteeList.length==0?true:false">
     
          <h3 class="sub-title">Pending Mentees</h3>
     
@@ -136,7 +136,7 @@
     
     </div>
     
-    <div class="settings mat-elevation-z8">
+    <div class="settings mat-elevation-z8 add-radius">
     
          <h3 class="sub-title">My Mentees</h3>
     
@@ -175,11 +175,11 @@
             </table>
 
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    
-    </div>
 
-    <div class="custom-button" [class.hidden]="menteeList.length>0?true:false">
-        <h6>You currently have no Mentee</h6>
+          <div class="" [class.hidden]="menteeList.length>0?true:false">
+            <h6>You currently have no Mentee</h6>
+        </div>
+    
     </div>
 
     <div class="page-buttons">

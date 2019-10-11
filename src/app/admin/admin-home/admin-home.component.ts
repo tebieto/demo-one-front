@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { Location} from '@angular/common';
 import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { UserService } from 'src/app/shared/user/user.service';
@@ -36,7 +36,7 @@ const ELEMENT_DATA: PeriodicElement[] = [];
 })
 export class AdminHomeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('csvUpload') csvUpload: ElementRef;
   displayedColumns: string[] = ['email', 'role', 'status', 'action'];
@@ -153,11 +153,10 @@ export class AdminHomeComponent implements OnInit {
 
 
   startPaginator() {
-    this.isConnecting = true
+    this.isConnecting = false
     setTimeout(()=>{  
-    this.dataSource.paginator = this.paginator;
     this.focusInput()
-    this.isConnecting = false;
+    this.dataSource.paginator = this.paginator.toArray()[0];
     },200);
   }
 
@@ -453,6 +452,10 @@ clearForm() {
 
 goBack(){
   this._location.back()
+}
+
+ngAfterViewInit() {
+  this.startPaginator()
 }
 
 ngOnDestroy() {

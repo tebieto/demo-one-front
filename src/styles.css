@@ -1128,3 +1128,7 @@ mat-toolbar-row span {
   background: red !important;
   color: #fff !important;
 }
+
+.add-radius {
+    border-radius: 5px !important;
+}

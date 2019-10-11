@@ -153,12 +153,11 @@ export class AdminHomeComponent implements OnInit {
 
 
   startPaginator() {
-    this.isConnecting = true
+    this.isConnecting = false
     setTimeout(()=>{  
     this.dataSource.paginator = this.paginator;
     this.focusInput()
-    this.isConnecting = false;
-    },1000);
+    },200);
   }
 
   focusInput() {

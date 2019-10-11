@@ -36,7 +36,7 @@
     
     <!--View-->
     
-    <div class="settings mat-elevation-z8">
+    <div class="settings mat-elevation-z8 add-radius">
     
          <h3 class="sub-title" [class.hidden]="pendingMentor||hasMentor?true:false">Recommended Mentors</h3>
          <h3 class="sub-title" [class.hidden]="hasMentor?false:true">My Mentor</h3>
@@ -75,7 +75,12 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [class.hidden]="hasMentor?true:false"></mat-paginator>
-    
+          
+          
+          <div class="" [class.hidden]="mentorList.length>0?true:false">
+              <h6>No Mentor at the moment</h6>
+          </div>
+
     </div>
     <div class="page-buttons">
       <div class="custom-button" [class.hidden]="hasMentor||pendingMentor?false:true">
@@ -87,9 +92,6 @@
       </div>
     </div>
 
-    <div class="custom-button" [class.hidden]="mentorList.length>0?true:false">
-        <h6>No Mentor at the moment</h6>
-    </div>
     
     <!-- END OF VIEW-->
     

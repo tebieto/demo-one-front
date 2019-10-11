@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { MatSnackBar, MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -40,7 +40,7 @@ export interface ideaElement {
 })
 export class MenteeReportComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('toMentor') toMentor: ElementRef;
   @ViewChild('toCertificates') toCertificates: ElementRef;
@@ -107,10 +107,10 @@ export class MenteeReportComponent implements OnInit {
   startPaginator() {
     this.isConnecting = true
     setTimeout(()=>{  
-      this.certificateDataSource.paginator = this.paginator;
-      this.dataSource.paginator = this.paginator;
-      this.approvedDataSource.paginator = this.paginator;
-      this.ideaDataSource.paginator = this.paginator;
+      this.certificateDataSource.paginator = this.paginator.toArray()[0];
+      this.dataSource.paginator = this.paginator.toArray()[1];
+      this.approvedDataSource.paginator = this.paginator.toArray()[2];
+      this.ideaDataSource.paginator = this.paginator.toArray()[3];
       this.focusInput()
       this.isConnecting = false
       this.onScrollToPage()

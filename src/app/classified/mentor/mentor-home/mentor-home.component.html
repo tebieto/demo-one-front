@@ -38,11 +38,11 @@
 
     <!--For Certificates-->
 
-    <div class="settings mat-elevation-z8 add-radius" [class.hidden]="certificates.length==0?true:false">
+    <div class="settings " [class.hidden]="certificates.length==0?true:false">
 
         <h3 class="sub-title">Your Certificates</h3>
             
-            <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z0">
+            <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8 add-radius">
             <!-- Position Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name on Certificate</th>
@@ -76,13 +76,13 @@
             
             <tr mat-header-row *matHeaderRowDef="certificateColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: certificateColumns;"></tr>
-            </table>
+            </table><br>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     
     </div>
 
     <!--For Pending-->
-    <div class="settings mat-elevation-z8 add-radius" [class.hidden]="pendingMenteeList.length==0?true:false">
+    <div class="settings " [class.hidden]="pendingMenteeList.length==0?true:false">
     
          <h3 class="sub-title">Pending Mentees</h3>
     
@@ -90,7 +90,7 @@
             <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'pending')" placeholder="Search Mentees">
           </mat-form-field>
           
-          <table mat-table [dataSource]="pendingDataSource" class="mat-elevation-z0">
+          <table mat-table [dataSource]="pendingDataSource" class="mat-elevation-z8 add-radius">
               <!-- Name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -130,13 +130,13 @@
             
               <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedPendingColumns;"></tr>
-            </table>
+            </table><br>
 
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     
     </div>
     
-    <div class="settings mat-elevation-z8 add-radius">
+    <div class="settings ">
     
          <h3 class="sub-title">My Mentees</h3>
     
@@ -144,7 +144,7 @@
             <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'all')" placeholder="Search Mentees">
           </mat-form-field>
           
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 add-radius">
               <!-- Position Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -172,7 +172,7 @@
             
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+            </table><br>
 
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 

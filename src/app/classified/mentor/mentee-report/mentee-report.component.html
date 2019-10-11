@@ -15,11 +15,11 @@
 
   <!--For Mentors-->
 
-  <div class="settings mat-elevation-z8 add-radius">
+  <div class="settings ">
   
       <h3 class="sub-title" [class.active-page]="page=='mentor'?true:false" #toMentor>Mentor</h3>
        
-       <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 add-radius">
            <!-- Position Column -->
            <ng-container matColumnDef="name">
              <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -47,7 +47,7 @@
          
            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-         </table>
+         </table><br>
 
        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
@@ -61,7 +61,7 @@
 
   <!--For Certificates-->
 
-  <div class="settings mat-elevation-z8 add-radius">
+  <div class="settings ">
 
       <h3 class="sub-title" [class.active-page]="page=='certificate'?true:false" #toCertificates>Certificates({{certificates.length}})</h3>
       
@@ -69,7 +69,7 @@
           <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'certs')" placeholder="Search Certificates">
         </mat-form-field>
           
-          <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z0">
+          <table mat-table [dataSource]="certificateDataSource" class="mat-elevation-z8 add-radius">
           <!-- Position Column -->
           <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name on Certificate</th>
@@ -100,7 +100,7 @@
           
           <tr mat-header-row *matHeaderRowDef="certificateColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: certificateColumns;"></tr>
-          </table>
+          </table><br>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
           <div class="grey-text" [class.hidden]="certificates.length>0?true:false">
@@ -110,7 +110,7 @@
   </div>
 
 
-  <div class="settings mat-elevation-z8 add-radius">
+  <div class="settings ">
   
       <h3 class="sub-title" [class.active-page]="page=='approved-idea'?true:false" #toApproved>Approved Ideas({{approvedList.length}})<br><br>
 
@@ -122,7 +122,7 @@
          <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'approved')" [placeholder]="'Search approved ideas'">
        </mat-form-field>
        
-       <table mat-table [dataSource]="approvedDataSource" class="mat-elevation-z0">
+       <table mat-table [dataSource]="approvedDataSource" class="mat-elevation-z8 add-radius">
          <!-- Position Column -->
          <ng-container matColumnDef="title">
            <th mat-header-cell *matHeaderCellDef> Idea Title </th>
@@ -162,7 +162,7 @@
        
          <tr mat-header-row *matHeaderRowDef="approvedColumns"></tr>
          <tr mat-row *matRowDef="let row; columns: approvedColumns;"></tr>
-       </table>
+       </table><br>
        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
  
        <div class="grey-text" [class.hidden]="approvedList.length==0?false:true">
@@ -172,7 +172,7 @@
  </div>
 
 
- <div class="settings mat-elevation-z8 add-radius">
+ <div class="settings ">
   
     <h3 class="sub-title" [class.active-page]="page=='idea'?true:false" #toIdeas>All Ideas({{ideaList.length}})<br><br>
 
@@ -184,7 +184,7 @@
        <input #searchInput matInput (keyup)="applyFilter($event.target.value, 'all')" [placeholder]="'Search all ideas'">
      </mat-form-field>
      
-     <table mat-table [dataSource]="ideaDataSource" class="mat-elevation-z0">
+     <table mat-table [dataSource]="ideaDataSource" class="mat-elevation-z8 add-radius">
        <!-- Position Column -->
        <ng-container matColumnDef="title">
          <th mat-header-cell *matHeaderCellDef> Idea Title </th>
@@ -219,7 +219,7 @@
      
        <tr mat-header-row *matHeaderRowDef="ideaColumns"></tr>
        <tr mat-row *matRowDef="let row; columns: ideaColumns;"></tr>
-     </table>
+     </table><br>
      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
      <div class="grey-text" [class.hidden]="ideaList.length==0?false:true">

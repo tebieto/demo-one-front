@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { MatSnackBar, MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ export interface PeriodicElement {
 })
 export class MentorHomeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChild('searchInput') searchInput: ElementRef;
   menteeList: PeriodicElement[] = [];
   pendingMenteeList: PeriodicElement[] = [];
@@ -74,7 +74,6 @@ export class MentorHomeComponent implements OnInit {
   ngOnInit() {
     this.titleService.setTitle('IDEAHUB| Mentor Home')
     this.validateUser()
-    this.startPaginator()
     this.startCustomRouter()
   }
 
@@ -217,19 +216,12 @@ export class MentorHomeComponent implements OnInit {
  
 
   startPaginator() {
-    this.isConnecting = true
+    this.isConnecting = false;
     setTimeout(()=>{  
-    this.dataSource.paginator = this.paginator;
-    this.focusInput()
-    this.isConnecting = false
-    },1000);
-
-    setTimeout(()=>{  
-      this.certificateDataSource.paginator = this.paginator;
-      this.pendingDataSource.paginator = this.paginator;
-      this.dataSource.paginator = this.paginator;
+      this.certificateDataSource.paginator = this.paginator.toArray()[0];
+      this.pendingDataSource.paginator = this.paginator.toArray()[1];
+      this.dataSource.paginator = this.paginator.toArray()[2];
       this.focusInput()
-      this.isConnecting = false
       },2000);
   }
 

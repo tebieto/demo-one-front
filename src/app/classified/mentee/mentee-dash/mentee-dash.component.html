@@ -36,13 +36,13 @@
     
     <!--View-->
     
-    <div class="settings mat-elevation-z8 add-radius">
+    <div class="settings">
     
          <h3 class="sub-title" [class.hidden]="pendingMentor||hasMentor?true:false">Recommended Mentors</h3>
          <h3 class="sub-title" [class.hidden]="hasMentor?false:true">My Mentor</h3>
          <h3 class="sub-title" [class.hidden]="pendingMentor?false:true">Pending Mentor</h3>
-          
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+         
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 add-radius">
             <!-- Position Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name</th>
@@ -73,7 +73,7 @@
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+          </table><br>
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [class.hidden]="hasMentor?true:false"></mat-paginator>
           
           

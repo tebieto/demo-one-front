@@ -36,7 +36,7 @@
 
 <!--View-->
 
-<div class="settings mat-elevation-z8 add-radius" *ngIf="page=='settings'">
+<div class="settings " *ngIf="page=='settings'">
 
      <h3 class="sub-title">{{title}}s</h3>
       <button mat-button class="add-new" [routerLink]="['/admin/new/'+sub]"><mat-icon>person_add</mat-icon> Add New {{title}}</button>
@@ -45,7 +45,7 @@
         <input #searchInput matInput (keyup)="applyFilter($event.target.value)" [placeholder]="'Search ' +title+ 's'">
       </mat-form-field>
       
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 add-radius">
         <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
@@ -83,7 +83,7 @@
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+      </table><br>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
       <div class="custom-button" [class.hidden]="allInvites.length>0?true:false">

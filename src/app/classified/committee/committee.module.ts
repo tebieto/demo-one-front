@@ -6,12 +6,14 @@ import { CommitteeHomeComponent } from './committee-home/committee-home.componen
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ViewIdeaComponent } from './view-idea/view-idea.component';
 import { CommitteeComponent } from './committee.component';
+import { MenteeProfileComponent } from './mentee-profile/mentee-profile.component';
 
 @NgModule({
   declarations: [
     CommitteeComponent,
     CommitteeHomeComponent,
-    ViewIdeaComponent
+    ViewIdeaComponent,
+    MenteeProfileComponent
   ],
   imports: [
     SharedModule,

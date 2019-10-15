@@ -15,6 +15,7 @@ import { MenteeReportComponent } from './mentees/mentee-report/mentee-report.com
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { CommitteesComponent } from './committees/committees.component';
 import { CommitteeProfileComponent } from './committees/committee-profile/committee-profile.component';
+import { MentorMenteesComponent } from './mentors/mentor-mentees/mentor-mentees.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CommitteeProfileComponent } from './committees/committee-profile/commit
     AdminHomeComponent,
     CommitteesComponent,
     CommitteeProfileComponent,
+    MentorMenteesComponent,
   ],
   imports: [
     CommonModule,

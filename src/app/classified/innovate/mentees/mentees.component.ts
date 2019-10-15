@@ -29,7 +29,6 @@ export class MenteesComponent implements OnInit {
   learnUrl: string;
 
   applyFilter(filterValue: string) {
-    this.titleService.setTitle('IDEAHUB| Mentor Profile')
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -56,7 +55,7 @@ export class MenteesComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('IDEAHUB|Mentee Home')
+    this.titleService.setTitle('IDEAHUB|Mentees')
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()

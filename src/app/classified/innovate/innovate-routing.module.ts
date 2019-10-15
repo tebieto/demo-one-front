@@ -12,6 +12,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { CommitteesComponent } from './committees/committees.component';
 import { CommitteeProfileComponent } from './committees/committee-profile/committee-profile.component';
 import { MenteeReportComponent } from './mentees/mentee-report/mentee-report.component';
+import { MentorMenteesComponent } from './mentors/mentor-mentees/mentor-mentees.component';
 
 const routes: Routes = [
   {"path": '', component: InnovateComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {"path": 'committees', component: CommitteesComponent},
   {"path": 'mentees/:page', component: MenteesComponent},
   {"path": 'mentee/report/:page/:code', component: MenteeReportComponent},
+  {"path": 'mentor/mentees/:code', component: MentorMenteesComponent},
   {"path": ':view/idea/:code', component: ViewIdeasComponent},
   {"path": 'mentor-profile/:code', component: MentorProfileComponent},
   {"path": 'mentee-profile/:code', component: MenteeProfileComponent},

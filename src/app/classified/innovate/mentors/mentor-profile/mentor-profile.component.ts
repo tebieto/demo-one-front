@@ -120,7 +120,7 @@ export class MentorProfileComponent implements OnInit {
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
     this.mentorProfile = data['value']
-    this.getUserOverview(this.mentorProfile['id'])
+    this.getUserOverview(this.mentorProfile['mentor']['id'])
   }
 
   getUserOverview(id: number){
@@ -146,7 +146,6 @@ export class MentorProfileComponent implements OnInit {
   }
 
   manipulateOverview(data: any) {
-    console.log(data)
     if(!data.mentees) {
       data.mentees = []
     }

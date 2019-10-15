@@ -63,6 +63,7 @@ export class IdeasComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+        
     this.startPaginator()
     this.startCustomRouter()
   }
@@ -159,7 +160,7 @@ export class IdeasComponent implements OnInit {
     this.overview['top'] = []
     this.overview['ideas'] = []
     data.mentees.forEach(mentee => {
-      this.pushMenteeIdeas(mentee.idea)
+      this.pushMenteeIdeas(mentee.ideas)
     });
 
     if(this.page=='approved') {

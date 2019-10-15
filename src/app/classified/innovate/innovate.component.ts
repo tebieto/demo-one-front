@@ -136,8 +136,8 @@ export class InnovateComponent implements OnInit {
     this.overview['ideas'] = []
     if(data.mentees) {
       data.mentees.forEach(mentee => {
-        if(mentee.idea) {   
-        this.pushMenteeIdeas(mentee.idea)
+        if(mentee.ideas) {   
+        this.pushMenteeIdeas(mentee.ideas)
         }
       });
     } else {

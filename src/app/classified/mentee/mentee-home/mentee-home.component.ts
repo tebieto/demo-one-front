@@ -1753,6 +1753,7 @@ export class MenteeHomeComponent implements OnInit {
       }
       
       onChooseFile(e) {
+        let pageError = false
         var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
         if(!file){return}
         let size = this.byteToMb(file['size'])
@@ -1765,14 +1766,20 @@ export class MenteeHomeComponent implements OnInit {
           
          if(pageCount>1) {
           this.pageCountError()
+          pageError = true
           return
         }
           }
       }
         
+      if(pageError) {
+        this.newIdeaPlan = ''
+        return
+      }
 
         if(size>1) {
           this.fileSizeError()
+          this.newIdeaPlan = ''
           return
         }
 

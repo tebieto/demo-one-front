@@ -4,7 +4,7 @@
         <mat-toolbar-row>
           <span class="welcome-logo" [routerLink]="['/mentor/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
           <span class="flexer"></span>
-          <button mat-button [routerLink]="['/mentor/main']">Chat</button>
+          <button mat-button [routerLink]="['/mentor/main']">Dashboard</button>
           <button mat-button (click)="newTab(learn)">Learn</button>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
@@ -14,7 +14,7 @@
     
             <mat-menu #menu="matMenu">
               <button mat-menu-item [routerLink]="['/mentor/main']">
-                Chat Board
+                Dashboard
               </button>
               <button mat-menu-item (click)="newTab(learn)">
                 GPI Learn

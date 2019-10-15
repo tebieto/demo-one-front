@@ -4,6 +4,8 @@
         <mat-toolbar-row>
           <span class="welcome-logo" [routerLink]="['/mentee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
           <span class="flexer"></span>
+          <button mat-button [routerLink]="['/mentee/main']" [class.hidden]="hasMentor||pendingMentor?false:true">Chat</button>
+          <button mat-button (click)="newTab(learnUrl)">Learn</button>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
               Menu  
@@ -81,15 +83,6 @@
               <h6>No Mentor at the moment</h6>
           </div>
 
-    </div>
-    <div class="page-buttons">
-      <div class="custom-button" [class.hidden]="hasMentor||pendingMentor?false:true">
-        <button mat-button [routerLink]="['/mentee/main']">Go to Chat Board</button>
-      </div>
-
-      <div class="custom-button" [class.hidden]="hasMentor  && learnUrl?false:true">
-        <button mat-button (click)="newTab(learnUrl)">Go to GPI Learn</button>
-      </div>
     </div>
 
     

@@ -51,7 +51,7 @@
 
          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-         <div class="grey-text" [class.hidden]="mentorList.length>0?true:false">
+         <div class="text-danger" [class.hidden]="mentorList.length>0?true:false">
              <h6>{{profile.full_name}} currently have no Mentor</h6>
          </div>
    
@@ -103,7 +103,7 @@
             </table><br>
             <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-            <div class="grey-text" [class.hidden]="certificates.length>0?true:false">
+            <div class="text-danger"  [class.hidden]="certificates.length>0?true:false">
                 <h6>{{profile.full_name}} currently have no Certificate</h6>
             </div>
     
@@ -114,7 +114,7 @@
     
         <h3 class="sub-title" [class.active-page]="page=='approved-idea'?true:false" #toApproved>Approved Ideas({{approvedList.length}})<br><br>
 
-         <h6>All Ideas approved by Idea Commitee</h6>
+         <h6>{{profile.full_name}}'s Ideas approved by Idea Commitee</h6>
 
         </h3>
    
@@ -165,7 +165,7 @@
          </table><br>
          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
    
-         <div class="grey-text" [class.hidden]="approvedList.length==0?false:true">
+         <div class="text-danger"  [class.hidden]="approvedList.length==0?false:true">
              <h6>{{profile.full_name}} currently have no approved idea</h6>
          </div>
    
@@ -222,7 +222,7 @@
        </table><br>
        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
  
-       <div class="grey-text" [class.hidden]="ideaList.length==0?false:true">
+       <div class="text-danger" [class.hidden]="ideaList.length==0?false:true">
            <h6>{{profile.full_name}} currently have no idea</h6>
        </div>
  

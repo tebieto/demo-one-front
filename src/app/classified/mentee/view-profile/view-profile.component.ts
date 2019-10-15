@@ -19,6 +19,7 @@ export class ViewProfileComponent implements OnInit {
   profile: object;
   hasMentor: boolean;
   persistingData: boolean;
+  enlargeAvatar: boolean;
 
   constructor(
     private _location: Location,

@@ -22,7 +22,8 @@ export class MentorProfileComponent implements OnInit {
   mentorProfile: object;
   hasMentor: boolean;
   persistingData: boolean;
-  overview = []
+  overview = [];
+  enlargeAvatar: boolean;
 
   constructor(
     private _location: Location,

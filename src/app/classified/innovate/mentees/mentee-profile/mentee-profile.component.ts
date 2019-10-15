@@ -22,6 +22,7 @@ export class MenteeProfileComponent implements OnInit {
   hasMentor: boolean;
   persistingData: boolean;
   overview = []
+  enlargeAvatar: boolean;
 
   constructor(
     private _location: Location,

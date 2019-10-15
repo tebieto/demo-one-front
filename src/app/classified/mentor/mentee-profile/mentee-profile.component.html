@@ -1,6 +1,3 @@
-<p>
-  mentee-profile works!
-</p>
 <div *ngIf="!isConnecting && user && !hasError">
 
     <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
@@ -18,18 +15,23 @@
 
 
     <div class="main-content">
+      <div class="profile-header">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big" [class.hidden]="profile.image.length==0?false:true">
+        <div class="fake-avatar-big profile-pic mat-elevation-z2" [class.hidden]="profile.image.length==0?false:true" (click)="enlargeAvatar=true">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="profile.image" alt="" [class.hidden]="profile.image.length==0?true:false" (error)="profile.image=''">
+        <img [src]="profile.image" class="profile-pic mat-elevation-z2" alt="" [class.hidden]="profile.image.length==0?true:false"  (error)="profile.image=''" (click)="enlargeAvatar=true">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>
         </div>
       </button>
+      </div>
+      <div class="profile-card mat-elevation-z2">
+
+      </div>
 
       <div class="profile-card mat-elevation-z2">
         <h6>Email</h6>
@@ -38,24 +40,37 @@
 
       <div class="profile-card mat-elevation-z0">
 
-        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/mentor/'+params['code']]">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/mentor/'+params['code']]">
           <button>Mentors <br>{{overview.mentorCount}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/certificate/'+params['code']]">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/certificate/'+params['code']]">
           <button>Verified <br> Certificates <br>{{overview.certificates.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/idea/'+params['code']]">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/idea/'+params['code']]">
           <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
         </div>
 
-        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor/mentee/report/approved-idea/'+params['code']]">
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/innovate/mentee/report/approved-idea/'+params['code']]">
           <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
         </div>
       
 
       </div>
+
+      <div class="dark-cover" (click)="enlargeAvatar=false" [class.hidden]="!enlargeAvatar">
+          <div class="holder" (click)="$event.stopPropagation();">
+        
+              <div class="fake-avatar-big" *ngIf="profile.image.length==0" (click)="enlargeAvatar=true">
+                  <div class="icon">
+                      <mat-icon>camera_alt</mat-icon><br><span class="no-photo">NO PHOTO</span>
+                  </div>
+              </div>
+              <img [src]="profile.image"  class="real-image" alt="" *ngIf="profile.image.length>0" (error)="profile.image=''" (click)="enlargeAvatar=true">
+            
+          </div>
+        </div>
 
     </div>
 

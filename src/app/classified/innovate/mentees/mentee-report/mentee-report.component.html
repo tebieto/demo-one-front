@@ -5,7 +5,7 @@
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
           <span class="welcome-logo">{{profile.full_name}}'s Report</span>
           <span class="flexer"></span>
-    
+          <div [routerLink]="['/innovate']" class="logout" title="Home"><mat-icon>home</mat-icon> </div>
           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
         </mat-toolbar-row>
     </mat-toolbar>

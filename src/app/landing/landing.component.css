@@ -23,7 +23,7 @@
 }
 
 mat-toolbar-row button {
-    background: #03A9F4;
+    background: #11C7B3;
     color: #fff;
     margin: 5px;
 }
@@ -34,7 +34,7 @@ mat-toolbar-row span {
 
 .login-button {
     background: transparent !important;
-    color: #03A9F4 !important;
+    color: #11C7B3 !important;
 }
 
 .welcome-logo mat-icon {
@@ -55,5 +55,5 @@ mat-toolbar-row span {
 
 a button {
     background: #fff;
-    color: #03A9F4;
+    color: #11C7B3;
 }

@@ -36,10 +36,10 @@
     display: block;
     width: 100%;
     margin: auto;
-    color: #03A9F4;
+    color: #11C7B3;
     font-size: 15px;
     font-weight: bold;
-    border: 1px solid #03A9F4;
+    border: 1px solid #11C7B3;
     margin-top: 10px;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .main-header {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
 }
 

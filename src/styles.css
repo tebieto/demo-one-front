@@ -12,7 +12,7 @@ html, body {
   .fixed-header {
     position: fixed;
     background: #fff !important;
-    color: #03A9F4 !important;
+    color: #11C7B3 !important;
     top: 0;
     left: 0;
     z-index: 2;
@@ -55,7 +55,7 @@ html, body {
     height: 100px;
     margin: auto;
     top: 100px;
-    color:#03A9F4;
+    color:#11C7B3;
     cursor: pointer;
     outline-color: transparent !important;
   }
@@ -127,7 +127,7 @@ html, body {
 
 
 mat-toolbar-row button {
-    background: #03A9F4;
+    background: #11C7B3;
     color: #fff;
     margin: 5px;
 }
@@ -146,7 +146,7 @@ mat-toolbar-row span {
 
 .special-top{
     height: 152px !important;
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
 }
 .special-logo {
     color: #fff !important;
@@ -291,7 +291,7 @@ mat-toolbar-row span {
     }
 
 .search .mat-form-field.mat-focused {
-    color: #03A9F4;
+    color: #11C7B3;
     
 }
 
@@ -406,7 +406,7 @@ mat-toolbar-row span {
 }
 
 .colored {
-    color: #03A9F4;
+    color: #11C7B3;
 }
 
 .sender-name {
@@ -464,7 +464,7 @@ mat-toolbar-row span {
 
 .message-right {
     float: right;
-    background: #03A9F4;
+    background: #11C7B3;
     color: #fff;
     border-radius: 20px 0px 20px 20px;   
 }
@@ -558,7 +558,7 @@ mat-toolbar-row span {
     width: 100px;
     margin: auto;
     background: #fff;
-    color: #03A9F4 !important;
+    color: #11C7B3 !important;
     border-radius: 25px;
 }
 
@@ -642,7 +642,7 @@ mat-toolbar-row span {
 }
 
 .message-right .more-option, .message-right .more-option-reverse{
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
 }
 
 
@@ -700,7 +700,7 @@ mat-toolbar-row span {
 }
 
 .active-send-button {
-    color: #03A9F4 !important;
+    color: #11C7B3 !important;
 }
 
 .reply {
@@ -715,11 +715,11 @@ mat-toolbar-row span {
 }
 
 .message-left .reply {
-    border-left: 4px solid #03A9F4;
+    border-left: 4px solid #11C7B3;
 }
 
 .message-left .reply .reply-message div{
-    color: #03A9F4;
+    color: #11C7B3;
     font-weight: bold;
 }
 
@@ -743,7 +743,7 @@ mat-toolbar-row span {
     left: -17px;
     padding: 10px;
     border-radius: 5px;
-    border-left: 4px solid #03A9F4;
+    border-left: 4px solid #11C7B3;
     font-size: 13px;
 
 }
@@ -755,7 +755,7 @@ mat-toolbar-row span {
 }
 
 .reply-message .message div {
-    color: #03A9F4;
+    color: #11C7B3;
     font-weight: bold;
 }
 
@@ -777,7 +777,7 @@ mat-toolbar-row span {
  }
 
 .forum .left-side-top {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
 }
 
@@ -804,7 +804,7 @@ mat-toolbar-row span {
 
 .add-button {
     position: relative;
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
 }
 
 .add-text {
@@ -849,7 +849,7 @@ mat-toolbar-row span {
 }
 
 .message-left .sender-name {
-    color: #03A9F4;
+    color: #11C7B3;
 }
 
 .message-right .sender-name {
@@ -919,7 +919,7 @@ mat-toolbar-row span {
 }
 
 .save-button {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
     margin: 10px !important;
 }
@@ -929,7 +929,7 @@ mat-toolbar-row span {
   top: -5px;
 }
 .fake-avatar button {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
     height: 50px !important;
     width: 50px !important;
@@ -1105,7 +1105,7 @@ mat-toolbar-row span {
 
 
 .right-side-body-idea .description button {
-    background: #03A9F4;
+    background: #11C7B3;
     color: #fff;
 }
 

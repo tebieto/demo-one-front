@@ -1,5 +1,5 @@
 mat-toolbar-row button {
-    background: #03A9F4;
+    background: #11C7B3;
     color: #fff;
     margin: 5px;
 }
@@ -10,7 +10,7 @@ mat-toolbar-row span {
 
 .login-button {
     background: transparent !important;
-    color: #03A9F4 !important;
+    color: #11C7B3 !important;
 }
 
 .welcome-logo mat-icon {
@@ -19,7 +19,7 @@ mat-toolbar-row span {
 }
 
 .main-header {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
 }
 
@@ -58,7 +58,7 @@ mat-toolbar-row span {
 
 .settings .fab-button {
     background: #fff !important;
-    color: #03A9F4;
+    color: #11C7B3;
 }
 
 .settings .fab-button:hover {
@@ -81,7 +81,7 @@ mat-toolbar-row span {
 
 .register-form-container .form-button {
     width: 100% !important;
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff;
     font-weight: bold;
 }
@@ -120,7 +120,7 @@ mat-toolbar-row span {
 }
 
 .main-header {
-    background: #03A9F4 !important;
+    background: #11C7B3 !important;
     color: #fff !important;
 }
 

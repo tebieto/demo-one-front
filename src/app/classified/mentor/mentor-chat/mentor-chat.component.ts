@@ -1420,7 +1420,7 @@ export class MentorChatComponent implements OnInit {
       activateFormGroups() {
 
         this.firstForumGroup = this._formBuilder.group({
-          topic: ['', [Validators.required, Validators.minLength(10)]]
+          topic: ['', [Validators.required]]
         });
         this.secondForumGroup = this._formBuilder.group({
           message: ['', [Validators.required, Validators.minLength(20)]]

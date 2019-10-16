@@ -5,9 +5,7 @@
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
           <span class="welcome-logo">{{profile.full_name}}'s Profile</span>
           <span class="flexer"></span>
-
-          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
-    
+          <button mat-button [routerLink]="['/innovate']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
 
     

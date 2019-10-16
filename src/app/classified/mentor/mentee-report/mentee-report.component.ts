@@ -286,7 +286,7 @@ export class MenteeReportComponent implements OnInit {
       this.isConnecting = false;
       return
     }
-    let encrypted = this.encrypt(data)
+    let encrypted = this.encrypt(data['mentor'])
     let newData = {
       'name' :  {name:data['mentor']['full_name'], link: encrypted},
       'about' : data['profile']['about_me'],

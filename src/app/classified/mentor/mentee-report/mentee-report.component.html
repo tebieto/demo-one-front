@@ -5,7 +5,7 @@
         <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
         <span class="welcome-logo">{{profile.full_name}}'s Report</span>
         <span class="flexer"></span>
-  
+        <button mat-button [routerLink]="['/mentor']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
         <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
       </mat-toolbar-row>
   </mat-toolbar>
@@ -23,7 +23,7 @@
            <!-- Position Column -->
            <ng-container matColumnDef="name">
              <th mat-header-cell *matHeaderCellDef> Name</th>
-             <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/innovate/mentor-profile/'+element.data]"> {{element.name.name}} </td>
+             <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentor/view/profile/'+element.data]"> {{element.name.name}} </td>
            </ng-container>
          
            <!-- Weight Column -->

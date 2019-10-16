@@ -7,7 +7,7 @@
           <span class="flexer"></span>
 
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
-    
+          <button mat-button [routerLink]="['/mentor']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
           <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
 
     

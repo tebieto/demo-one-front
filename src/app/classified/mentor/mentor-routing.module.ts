@@ -8,12 +8,14 @@ import { MenteeProfileComponent } from './mentee-profile/mentee-profile.componen
 import { MentorChatComponent } from './mentor-chat/mentor-chat.component';
 import { EditProgramComponent } from './edit-program/edit-program.component';
 import { MenteeReportComponent } from './mentee-report/mentee-report.component';
+import { ViewIdeaComponent } from './view-idea/view-idea.component';
 
 const routes: Routes = [
   {"path": '', component: MentorHomeComponent},
   {"path": 'home', component: MentorHomeComponent},
   {"path": 'main', component: MentorChatComponent},
   {"path": 'view/profile/:code', component: ViewProfileComponent},
+  {"path": ':view/idea/:code', component: ViewIdeaComponent},
   {"path": 'edit/profile', component: EditProfileComponent},
   {"path": 'edit/programme', component: EditProgramComponent},
   {"path": 'quick/setup', component: SpecialSetupComponent}, 

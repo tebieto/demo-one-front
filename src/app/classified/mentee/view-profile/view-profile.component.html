@@ -5,10 +5,8 @@
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
           <span class="welcome-logo">{{profile.full_name}}'s Profile</span>
           <span class="flexer"></span>
-
-          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
-    
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button [routerLink]="['/mentee']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>
@@ -19,12 +17,12 @@
     <div class="main-content">
       <div class="profile-header">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big profile-pic mat-elevation-z2" *ngIf="profile.image.length==0" (click)="enlargeAvatar=true">
+        <div class="fake-avatar-big profile-pic mat-elevation-z2" [class.hidden]="profile.image.length==0?false:true" (click)="enlargeAvatar=true">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="profile.image"  class="profile-pic mat-elevation-z2" alt="" *ngIf="profile.image.length>0" (error)="profile.image=''" (click)="enlargeAvatar=true">
+        <img [src]="profile.image" class="profile-pic mat-elevation-z2" alt="" [class.hidden]="profile.image.length==0?true:false"  (error)="profile.image=''" (click)="enlargeAvatar=true">
         <div class="user-name">
           <button class="content-button">
               <h4>{{profile.full_name}}</h4></button>
@@ -32,12 +30,37 @@
       </button>
       </div>
       <div class="profile-card mat-elevation-z2">
-        
+
       </div>
 
       <div class="profile-card mat-elevation-z2">
         <h6>Email</h6>
           <p>{{profile.email}}</p>
+      </div>
+      <div class="profile-card mat-elevation-z2">
+          <h6>About</h6>
+            <p>{{profile.about_me}}</p>
+        </div>
+
+      <div class="profile-card mat-elevation-z0">
+
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentee/report/mentor/'+profileCode]">
+          <button>Mentors <br>{{overview.mentorCount}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentee/report/certificate/'+profileCode]">
+          <button>Verified <br> Certificates <br>{{overview.certificates.length}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentee/report/idea/'+profileCode]">
+          <button>All <br> Ideas <br>{{overview.ideas.length}}</button>
+        </div>
+
+        <div class="overview-card mat-elevation-z2" [routerLink]="['/mentee/report/approved-idea/'+profileCode]">
+          <button>Ideas <br> Approved<br>{{overview.approved.length}}</button>
+        </div>
+      
+
       </div>
 
       <div class="dark-cover" (click)="enlargeAvatar=false" [class.hidden]="!enlargeAvatar">
@@ -52,6 +75,9 @@
             
           </div>
         </div>
+
+    </div>
+
 
 </div>
 

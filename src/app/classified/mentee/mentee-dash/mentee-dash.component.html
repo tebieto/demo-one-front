@@ -2,7 +2,7 @@
 
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/mentee/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="welcome-logo" [routerLink]="['/mentee/home']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
           <span class="flexer"></span>
           <button mat-button [routerLink]="['/mentee/main']" [class.hidden]="hasMentor||pendingMentor?false:true">Dashboard</button>
           <button mat-button (click)="newTab(learnUrl)">Learn</button>

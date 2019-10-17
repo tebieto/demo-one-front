@@ -1,7 +1,5 @@
-<div class="auth-logo register-auth-logo" [routerLink]="['/']"><mat-icon>wb_incandescent</mat-icon></div>
-
 <div class="register-form-container mat-elevation-z0" >
-
+    <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span></button><br>
     <mat-form-field appearance="outline">
       <mat-label>Full Name</mat-label>
 
@@ -71,8 +69,6 @@
      <br>
      <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
       </mat-spinner></mat-icon><span *ngIf="!persistingData">Register</span></button>
-      <br>
-      <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span></button>
 
 </div>
 

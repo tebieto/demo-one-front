@@ -207,7 +207,7 @@ export class SpecialRegistrationComponent implements OnInit {
   }
 
   gotoAdminPage(){
-    this.router.navigateByUrl('/admin/home')
+    this.router.navigateByUrl('/innovate')
     let notification = "Logged In as an Administrator";
     this.openSnackBar(notification, 'snack-success')
   }

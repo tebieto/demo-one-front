@@ -22,8 +22,8 @@ export class InnovateComponent implements OnInit {
   hasError: boolean;
   firstFormGroup: FormGroup;
   programmeDurations = []
-  keyRole = 44;
-  optionalRole = 44;
+  keyRole = 88;
+  optionalRole = 99;
   numberArray= []
   subscription: Subscription
   overview: object

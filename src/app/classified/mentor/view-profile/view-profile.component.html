@@ -1,14 +1,12 @@
-<div *ngIf="!isConnecting && user && !hasError">
+<div *ngIf="!isConnecting && user">
 
     <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
         <mat-toolbar-row>
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
-          <span class="welcome-logo">{{profile.full_name}}'s Profile</span>
+          <span class="welcome-logo">{{mentorProfile.mentor.full_name}}'s Profile</span>
           <span class="flexer"></span>
-
-          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [routerLink]="['/mentor']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>
@@ -19,36 +17,63 @@
     <div class="main-content">
       <div class="profile-header">
       <button class="content-button centralised-button">
-        <div class="fake-avatar-big profile-pic mat-elevation-z2" *ngIf="profile.image.length==0" (click)="enlargeAvatar=true">
+        <div class="fake-avatar-big profile-pic mat-elevation-z2" *ngIf="mentorProfile.mentor.image.length==0" (click)="enlargeAvatar=true">
             <div class="icon">
                 <mat-icon>camera_alt</mat-icon>
             </div>
         </div>
-        <img [src]="profile.image"  class="profile-pic mat-elevation-z2" alt="" *ngIf="profile.image.length>0" (error)="profile.image=''" (click)="enlargeAvatar=true">
+        <img [src]="mentorProfile.mentor.image" class="profile-pic mat-elevation-z2" alt="" *ngIf="mentorProfile.mentor.image.length>0" (error)="mentorProfile.mentor.image=''" (click)="enlargeAvatar=true">
         <div class="user-name">
           <button class="content-button">
-              <h4>{{profile.full_name}}</h4></button>
+              <h4>{{mentorProfile.mentor.full_name}}</h4>
+              <button mat-button (click)="newTab(mentorProfile.profile.linkedin)" class="link-button">Linkedin Profile</button>
+            </button>
         </div>
       </button>
       </div>
+
       <div class="profile-card mat-elevation-z2">
-        
       </div>
 
       <div class="profile-card mat-elevation-z2">
-        <h6>Email</h6>
-          <p>{{profile.email}}</p>
+        <h6>About Me</h6>
+          <p>{{mentorProfile.profile.about_me}}</p>
+      </div><br>
+
+      <div class="profile-card mat-elevation-z2">
+          <h6>Programme Name</h6>
+            <p>{{mentorProfile.profile.programme_name}}</p>
+      </div>
+
+      <div class="profile-card mat-elevation-z2">
+          <h6>Programme Duration</h6>
+            <p>{{mentorProfile.profile.duration}}</p>
+      </div>
+
+      <div class="profile-card mat-elevation-z2">
+          <h6>Programme Description</h6>
+            <p>{{mentorProfile.profile.description}}</p>
+      </div><br>
+
+      <div class="profile-card mat-elevation-z0">
+
+          <div class="overview-card mat-elevation-z2" [routerLink]="['/mentor']">
+            <button>Mentees <br>{{overview.mentees.length}}</button>
+          </div>
+  
+        </div>
+      
       </div>
 
       <div class="dark-cover" (click)="enlargeAvatar=false" [class.hidden]="!enlargeAvatar">
           <div class="holder" (click)="$event.stopPropagation();">
         
-              <div class="fake-avatar-big" *ngIf="profile.image.length==0" (click)="enlargeAvatar=true">
+              <div class="fake-avatar-big" *ngIf="mentorProfile.mentor.image.length==0" (click)="enlargeAvatar=true">
                   <div class="icon">
                       <mat-icon>camera_alt</mat-icon><br><span class="no-photo">NO PHOTO</span>
                   </div>
               </div>
-              <img [src]="profile.image"  class="real-image" alt="" *ngIf="profile.image.length>0" (error)="profile.image=''" (click)="enlargeAvatar=true">
+              <img [src]="mentorProfile.mentor.image"  class="real-image" alt="" *ngIf="mentorProfile.mentor.image.length>0" (error)="mentorProfile.profile.image=''" (click)="enlargeAvatar=true">
             
           </div>
         </div>

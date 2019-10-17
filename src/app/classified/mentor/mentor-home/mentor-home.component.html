@@ -2,7 +2,7 @@
 
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/mentor/home']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="welcome-logo" [routerLink]="['/mentor/home']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
           <span class="flexer"></span>
           <button mat-button [routerLink]="['/mentor/main']">Dashboard</button>
           <button mat-button (click)="newTab(learn)">Learn</button>
@@ -23,10 +23,10 @@
                 View Profile
               </button>
               <button mat-menu-item [routerLink]="['/mentor/edit/profile']">
-                Edit Profile
+                Edit Basic Profile
               </button>
               <button mat-menu-item [routerLink]="['/mentor/edit/programme']">
-                Edit Mentorship Programme
+                Edit Mentorship Profile
               </button>
               <button mat-menu-item (click) = "logUserOut('You Logged out')">
                 Logout

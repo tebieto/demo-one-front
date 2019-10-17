@@ -3,7 +3,7 @@
     <input class="hidden" #csvUpload name="csvUrl" type="file" accept=".csv" (change)="onChooseCSV($event)" />
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/innovate']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="welcome-logo" [routerLink]="['/innovate']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
           <span class="flexer"></span>
     
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
@@ -11,7 +11,7 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
     
-          <button mat-button (click)="logUserOut('You logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click)="logUserOut('You logged out')" class="login-button" title="logout">Logout</button>
     
             <mat-menu #menu="matMenu">
               <button mat-menu-item [routerLink]="['/innovate']">
@@ -28,9 +28,6 @@
               </button>
               <button mat-menu-item [routerLink]="['/innovate/admin/settings/mentee']">
                 Mentees
-              </button>
-              <button mat-menu-item [routerLink]="['/innovate/admin/settings/innovate']">
-                Lagos Innovates
               </button>
             </mat-menu>
     

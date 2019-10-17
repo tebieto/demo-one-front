@@ -196,7 +196,7 @@ export class AdminRegistrationComponent implements OnInit {
 
 
   gotoAdminPage(){
-    this.router.navigateByUrl('/admin/home')
+    this.router.navigateByUrl('/innovate');
   }
   
   showErrorMessage(error: object){

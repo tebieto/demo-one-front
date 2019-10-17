@@ -10,6 +10,8 @@ import { MentorProfileComponent } from './mentor-profile/mentor-profile.componen
 import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CertificateComponent } from './certificate/certificate.component';
+import { MenteeReportComponent } from './mentee-report/mentee-report.component';
+import { ViewIdeaComponent } from './view-idea/view-idea.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CertificateComponent } from './certificate/certificate.component';
     MentorProfileComponent,
     ViewProfileComponent,
     EditProfileComponent,
-    CertificateComponent
+    CertificateComponent,
+    MenteeReportComponent,
+    ViewIdeaComponent
   ],
   imports: [
     CommonModule,

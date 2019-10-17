@@ -57,8 +57,8 @@ export class AdminHomeComponent implements OnInit {
   page="settings"
   sub = "admin"
   title='Administrator'
-  keyRole = 44;
-  optionalRole = 44
+  keyRole = 88;
+  optionalRole = 99
   allInvites = []
 
   constructor(
@@ -290,14 +290,6 @@ export class AdminHomeComponent implements OnInit {
       this.page = params['page']
       this.sub = params['sub']
       this.title = 'Mentee'
-    } else if(params['page']=='settings' && params['sub']=='innovate') {
-      this.page = params['page']
-      this.sub = params['sub']
-      this.title = 'Innovate Administrator'
-    }else if(params['page']=='new' && params['sub']=='innovate') {
-      this.page = params['page']
-      this.sub = params['sub']
-      this.title = 'Innovate Administrator'
     } else {
       this.pageNotFound()
     }

@@ -291,14 +291,6 @@ export class AdminHomeComponent implements OnInit {
       this.page = params['page']
       this.sub = params['sub']
       this.title = 'Mentee'
-    } else if(params['page']=='settings' && params['sub']=='innovate') {
-      this.page = params['page']
-      this.sub = params['sub']
-      this.title = 'Innovate Administrator'
-    }else if(params['page']=='new' && params['sub']=='innovate') {
-      this.page = params['page']
-      this.sub = params['sub']
-      this.title = 'Innovate Administrator'
     } else {
       this.pageNotFound()
     }

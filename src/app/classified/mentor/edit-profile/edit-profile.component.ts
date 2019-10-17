@@ -37,7 +37,7 @@ export class EditProfileComponent implements OnInit {
     this.validateUser()
   }
 
-  about = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  //about = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   email = new FormControl('', [Validators.required, Validators.email]);
   username = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(20), Validators.pattern(/^([a-zA-Z0-9]?[a-zA-z_])+([.]?[a-zA-Z0-9_]+)*$/)]);
@@ -68,12 +68,14 @@ export class EditProfileComponent implements OnInit {
             '';
   }
 
+/*
+Had to keep this for any future revisit
   getAboutErrorMessage() {
     return this.about.hasError('required') ? 'About Me is required' :
         this.about.hasError('minlength') ? 'Minimum length is 6' :
             '';
   }
-
+*/
   
   validateUser(){
     this.isConnecting= true
@@ -104,7 +106,7 @@ export class EditProfileComponent implements OnInit {
     this.full_name.setValue(user['full_name'])
     this.email.setValue(user['email'])
     this.username.setValue(user['username'])
-    this.about.setValue(user['about_me'])
+    //this.about.setValue(user['about_me'])
    }
 
   logUserOut(message:string){
@@ -122,14 +124,14 @@ export class EditProfileComponent implements OnInit {
 
     if(this.persistingData){return}
   
-    if(this.about.invalid || this.email.invalid || this.full_name.invalid || this.username.invalid ){
+    if(this.email.invalid || this.full_name.invalid || this.username.invalid ){
       let notification = "You have errors in your form"
       this.openSnackBar(notification, 'snack-error')
       return
     } 
   
     let data ={
-      "about_me": this.about.value,
+      "about_me": "",
       "email": this.email.value,
       "full_name": this.full_name.value,
       "username": this.username.value,

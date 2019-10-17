@@ -5,7 +5,7 @@
           <span class="welcome-logo"> Edit Profile</span>
           <span class="flexer"></span>
     
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>
@@ -58,6 +58,7 @@
             </button>
             <mat-error *ngIf="username.invalid">{{getUsernameErrorMessage()}}</mat-error>
           </mat-form-field>
+          <!--
         <mat-form-field appearance="outline">
           <mat-label>About Me</mat-label>
           
@@ -65,6 +66,7 @@
     
           <mat-error *ngIf="about.invalid">{{getAboutErrorMessage()}}</mat-error>
         </mat-form-field>
+      -->
           <br>
           <button mat-button class="form-button" (click)="onSubmit()"><mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
             </mat-spinner></mat-icon><span *ngIf="!persistingData">Update and Continue</span>

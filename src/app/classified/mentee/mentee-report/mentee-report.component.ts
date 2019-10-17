@@ -80,8 +80,8 @@ export class MenteeReportComponent implements OnInit {
   learn = Config.mentorLearn;
   user: object;
   hasError: boolean;
-  keyRole = 88;
-  optionalRole = 99;
+  keyRole = 55;
+  optionalRole = 55;
   overview = []
   params: object
   profile: object
@@ -189,7 +189,7 @@ export class MenteeReportComponent implements OnInit {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    this.profile = data['value']['mentee']
+    this.profile = data['value']
     this.getUserOverview(this.profile['id'])
   }
 
@@ -448,5 +448,6 @@ ngOnDestroy() {
 goBack() {
   this._location.back()
 }
+
 
 }

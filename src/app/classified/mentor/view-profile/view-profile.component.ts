@@ -5,6 +5,7 @@ import { SnackbarComponent } from 'src/app/extras/snackbar/snackbar.component';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { UserService } from 'src/app/shared/user/user.service';
 import * as crypto from 'crypto-js';
+import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import {CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 
 @Component({
@@ -18,9 +19,10 @@ export class ViewProfileComponent implements OnInit {
   isConnecting: boolean;
   hasError: boolean;
   params: object;
-  profile: object;
+  mentorProfile: object;
   hasMentor: boolean;
   persistingData: boolean;
+  overview = [];
   enlargeAvatar: boolean;
 
   constructor(
@@ -54,7 +56,7 @@ export class ViewProfileComponent implements OnInit {
             this.hasMentor = true
           }
           this.user = res.body.user
-          this.getprofile(this.params['code'])
+          this.getMentorProfile(this.params['code'])
          }
   
     },
@@ -64,15 +66,96 @@ export class ViewProfileComponent implements OnInit {
     });
   }
 
-
-  getprofile(param: string){
+  chooseMentor(param: string) {
     let code = param
     let secret = this.makeSecret()
     let data = this.decrypt(code, secret)
-    this.profile = data['value']
+    let message = 'Are you sure you want to make '+ data['value']['mentor']['full_name']+' your Mentor?'
+    this.openDialog(data['value'], message, param)
+  }
+
+  openDialog(data: object, message, param:string): void {
+    const dialogRef = this.dialog.open(SharedDialogComponent, {
+      width: '250px',
+      data: {id:data['mentor']['id'], message:message}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result){
+        return
+      }
+      this.addMentee(result, param)
+    });
+  }
+
+  addMentee(id: number, param:string) {
+    this.persistingData = true
+    this.userService.addMentee(id)
+    .subscribe(
+      (res)=>{
+        this.persistingData=false
+        if(res.code != 200) {
+          this.hasError = true
+          this.showErrorMessage(res)
+        }
+  
+        if(res.code==200) {
+          this.hasMentor = true
+          let notification = res.message
+          this.openSnackBar(notification, 'snack-success')
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.persistingData = false
+      let notification = errorMessage.ConnectionError(error)
+      this.openSnackBar(notification, 'snack-error')
+    });
+
+  }
+
+  getMentorProfile(param: string){
+    let code = param
+    let secret = this.makeSecret()
+    let data = this.decrypt(code, secret)
+    this.getUserOverview(data['value']['id'])
+  }
+
+  getUserOverview(id: number){
+    this.isConnecting= true
+    this.userService.userOverview(id)
+    .subscribe(
+      (res)=>{
+        if(res.code != 200) {
+          this.hasError = true
+          let message ='Invalid Session, Login Again.'
+          this.logUserOut(message);
+        }
+  
+        if(res.code==200) {
+          this.manipulateOverview(res.body)
+         }
+  
+    },
+    (error)=>{
+      this.hasError = true
+      this.isConnecting=false;
+    });
+  }
+
+  manipulateOverview(data: any) {
+    if(!data.mentees) {
+      data.mentees = []
+    }
+    
+    this.overview =data
+    this.mentorProfile = {};
+    this.mentorProfile['mentor'] = data['user'];
+    this.mentorProfile['profile'] = data['mentorship_profile'];
+    this.isConnecting = false;
   }
   
-
   startCustomRouter(){
     this.route.params.subscribe(params=>{
           this.consumeRouteParams(params)
@@ -81,7 +164,6 @@ export class ViewProfileComponent implements OnInit {
 
   consumeRouteParams(params: object) {
     this.params = params
-    return
   }
 
   decrypt(textToDecrypt : string, secret:string){
@@ -139,9 +221,19 @@ export class ViewProfileComponent implements OnInit {
   
   }
 
+  newTab(link:string) {
+    if(link.length==0){
+      let notification = 'Invalid Url'
+      this.openSnackBar(notification, 'snack-error')
+      return
+    }
+    window.open(
+      link,
+      '_blank' // <- This is what makes it open in a new window or tab.
+    );
+  }
 
   goBack() {
     this._location.back()
   }
-
 }

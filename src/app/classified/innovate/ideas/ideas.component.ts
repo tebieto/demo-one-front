@@ -50,7 +50,7 @@ export class IdeasComponent implements OnInit {
   page="ideas"
   title='Pending Idea'
   keyRole = 44
-  optionalRole = 44
+  optionalRole = 99
   overview = []
   cutOff = 50
 

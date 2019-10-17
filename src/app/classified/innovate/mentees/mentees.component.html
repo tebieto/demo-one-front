@@ -2,7 +2,7 @@
 
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/innovate']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+          <span class="welcome-logo" [routerLink]="['/innovate']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
           <span class="flexer"></span>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">

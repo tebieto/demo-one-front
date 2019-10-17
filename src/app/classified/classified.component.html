@@ -2,10 +2,10 @@
   
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-         <span class="welcome-logo"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span>
+         <span class="welcome-logo"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
         <span class="flexer"></span>
     
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>
@@ -28,7 +28,7 @@
         </button>
     <div class="classified-links">
         <button mat-button class="links" *ngFor="let item of links" [routerLink]=[item.url]>Continue as {{item.text}}</button>
-        <button mat-button class="links" (click)="logUserOut('You Logged out')"><mat-icon>logout</mat-icon> Logout</button>
+        <button mat-button class="links" (click)="logUserOut('You Logged out')">Logout Logout</button>
     </div>
   </div>
   

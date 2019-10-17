@@ -1,6 +1,3 @@
-<p>
-  mentor-profile works!
-</p>
 <div *ngIf="!isConnecting && user">
 
     <mat-toolbar color="primary" class="fixed-header main-header mat-elevation-z0">
@@ -9,7 +6,7 @@
           <span class="welcome-logo">{{mentorProfile.mentor.full_name}}'s Profile</span>
           <span class="flexer"></span>
           <button mat-button [routerLink]="['/innovate']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>

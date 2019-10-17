@@ -1140,3 +1140,19 @@ mat-toolbar button{
 table {
     min-height: 150px !important;
 }
+
+.chat-logout {
+    font-size: 15px !important;
+    position: relative;
+    top:-3px;
+}
+
+.img-logo {
+    width:150px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.auth-logo {
+    
+}

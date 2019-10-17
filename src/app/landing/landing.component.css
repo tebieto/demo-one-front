@@ -42,11 +42,10 @@ mat-toolbar-row span {
 }
 
 .welcome-message {
-    position: absolute;
+    position: relative;
+    display: block;
     top: 20%;
-    left: 10%;
     width: 600px;
-    height: 100px;
     max-width: 80%;
     background: transparent;
     color: #fff;

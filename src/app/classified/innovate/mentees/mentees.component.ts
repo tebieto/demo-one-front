@@ -42,8 +42,8 @@ export class MenteesComponent implements OnInit {
   title='All Mentees'
   user: object;
   hasError: boolean;
-  keyRole = 44;
-  optionalRole = 44;
+  keyRole = 88;
+  optionalRole = 99;
 
   constructor(
     private userService: UserService,

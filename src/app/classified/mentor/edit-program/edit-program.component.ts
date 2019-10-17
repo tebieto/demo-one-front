@@ -122,10 +122,8 @@ export class EditProgramComponent implements OnInit {
     '';
   }
 
-  getPhoneErrorMessage() {
-    return this.firstFormGroup.controls['phone'].errors.required ? 'Phone is required' :
-    this.firstFormGroup.controls['phone'].errors.minlength ? 'Minimum character is 10' :
-    this.firstFormGroup.controls['phone'].errors.maxlength ? 'Maximum character is 11' :
+  getEmailErrorMessage() {
+    return this.firstFormGroup.controls['email'].errors.required ? 'Email is required' :
     '';
   }
 
@@ -208,7 +206,7 @@ export class EditProgramComponent implements OnInit {
   }
 
   populateForm(data:object) {
-      this.firstFormGroup.get('phone').setValue(data['phone_number']);
+      this.firstFormGroup.get('email').setValue(data['email']);
   
       this.firstFormGroup.get('about').setValue(data['about_me']);
   
@@ -257,7 +255,7 @@ export class EditProgramComponent implements OnInit {
 
   let data ={
     "about_me": this.firstFormGroup.controls['about'].value,
-    "phone_number": this.firstFormGroup.controls['phone'].value,
+    "email": this.firstFormGroup.controls['email'].value,
     "linkedin": this.firstFormGroup.controls['linkedin'].value,
     "programme_name": this.secondFormGroup.controls['pname'].value,
     "description": this.secondFormGroup.controls['pdescription'].value,
@@ -303,7 +301,7 @@ gotoMentorPage(){
 
 prepareFormInputValidation(){
   this.firstFormGroup = this.formBuilder.group({
-    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
+    email: ['', [Validators.required]],
     about: ['', [Validators.required, Validators.minLength(10)]],
     linkedin: ['', [Validators.required]]
   });
@@ -316,8 +314,8 @@ prepareFormInputValidation(){
  }
 
  clearFormField(field: string){
-  if(field=='phone') {
-    this.firstFormGroup.get('phone').setValue("");
+  if(field=='email') {
+    this.firstFormGroup.get('email').setValue("");
   }
 
   if(field=='about') {

@@ -1,8 +1,6 @@
 <div *ngIf="!isConnecting">
-<div class="auth-logo " [routerLink]="['/']"><mat-icon>wb_incandescent</mat-icon></div>
-
 <div class="recovery-form-container mat-elevation-z0" >
-    
+        <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span></button><br>
     <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <button mat-button matPrefix mat-icon-button aria-label="Clear">
@@ -33,7 +31,6 @@
           </button>
       <br>
       <button class="form-suffice"><span [routerLink]="['/']">Home Page</span></button>
-      <button class="form-suffice auth-footer"><span class="auth-footer-logo" [routerLink]="['/']"><mat-icon>wb_incandescent</mat-icon>IDEAHUB</span></button>
 
 </div>
 </div>

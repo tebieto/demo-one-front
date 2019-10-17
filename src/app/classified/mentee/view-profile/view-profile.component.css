@@ -128,3 +128,44 @@ border-radius: 5px 5px 0 0;
     position: absolute;
     left: -20px;
 }
+
+.overview-card {
+    display: inline-block;
+    width: 25%;
+    height: 160px;
+    max-width: 23.5%;
+    margin: 5px;
+}
+
+.overview-card button{
+    position: relative;
+    display: block;
+    margin: auto;
+    font-weight: bold;
+    top: 25%;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+}
+
+
+.overview-card button:hover{
+    color: #11C7B3;
+}
+
+.overview-card:hover{
+    background: rgba(238, 238, 238, 0.397)
+}
+
+@media only screen and (max-width: 600px) {
+    
+    .overview-card {
+        display: inline-block;
+        width: 95%;
+        height: 160px;
+        min-width: 95%;
+        margin: 5px;
+    }
+
+  }
+

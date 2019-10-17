@@ -141,7 +141,7 @@ redirectUser(role:any) {
 
 
 gotoAdminPage(){
-  this.router.navigateByUrl('/admin/home')
+  this.router.navigateByUrl('/innovate')
 }
 
 showErrorMessage(error: object){

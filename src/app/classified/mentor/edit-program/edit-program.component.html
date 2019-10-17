@@ -5,7 +5,7 @@
           <span class="welcome-logo"> Edit Programme Information</span>
           <span class="flexer"></span>
     
-          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout"><mat-icon>logout</mat-icon></button>
+          <button mat-button (click) = "logUserOut('You Logged out')" class="login-button" title="logout">Logout</button>
 
     
         </mat-toolbar-row>
@@ -19,19 +19,19 @@
                   <ng-template matStepLabel>Basic Information</ng-template>
                 
                     <mat-form-field appearance="outline">
-                        <mat-label>Contact Number</mat-label>
+                        <mat-label>Email</mat-label>
                 
                         <button mat-button matPrefix mat-icon-button aria-label="Clear">
-                            <mat-icon>phone</mat-icon>
+                            <mat-icon>email</mat-icon>
                         </button>
                 
-                        <input matInput placeholder="e.g. 08059384928" type="number" formControlName="phone" (keyup.enter)="onSubmit()"  required>
+                        <input matInput placeholder="john-doe@example.com" type="text" formControlName="email" (keyup.enter)="onSubmit()"  required>
                   
-                        <button mat-button *ngIf="this.firstFormGroup.get('phone').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('phone')">
+                        <button mat-button *ngIf="this.firstFormGroup.get('email').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('email')">
                             <mat-icon>close</mat-icon>
                         </button>
                         
-                        <mat-error *ngIf="firstFormGroup.get('phone').invalid">{{getPhoneErrorMessage()}}</mat-error>
+                        <mat-error *ngIf="firstFormGroup.get('email').invalid">{{getEmailErrorMessage()}}</mat-error>
                       </mat-form-field>
     
                       <mat-form-field appearance="outline">

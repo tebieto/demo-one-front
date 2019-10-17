@@ -84,7 +84,7 @@ export class ClassifiedComponent implements OnInit {
   resolveLink(code: number, role:string) {
     let data = {}
     if(code==88 || code == 99) {
-      data['url'] = '/admin/home'
+      data['url'] = '/innovate'
       data['text'] = role
       this.pushToLink(data)
     } else if(code==77) {

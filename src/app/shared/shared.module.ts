@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
-import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule, MatDialogModule, MatChipsModule, MatBottomSheetModule, MatListModule} from '@angular/material';
+import {MatIconModule, MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatFormFieldModule, MatSnackBarModule, MatProgressSpinnerModule, MatDivider, MatDividerModule, MatTableModule, MatMenuModule, MatStepperModule, MatSlideToggleModule, MatPaginatorModule, MatOptionModule, MatSelectModule, MatDialogModule, MatChipsModule, MatBottomSheetModule, MatListModule, MatBadgeModule} from '@angular/material';
 import { SnackbarComponent } from '../extras/snackbar/snackbar.component';
 import { DialogComponent } from '../extras/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -54,6 +54,7 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     MatListModule,
     MatOptionModule,
     MatSelectModule,
+    MatBadgeModule
   ],
   exports:[
     HeaderComponent,
@@ -90,6 +91,7 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     SharedScoreComponent,
     SharedDialogComponent,
     SharedMessageDialogComponent,
+    MatBadgeModule
   ],
 })
 export class SharedModule { }

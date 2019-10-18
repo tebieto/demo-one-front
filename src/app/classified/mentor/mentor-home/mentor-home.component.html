@@ -4,6 +4,10 @@
         <mat-toolbar-row>
           <span class="welcome-logo" [routerLink]="['/mentor/home']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
           <span class="flexer"></span>
+          <span [matMenuTriggerFor]="noty" (click)="hasNotification=false">
+            <mat-icon [matBadge]="notNumber" matBadgeColor="warn" class="badge"  [class.hidden]="!hasNotification">notifications</mat-icon>
+            <mat-icon class="badge" [class.hidden]="hasNotification">notifications_none</mat-icon>
+          </span>
           <button mat-button [routerLink]="['/mentor/main']">Dashboard</button>
           <button mat-button (click)="newTab(learn)">Learn</button>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
@@ -11,6 +15,33 @@
             Menu  
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
+
+          <mat-menu #noty="matMenu" class="notification-tab">
+              <button mat-menu-item [class.unread-not]="true">
+                <span class="text-bold">Terry Ebieto</span> just posted an Idea
+              </button>
+              <button mat-menu-item [class.unread-not]="true">
+                <span class="text-bold">Terry Ebieto</span> just posted an Idea
+              </button>
+              <button mat-menu-item [class.unread-not]="true">
+                <span class="text-bold">Terry Ebieto</span> just posted an Idea
+              </button>
+              <button mat-menu-item [class.unread-not]="true">
+                <span class="text-bold">Terry Ebieto</span> just posted an Idea
+              </button>
+              <button mat-menu-item  [class.unread-not]="false">
+                <span class="text-bold">Terry Ebieto</span> just posted a topic in forum
+              </button>
+              <button mat-menu-item  [class.unread-not]="false">
+                <span class="text-bold">Terry Ebieto</span> just posted a topic in forum
+              </button>
+              <button mat-menu-item  [class.unread-not]="false">
+                <span class="text-bold">Terry Ebieto</span> just posted a topic in forum
+              </button>
+              <button mat-menu-item  [class.unread-not]="false">
+                <span class="text-bold">Terry Ebieto</span> just posted a topic in forum
+              </button>
+          </mat-menu>
     
             <mat-menu #menu="matMenu">
               <button mat-menu-item [routerLink]="['/mentor/main']">

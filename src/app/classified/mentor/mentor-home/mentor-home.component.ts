@@ -61,6 +61,8 @@ export class MentorHomeComponent implements OnInit {
   hasError: boolean;
   keyRole = 55;
   optionalRole = 66;
+  notNumber = 30
+  hasNotification = true
 
   constructor(
     private userService: UserService,

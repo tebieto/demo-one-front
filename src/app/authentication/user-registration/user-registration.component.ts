@@ -115,7 +115,7 @@ export class UserRegistrationComponent implements OnInit {
     "confirmation": this.confirm_password.value.trim(),
     "username": this.username.value.trim(),
     "full_name": this.full_name.value,
-    "role": 0
+    "role": 55
   }
 
   this.persistData(data)

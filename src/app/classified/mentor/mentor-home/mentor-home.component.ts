@@ -9,6 +9,7 @@ import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler'
 import { Title } from '@angular/platform-browser';
 import { Config } from 'src/app/config';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
+import Pusher from 'pusher-js';
 
 
 export interface CertificateElement {
@@ -77,6 +78,34 @@ export class MentorHomeComponent implements OnInit {
     this.titleService.setTitle('IDEAHUB| Mentor Home')
     this.validateUser()
     this.startCustomRouter()
+    
+  }
+
+  activateChannel(id:number, type: string) {
+    let pusher = new Pusher(Config.pusher.key, {
+      cluster: Config.pusher.cluster,
+      forceTLS: true
+    });
+    let channel = pusher.subscribe(id+'');
+    channel.bind(type, data => {
+    if(data.sender.id==this.user['id']) {return}
+    if(data.type=='forum') {
+      data['recipient_id'] = this.user['id']
+    }
+    this.cleanPushedMessage(data);
+    this.playChatSound()
+    });
+  }
+
+  cleanPushedMessage(data: object) {
+
+  }
+
+  playChatSound() {
+    let audio = new Audio();
+    audio.src = "/assets/sound/ideahub_chat.mp3";
+    audio.load();
+    audio.play();
   }
 
   acceptMentee(param: string) {
@@ -247,6 +276,7 @@ export class MentorHomeComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
+          this.activateChannel(this.user['id'], 'notification')
           this.profileCode = this.encrypt(this.user)
           this.getMyMentees()
           this.getMenteeCertificate()

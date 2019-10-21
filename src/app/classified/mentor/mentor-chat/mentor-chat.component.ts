@@ -2427,6 +2427,10 @@ export class MentorChatComponent implements OnInit {
       });
   
     }
+
+    reviewIdea(id: number) {
+      this.activatedIdea['status']='reviewed'
+    }
   
     rejectIdea(id: number, message: string) {
       let data = {id: id, mentor_comment: message }

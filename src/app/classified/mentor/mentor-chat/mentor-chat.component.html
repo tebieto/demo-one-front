@@ -4,7 +4,7 @@
   <input class="hidden" #avatarUpload name="fileUrl" type="file" accept="image/*" (change)="onChooseAvatar($event)" />
 <mat-toolbar color="primary" class="fixed-header mat-elevation-z0 special-top">
 <mat-toolbar-row>
-    <span class="special-logo" [routerLink]="'/mentor/home'"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
+    <span class="special-logo" [routerLink]="'/mentor/home'"><img class="img-logo" src="/assets/images/app-logo.png" alt=""></span>
     <span class="flexer"></span>
     <div [routerLink]="'/mentor/home'" class="logout" title="Home"><mat-icon>home</mat-icon> </div>
   <div (click)="logUserOut('You logged out')" class="logout chat-logout" title="Logout">Logout </div>
@@ -869,13 +869,18 @@
             </div>
     
             <div class="description">
-                <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD PLAN</button>
+                <button mat-button (click)="newTab(activatedIdea.attachment)"><mat-icon>play_for_work</mat-icon>DOWNLOAD PLAN</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
-                <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">APPROVE IDEA</button>
+                <button mat-button (click)="reviewIdea(activatedIdea)" class="bg-success"><mat-icon>check_circle_outline</mat-icon> I have reviewed this idea</button>
             </div>
-            <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
-                <button mat-button (click)="onRejectMessage(activatedIdea)" class="bg-danger">REJECT IDEA</button>
+            <div class="description" [class.hidden]="activatedIdea.status=='reviewed'?false:true">
+                <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">	<mat-icon>done</mat-icon>APPROVE IDEA</button>
+            </div>
+            <div class="description" [class.hidden]="activatedIdea.status=='reviewed'?false:true">
+                <button mat-button (click)="onRejectMessage(activatedIdea)" class="bg-danger"><mat-icon>not_interested
+                  
+                </mat-icon>REJECT IDEA</button>
             </div>
 
             <div class="description" [class.hidden]="activatedIdea.status=='approved'?false:true" class="text-success">

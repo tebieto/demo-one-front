@@ -10,5 +10,5 @@ export class Config {
      static mentorLearn = 'http://lagosinnovates.my-gpi.io/edu-courses/become-a-mentor/';
      static menteeLearn = 'http://lagosinnovates.my-gpi.io/courses/';
      static bearer = 'atala,'
-     static isPublic = false;
+     static isPublic = true;
 }

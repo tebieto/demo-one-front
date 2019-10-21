@@ -150,7 +150,9 @@ mat-toolbar-row span {
 }
 .special-logo {
     color: #fff !important;
-    margin-left: 10px;
+    margin-left: -10px;
+    padding: 0px !important;
+    margin-bottom: 10px;
 }
 .special-logo mat-icon {
     font-size: 15px !important;
@@ -1148,7 +1150,7 @@ table {
 }
 
 .img-logo {
-    width:150px;
+    width:200px;
     height: auto;
     margin-left: 10px;
 }
@@ -1158,7 +1160,7 @@ table {
 }
 
 mat-toolbar .badge {
-    margin-right: 5px !important;
+    margin-right: 10px !important;
     margin-top: 5px !important;
     font-size: 20px !important;
     cursor: pointer;
@@ -1174,4 +1176,14 @@ mat-toolbar .badge {
 
 .text-bold {
     font-weight: bold;
+}
+
+.welcome-logo {
+ position: relative;
+ left: -20px !important; 
+}
+
+.auth-footer {
+ position: relative;
+ left: -50px !important;
 }

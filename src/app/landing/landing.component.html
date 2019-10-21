@@ -2,12 +2,13 @@
 
     <mat-toolbar color="primary" class="fixed-header mat-elevation-z0">
         <mat-toolbar-row>
-          <span class="welcome-logo"><img class="img-logo" src="/assets/images/app-logo.png" alt=""><span class="logo-text">IDEAHUB</span></span>
+          <span class="welcome-logo"><img class="img-logo" src="/assets/images/app-logo.png" alt=""></span>
           <span class="flexer"></span>
           <a href="/help">
               <button mat-button >Help</button>
           </a>
-          <button mat-button [routerLink]="['/login']">Login</button>
+          <button mat-button [routerLink]="['/login']" class="login-button">Login</button>
+          <button mat-button [routerLink]="['/register']">Register</button>
         </mat-toolbar-row>
     </mat-toolbar>
 

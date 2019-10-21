@@ -66,7 +66,7 @@ export class SpecialRegistrationComponent implements OnInit {
     return this.username.hasError('required') ? 'Username is required' :
         this.username.hasError('minlength') ? 'Minimum length is 6' :
         this.username.hasError('maxlength') ? 'Maximum length is 20' :
-        this.username.hasError('pattern') ? 'Only Alphanumeric usernames are allowed' :
+        this.username.hasError('pattern') ? 'Only Alphabet and Number usernames are allowed' :
         '';
   }
   

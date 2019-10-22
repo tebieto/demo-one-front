@@ -88,6 +88,8 @@ export class MentorHomeComponent implements OnInit {
     });
     let channel = pusher.subscribe(id+'');
     channel.bind(type, data => {
+      this.notifyMe(data)
+      return
     if(data.sender.id==this.user['id']) {return}
     if(data.type=='forum') {
       data['recipient_id'] = this.user['id']
@@ -570,6 +572,41 @@ export class MentorHomeComponent implements OnInit {
       link,
       '_blank' // <- This is what makes it open in a new window or tab.
     );
+  }
+
+  notifyMe(data:object) {
+
+    var img = '/assets/images/app-logo.png';
+    var text = 'HEY! Your task is now overdue.';
+    // Let's check if the browser supports notifications
+    if (!("Notification" in window)) {
+      alert("This browser does not support system notifications");
+      // This is not how you would really do things if they aren't supported. :)
+    }
+  
+    // Let's check whether notification permissions have already been granted
+    else if (Notification.permission === "granted") {
+      // If it's okay let's create a notification
+      var notification = new Notification('To do list', { body: text, icon: img });
+    }
+  
+    // Otherwise, we need to ask the user for permission
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          var notification = new Notification('To do list', { body: text, icon: img });
+        }
+      });
+    }
+  
+    // Finally, if the user has denied notifications and you 
+    // want to be respectful there is no need to bother them any more.
+
+    notification.onclick = function(event) {
+      event.preventDefault(); // prevent the browser from focusing the Notification's tab
+      window.open('/mentor/home', '_blank');
+    }
   }
 
 

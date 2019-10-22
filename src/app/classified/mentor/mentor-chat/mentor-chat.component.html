@@ -875,12 +875,12 @@
                 <button mat-button (click)="reviewIdea(activatedIdea)" class="bg-success"><mat-icon>check_circle_outline</mat-icon> I have reviewed this idea</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='reviewed'?false:true">
-                <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">	<mat-icon>done</mat-icon>APPROVE IDEA</button>
+                <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">	<mat-icon>done</mat-icon> APPROVE IDEA</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='reviewed'?false:true">
                 <button mat-button (click)="onRejectMessage(activatedIdea)" class="bg-danger"><mat-icon>not_interested
-                  
-                </mat-icon>REJECT IDEA</button>
+
+                </mat-icon> REJECT IDEA</button>
             </div>
 
             <div class="description" [class.hidden]="activatedIdea.status=='approved'?false:true" class="text-success">

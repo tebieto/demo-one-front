@@ -139,6 +139,29 @@ export class MentorChatComponent implements OnInit {
           this.activateFormGroups();
           this.fetchIndustry()
           this.hasPendingIdea()
+          this.startCustomRouter()
+        }
+
+        startCustomRouter(){
+          this.route.params.subscribe(params=>{
+                this.consumeRouteParams(params)
+            });
+        }
+      
+        consumeRouteParams(params: object) {
+          if(params['page']) {
+            setTimeout(() => {
+              
+            if(params['page']=='idea') {
+              this.gotoIdea()
+            }
+
+            if(params['page']=='forum') {
+              this.gotoForum()
+            }
+
+            }, 2000);
+          }
         }
 
         activateChannel(id:number, type: string) {

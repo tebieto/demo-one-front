@@ -14,6 +14,7 @@ const routes: Routes = [
   {"path": '', component: MentorHomeComponent},
   {"path": 'home', component: MentorHomeComponent},
   {"path": 'main', component: MentorChatComponent},
+  {"path": 'dashboard/:page', component: MentorChatComponent},
   {"path": 'view/profile/:code', component: ViewProfileComponent},
   {"path": ':view/idea/:code', component: ViewIdeaComponent},
   {"path": 'edit/profile', component: EditProfileComponent},

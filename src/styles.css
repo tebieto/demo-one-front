@@ -1187,3 +1187,9 @@ mat-toolbar .badge {
  position: relative;
  left: -50px !important;
 }
+
+.notification-tab {
+    height: 500px !important;
+    width: 400px !important;
+    min-width: 400px !important;
+}

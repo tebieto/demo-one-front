@@ -162,7 +162,7 @@ export class UserRegistrationComponent implements OnInit {
       // It is an array
          this.redirectByArray(role)
          return
-    } else if (role.code == 0){
+    } else if (role.code == 55){
       //Redirect to user page
       this.gotoUserPage()
       return
@@ -178,7 +178,7 @@ export class UserRegistrationComponent implements OnInit {
    redirectByArray(role: any){
    
     let isUser = role.find(x=>{
-       return x.code === 0
+       return x.code === 55
      })
    
    if(isUser){
@@ -202,7 +202,7 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   gotoUserPage(){
-    this.router.navigateByUrl('/user/home')
+    this.router.navigateByUrl('/mentee/')
   }
 
   gotoPageNotFound(){

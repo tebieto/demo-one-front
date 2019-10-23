@@ -176,6 +176,7 @@ export class MenteeHomeComponent implements OnInit {
           channel.bind(type, data => {
           if(type=='notification') {
             let url = '/mentee'
+            this.openDataPage(data)
             this.userService.notifyMe(data, url)
             return
             }
@@ -186,6 +187,13 @@ export class MenteeHomeComponent implements OnInit {
           this.cleanPushedMessage(data)
           this.playChatSound()
           });
+        }
+
+        openDataPage(data:object) {
+          if(data['type']=='idea') {
+            this.fetchIdeas()
+            this.gotoIdea()
+          }
         }
 
         playChatSound() {

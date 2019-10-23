@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ElementRef, ChangeDetectorRef, HostListener } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatSnackBar, MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -125,7 +125,6 @@ export class MentorChatComponent implements OnInit {
     });
     }
 
-
         ngOnInit() {
           this.preventBackButton()
           this.titleService.setTitle('IDEAHUB|Main Board')
@@ -172,6 +171,7 @@ export class MentorChatComponent implements OnInit {
           channel.bind(type, data => {
           if(type=='notification') {
             let url = '/mentor/home'
+            this.openDataPage(data)
             this.userService.notifyMe(data, url)
             return
             }
@@ -182,6 +182,13 @@ export class MentorChatComponent implements OnInit {
           this.cleanPushedMessage(data);
           this.playChatSound()
           });
+        }
+
+        openDataPage(data:object) {
+          if(data['type']=='idea') {
+            this.fetchIdeas()
+            this.gotoIdea()
+          }
         }
 
         playChatSound() {

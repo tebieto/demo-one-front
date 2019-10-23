@@ -82,6 +82,7 @@ export class MenteeDashComponent implements OnInit {
       if(type=='notification') {
       this.allNotifications.push(data)
       this.notNumber+=1
+      this.hasNotification = true
       let url = '/mentee'
       this.userService.notifyMe(data, url)
       return
@@ -135,10 +136,10 @@ export class MenteeDashComponent implements OnInit {
     let unReadNot = []
     data.forEach(x=> {
       if(x['type']=='idea') {
-        x['link'] = 'dashboard/idea'
+        x['link'] = '/dashboard/idea'
       }
       if(x['type']=='forum') {
-        x['link'] = 'dashboard/forum'
+        x['link'] = '/dashboard/forum'
       }
       if (x['unread']==true) {
         unReadNot.push(x)
@@ -156,7 +157,8 @@ export class MenteeDashComponent implements OnInit {
 
   readAllNotifications() {
     if(this.hasNotification==false) {return}
-    this.hasNotification=false; 
+    this.hasNotification=false;
+    this.notNumber = 0 
     const subscription = this.userService.readAllNotifications()
     this.subscription = subscription
     .subscribe(

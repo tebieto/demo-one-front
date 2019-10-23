@@ -92,6 +92,7 @@ export class MentorHomeComponent implements OnInit {
       if(type=='notification') {
       this.allNotifications.push(data)
       this.notNumber+=1
+      this.hasNotification = true
       let url = '/mentor/home'
       this.userService.notifyMe(data, url)
       return
@@ -436,10 +437,10 @@ export class MentorHomeComponent implements OnInit {
     let unReadNot = []
     data.forEach(x=> {
       if(x['type']=='idea') {
-        x['link'] = 'dashboard/idea'
+        x['link'] = '/dashboard/idea'
       }
       if(x['type']=='forum') {
-        x['link'] = 'dashboard/forum'
+        x['link'] = '/dashboard/forum'
       }
       if (x['unread']==true) {
         unReadNot.push(x)
@@ -457,6 +458,7 @@ export class MentorHomeComponent implements OnInit {
 
   readAllNotifications() {
     if(this.hasNotification==false) {return}
+    this.notNumber = 0
     this.hasNotification=false; 
     const subscription = this.userService.readAllNotifications()
     this.subscription = subscription

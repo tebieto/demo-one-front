@@ -171,7 +171,8 @@ export class MentorChatComponent implements OnInit {
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
           if(type=='notification') {
-            this.userService.notifyMe(data)
+            let url = '/mentor/home'
+            this.userService.notifyMe(data, url)
             return
             }
           if(data.sender.id==this.authUser.id) {return}

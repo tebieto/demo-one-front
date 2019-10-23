@@ -851,7 +851,7 @@ export class UserService {
     return throwError(error);
   }
 
-  notifyMe(data:object) {
+  notifyMe(data:object, url) {
     var img = '/assets/images/app-logo.png';
     var title = 'Lagos Innovate Ideahub'
     var text = data['sender']+' '+ data['action'];
@@ -882,7 +882,7 @@ export class UserService {
 
     notification.onclick = function(event) {
       event.preventDefault(); // prevent the browser from focusing the Notification's tab
-      window.open('/mentor/home', '_blank');
+      window.open(url, '_blank');
     }
   }
 

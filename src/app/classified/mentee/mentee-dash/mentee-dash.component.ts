@@ -80,7 +80,10 @@ export class MenteeDashComponent implements OnInit {
     let channel = pusher.subscribe(id+'');
     channel.bind(type, data => {
       if(type=='notification') {
-      this.userService.notifyMe(data)
+      this.allNotifications.push(data)
+      this.notNumber+=1
+      let url = '/mentee'
+      this.userService.notifyMe(data, url)
       return
       }
     if(data.sender.id==this.user['id']) {return}

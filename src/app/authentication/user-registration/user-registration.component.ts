@@ -202,7 +202,7 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   gotoUserPage(){
-    this.router.navigateByUrl('/mentee/')
+    this.router.navigateByUrl('/mentee')
   }
 
   gotoPageNotFound(){

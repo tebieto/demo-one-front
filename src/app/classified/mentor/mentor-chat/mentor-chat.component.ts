@@ -13,7 +13,6 @@ import Pusher from 'pusher-js';
 import { Config } from 'src/app/config';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Component({
   selector: 'app-mentor-chat',
@@ -171,6 +170,10 @@ export class MentorChatComponent implements OnInit {
           });
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
+          if(type=='notification') {
+            this.userService.notifyMe(data)
+            return
+            }
           if(data.sender.id==this.authUser.id) {return}
           if(data.type=='forum') {
             data['recipient_id'] = this.authUser['id']
@@ -1711,6 +1714,7 @@ export class MentorChatComponent implements OnInit {
               this.authUser['role'] = res.body.role
               setTimeout(()=>{  
                 this.activateChannel(this.authUser['id'], 'chat')
+                this.activateChannel(this.user['id'], 'notification')
                 },2000);
              }
       

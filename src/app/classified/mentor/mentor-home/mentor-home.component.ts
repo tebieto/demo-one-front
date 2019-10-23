@@ -62,10 +62,9 @@ export class MentorHomeComponent implements OnInit {
   hasError: boolean;
   keyRole = 55;
   optionalRole = 66;
-  notNumber = 30
-  hasNotification = true
+  hasNotification = false
   allNotifications = []
-
+  notNumber = 0
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
@@ -90,8 +89,10 @@ export class MentorHomeComponent implements OnInit {
     });
     let channel = pusher.subscribe(id+'');
     channel.bind(type, data => {
-      this.notifyMe(data)
+      if(type=='notification') {
+      this.userService.notifyMe(data)
       return
+      }
     if(data.sender.id==this.user['id']) {return}
     if(data.type=='forum') {
       data['recipient_id'] = this.user['id']
@@ -411,8 +412,8 @@ export class MentorHomeComponent implements OnInit {
         (res)=>{
         if(res.code==200) {
           if(res.body) {
-            if(res.body.length==0) {this.hasNotification = false}
             this.allNotifications = res.body
+            this.getUnreadNot(this.allNotifications)
           } else {  
           }
         } else {     
@@ -426,6 +427,56 @@ export class MentorHomeComponent implements OnInit {
   
       });
   }
+
+  getUnreadNot(data:object[]) {
+    if(data.length==0) {return}
+    let unReadNot = []
+    data.forEach(x=> {
+      if(x['type']=='idea') {
+        x['link'] = 'dashboard/idea'
+      }
+      if(x['type']=='forum') {
+        x['link'] = 'dashboard/forum'
+      }
+      if (x['unread']==true) {
+        unReadNot.push(x)
+      }
+    });
+    if(unReadNot.length>0) {this.hasNotification=true}
+    this.notNumber = unReadNot.length
+  }
+
+  onReadAllNotifications() {
+    setTimeout(() => {
+      this.readAllNotifications()
+    }, 1000);
+  }
+
+  readAllNotifications() {
+    if(this.hasNotification==false) {return}
+    this.hasNotification=false; 
+    const subscription = this.userService.readAllNotifications()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          // Do anything
+          if(res.body) {
+           // Do anything
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
 
   filterBody(body:object[]) {
     body.forEach(data=> {
@@ -598,42 +649,6 @@ export class MentorHomeComponent implements OnInit {
       link,
       '_blank' // <- This is what makes it open in a new window or tab.
     );
-  }
-
-  notifyMe(data:object) {
-
-    var img = '/assets/images/app-logo.png';
-    var title = 'Lagos Innovate Ideahub'
-    var text = 'A new Idea has been posted by your mentee';
-    // Let's check if the browser supports notifications
-    if (!("Notification" in window)) {
-      alert("This browser does not support system notifications");
-      // This is not how you would really do things if they aren't supported. :)
-    }
-  
-    // Let's check whether notification permissions have already been granted
-    else if (Notification.permission === "granted") {
-      // If it's okay let's create a notification
-      var notification = new Notification(title, { body: text, icon: img });
-    }
-  
-    // Otherwise, we need to ask the user for permission
-    else if (Notification.permission !== 'denied') {
-      Notification.requestPermission(function (permission) {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") {
-          var notification = new Notification('To do list', { body: text, icon: img });
-        }
-      });
-    }
-  
-    // Finally, if the user has denied notifications and you 
-    // want to be respectful there is no need to bother them any more.
-
-    notification.onclick = function(event) {
-      event.preventDefault(); // prevent the browser from focusing the Notification's tab
-      window.open('/mentor/home', '_blank');
-    }
   }
 
 

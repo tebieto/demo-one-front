@@ -142,6 +142,29 @@ export class MenteeHomeComponent implements OnInit {
           this.activateFormGroups();
           this.fetchIndustry()
           this.hasPendingIdea()
+          this.startCustomRouter()
+        }
+
+        startCustomRouter(){
+          this.route.params.subscribe(params=>{
+                this.consumeRouteParams(params)
+            });
+        }
+      
+        consumeRouteParams(params: object) {
+          if(params['page']) {
+            setTimeout(() => {
+              
+            if(params['page']=='idea') {
+              this.gotoIdea()
+            }
+
+            if(params['page']=='forum') {
+              this.gotoForum()
+            }
+
+            }, 2000);
+          }
         }
 
         activateChannel(id:number, type: string) {
@@ -151,6 +174,10 @@ export class MenteeHomeComponent implements OnInit {
           });
           let channel = pusher.subscribe(id+'');
           channel.bind(type, data => {
+          if(type=='notification') {
+            this.userService.notifyMe(data)
+            return
+            }
           if(data.sender.id==this.authUser.id) {return}
           if(data.type=='forum') {
             data['recipient_id'] = this.authUser['id']
@@ -1712,6 +1739,7 @@ export class MenteeHomeComponent implements OnInit {
               this.authUser['role'] = res.body.role
               setTimeout(()=>{  
                 this.activateChannel(this.authUser['id'], 'chat')
+                this.activateChannel(this.authUser['id'], 'notification')
                 },2000);
              }
       

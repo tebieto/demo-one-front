@@ -12,6 +12,7 @@ import { ViewIdeaComponent } from './view-idea/view-idea.component';
 const routes: Routes = [
   {"path": '', component: MenteeDashComponent},
   {"path": 'main', component: MenteeHomeComponent},
+  {"path": 'dashboard/:page', component: MenteeHomeComponent},
   {"path": 'home', component: MenteeDashComponent},
   {"path": 'view/profile', component: ViewProfileComponent},
   {"path": ':view/idea/:code', component: ViewIdeaComponent},

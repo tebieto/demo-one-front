@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialog.component';
 import { SharedMessageDialogComponent } from 'src/app/shared/shared-message-dialog/shared-message-dialog.component';
 import { Config } from 'src/app/config';
+import Pusher from 'pusher-js';
 
 export interface PeriodicElement {
   'name': object;
@@ -49,6 +50,10 @@ export class MenteeDashComponent implements OnInit {
   keyRole = 55;
   optionalRole = 55;
 
+  hasNotification = false
+  allNotifications = []
+  notNumber = 0
+
   constructor(
     private userService: UserService,
     private snackBar: MatSnackBar,
@@ -64,7 +69,113 @@ export class MenteeDashComponent implements OnInit {
     this.validateUser()
     this.startPaginator()
     this.startCustomRouter()
+    this.getAllNotifications()
   }
+
+  activateChannel(id:number, type: string) {
+    let pusher = new Pusher(Config.pusher.key, {
+      cluster: Config.pusher.cluster,
+      forceTLS: true
+    });
+    let channel = pusher.subscribe(id+'');
+    channel.bind(type, data => {
+      if(type=='notification') {
+      this.userService.notifyMe(data)
+      return
+      }
+    if(data.sender.id==this.user['id']) {return}
+    if(data.type=='forum') {
+      data['recipient_id'] = this.user['id']
+    }
+    this.cleanPushedMessage(data);
+    this.playChatSound()
+    });
+  }
+
+  cleanPushedMessage(data: object) {
+
+  }
+
+  playChatSound() {
+    let audio = new Audio();
+    audio.src = "/assets/sound/ideahub_chat.mp3";
+    audio.load();
+    audio.play();
+  }
+
+  getAllNotifications() {
+    this.isConnecting = true
+    const subscription = this.userService.allNotifications()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          if(res.body) {
+            this.allNotifications = res.body
+            this.getUnreadNot(this.allNotifications)
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
+  getUnreadNot(data:object[]) {
+    if(data.length==0) {return}
+    let unReadNot = []
+    data.forEach(x=> {
+      if(x['type']=='idea') {
+        x['link'] = 'dashboard/idea'
+      }
+      if(x['type']=='forum') {
+        x['link'] = 'dashboard/forum'
+      }
+      if (x['unread']==true) {
+        unReadNot.push(x)
+      }
+    });
+    if(unReadNot.length>0) {this.hasNotification=true}
+    this.notNumber = unReadNot.length
+  }
+
+  onReadAllNotifications() {
+    setTimeout(() => {
+      this.readAllNotifications()
+    }, 1000);
+  }
+
+  readAllNotifications() {
+    if(this.hasNotification==false) {return}
+    this.hasNotification=false; 
+    const subscription = this.userService.readAllNotifications()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          // Do anything
+          if(res.body) {
+           // Do anything
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
 
   chooseMentor(param: string) {
     let code = param
@@ -208,7 +319,7 @@ export class MenteeDashComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
-          
+          this.activateChannel(this.user['id'], 'notification')
           if(res.body.mentor) {
             this.displayUserMentor(res.body.mentor);
           } else {

@@ -646,6 +646,22 @@ export class UserService {
 
   }
 
+  readAllNotifications() {
+    this.baseUrl = Config.api + 'notification/read'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   mentorMentees() {
     this.baseUrl = Config.api + 'mentors/mentees'
@@ -833,6 +849,41 @@ export class UserService {
 
   handleErrors(error: Response) {
     return throwError(error);
+  }
+
+  notifyMe(data:object) {
+    var img = '/assets/images/app-logo.png';
+    var title = 'Lagos Innovate Ideahub'
+    var text = data['sender']+' '+ data['action'];
+    // Let's check if the browser supports notifications
+    if (!("Notification" in window)) {
+      alert("This browser does not support system notifications");
+      // This is not how you would really do things if they aren't supported. :)
+    }
+  
+    // Let's check whether notification permissions have already been granted
+    else if (Notification.permission === "granted") {
+      // If it's okay let's create a notification
+      var notification = new Notification(title, { body: text, icon: img });
+    }
+  
+    // Otherwise, we need to ask the user for permission
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          var notification = new Notification('To do list', { body: text, icon: img });
+        }
+      });
+    }
+  
+    // Finally, if the user has denied notifications and you 
+    // want to be respectful there is no need to bother them any more.
+
+    notification.onclick = function(event) {
+      event.preventDefault(); // prevent the browser from focusing the Notification's tab
+      window.open('/mentor/home', '_blank');
+    }
   }
 
 }

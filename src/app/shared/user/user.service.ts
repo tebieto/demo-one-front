@@ -630,6 +630,22 @@ export class UserService {
 
   }
 
+  allNotifications() {
+    this.baseUrl = Config.api + 'notification/'
+    return this.http.get(
+      this.baseUrl,
+      {headers:this.getCommonHeaders()}
+    ).pipe(
+      map(res => res.json()),
+      map(data => {
+          return data;
+      }),
+
+      catchError(this.handleErrors)
+    );
+
+  }
+
 
   mentorMentees() {
     this.baseUrl = Config.api + 'mentors/mentees'

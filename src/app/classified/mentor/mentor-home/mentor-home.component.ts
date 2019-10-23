@@ -64,6 +64,7 @@ export class MentorHomeComponent implements OnInit {
   optionalRole = 66;
   notNumber = 30
   hasNotification = true
+  allNotifications = []
 
   constructor(
     private userService: UserService,
@@ -78,6 +79,7 @@ export class MentorHomeComponent implements OnInit {
     this.titleService.setTitle('IDEAHUB| Mentor Home')
     this.validateUser()
     this.startCustomRouter()
+    this.getAllNotifications()
     
   }
 
@@ -401,6 +403,30 @@ export class MentorHomeComponent implements OnInit {
       });
   }
 
+  getAllNotifications() {
+    this.isConnecting = true
+    const subscription = this.userService.allNotifications()
+    this.subscription = subscription
+    .subscribe(
+        (res)=>{
+        if(res.code==200) {
+          if(res.body) {
+            if(res.body.length==0) {this.hasNotification = false}
+            this.allNotifications = res.body
+          } else {  
+          }
+        } else {     
+        }
+      },
+      (error)=>{
+        this.hasError = true
+        this.isConnecting = false
+        let notification = errorMessage.ConnectionError(error)
+        this.openSnackBar(notification, 'snack-error')
+  
+      });
+  }
+
   filterBody(body:object[]) {
     body.forEach(data=> {
       this.cleanCertificateData(data)
@@ -577,7 +603,8 @@ export class MentorHomeComponent implements OnInit {
   notifyMe(data:object) {
 
     var img = '/assets/images/app-logo.png';
-    var text = 'HEY! Your task is now overdue.';
+    var title = 'Lagos Innovate Ideahub'
+    var text = 'A new Idea has been posted by your mentee';
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {
       alert("This browser does not support system notifications");
@@ -587,7 +614,7 @@ export class MentorHomeComponent implements OnInit {
     // Let's check whether notification permissions have already been granted
     else if (Notification.permission === "granted") {
       // If it's okay let's create a notification
-      var notification = new Notification('To do list', { body: text, icon: img });
+      var notification = new Notification(title, { body: text, icon: img });
     }
   
     // Otherwise, we need to ask the user for permission

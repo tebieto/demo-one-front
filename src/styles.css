@@ -1193,3 +1193,8 @@ mat-toolbar .badge {
     width: 400px !important;
     min-width: 400px !important;
 }
+
+.notification-tab h6 {
+    margin-left: 10px !important;
+    color: rgba(0, 0, 0, 0.514) !important;
+}

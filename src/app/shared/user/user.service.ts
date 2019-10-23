@@ -882,7 +882,8 @@ export class UserService {
 
     notification.onclick = function(event) {
       event.preventDefault(); // prevent the browser from focusing the Notification's tab
-      window.open(url, '_blank');
+      window.focus() 
+      //window.open(url, '_blank');
     }
   }
 

@@ -124,11 +124,9 @@ export class MentorsComponent implements OnInit {
         if(res.code==200) {
           this.inspectRole(res.body.role, 'match')
           this.user = res.body.user
-          
-          if(res.body.mentor) {
-          } else {      
+                
           this.getMentors()
-          }
+          
 
          }
   

@@ -2,7 +2,7 @@
 
     <mat-toolbar color="primary" class="fixed-header main-header">
         <mat-toolbar-row>
-          <span class="welcome-logo" [routerLink]="['/mentee/home']"><img class="img-logo" src="/assets/images/app-logo.png" alt=""></span>
+          <span class="welcome-logo" [routerLink]="['/mentee/home']"><img class="img-logo" src="/assets/images/app-logo.png" alt="">| Mentee</span>
           <span class="flexer"></span>
           <span [matMenuTriggerFor]="noty" (click)="onReadAllNotifications()">
               <mat-icon [matBadge]="notNumber" matBadgeColor="warn" class="badge"  [class.hidden]="!hasNotification">notifications</mat-icon>

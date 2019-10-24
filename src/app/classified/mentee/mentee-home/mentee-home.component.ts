@@ -193,6 +193,7 @@ export class MenteeHomeComponent implements OnInit {
           if(data['type']=='idea') {
             this.fetchIdeas()
             this.gotoIdea()
+            this.hasPendingIdea()
           }
         }
 

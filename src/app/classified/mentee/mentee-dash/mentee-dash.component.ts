@@ -137,12 +137,16 @@ export class MenteeDashComponent implements OnInit {
     data.forEach(x=> {
       if(x['type']=='idea') {
         x['link'] = '/dashboard/idea'
-      }
-      if(x['type']=='forum') {
+      }else if(x['type']=='forum') {
         x['link'] = '/dashboard/forum'
+      } else {
+        x['link'] = ''
       }
-      if (x['unread']==true) {
+      if (x['unread']==1) {
+        x['unread'] = true;
         unReadNot.push(x)
+      } else if (x['unread']==11) {
+        x['unread']=false;
       }
     });
     if(unReadNot.length>0) {this.hasNotification=true}

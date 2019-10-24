@@ -443,8 +443,11 @@ export class MentorHomeComponent implements OnInit {
       } else {
         x['link'] = ''
       }
-      if (x['unread']==true) {
+      if (x['unread']==1) {
+        x['unread'] = true;
         unReadNot.push(x)
+      } else if (x['unread']==11) {
+        x['unread']=false;
       }
     });
     if(unReadNot.length>0) {this.hasNotification=true}

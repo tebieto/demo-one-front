@@ -90,7 +90,8 @@ export class MentorHomeComponent implements OnInit {
     let channel = pusher.subscribe(id+'');
     channel.bind(type, data => {
       if(type=='notification') {
-      this.allNotifications.push(data)
+      this.allNotifications.reverse().push(data)
+      this.allNotifications.reverse()
       this.notNumber+=1
       this.hasNotification = true
       let url = '/mentor/home'

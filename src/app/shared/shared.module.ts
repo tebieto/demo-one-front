@@ -12,6 +12,7 @@ import { SharedAvatarComponent } from './shared-avatar/shared-avatar.component';
 import { SharedMessageDialogComponent } from './shared-message-dialog/shared-message-dialog.component';
 import { SharedScoreComponent } from './shared-score/shared-score.component';
 import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
+import { SharedNotificationComponent } from './shared-notification/shared-notification.component';
 
 @NgModule({
   declarations: [
@@ -24,10 +25,11 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     SharedAvatarComponent,
     SharedMessageDialogComponent,
     SharedScoreComponent,
+    SharedNotificationComponent,
   ],
 
   entryComponents: [
-    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent, SharedScoreComponent
+    SnackbarComponent, DialogComponent, SharedDialogComponent, SharedMessageDialogComponent, SharedScoreComponent, SharedNotificationComponent
   ],
   
   imports: [
@@ -93,7 +95,8 @@ import { SharedDialogComponent } from './shared-dialog/shared-dialog.component';
     SharedDialogComponent,
     SharedMessageDialogComponent,
     MatBadgeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    SharedNotificationComponent
   ],
 })
 export class SharedModule { }

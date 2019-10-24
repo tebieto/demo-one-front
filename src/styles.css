@@ -1198,3 +1198,7 @@ mat-toolbar .badge {
     margin-left: 10px !important;
     color: rgba(0, 0, 0, 0.514) !important;
 }
+
+button {
+    color: #fff !important;
+}

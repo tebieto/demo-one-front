@@ -194,7 +194,7 @@ mat-toolbar-row span {
     right:0;
     width:70%;
     height:100%;
-    background: #000;
+    background: #fff;
 
 }
 
@@ -872,10 +872,11 @@ mat-toolbar-row span {
 
 .right-side-body-idea {
     background: #fff !important;
-    height: 100% !important;
+    height: 90% !important;
     max-height: 100% !important;
     border-left: 1px solid #eee;
     padding: 5px;
+    overflow-y: auto;
 }
 
 .right-side-body .item-title {

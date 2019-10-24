@@ -87,60 +87,32 @@
                     <mat-error *ngIf="firstFormGroup.get('minIdea').invalid">{{getMinIdeaErrorMessage()}}</mat-error>
                 </mat-form-field>
             
-                <h6>Custom Invite Email(For Mentors)</h6>
-            
-                <mat-form-field appearance="outline">
-                    <mat-label>Mentor Invite Email</mat-label>
-            
-                    <textarea matInput placeholder="Mentor Invite Email" type="text" formControlName="mentorMail" rows="6" required></textarea>
-              
-                    <button mat-button *ngIf="this.firstFormGroup.get('mentorMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('mentorMail')">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    
-                    <mat-error *ngIf="firstFormGroup.get('mentorMail').invalid">{{getMentorMailErrorMessage()}}</mat-error>
-                </mat-form-field>
-            
-                <h6>Custom Invite Email(For Mentees)</h6>
+                <h6>Custom Invitation Email Body</h6>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Mentee Invite Email</mat-label>
+                    <mat-label>Invitation Email</mat-label>
             
-                    <textarea matInput placeholder="Mentee Invite Email" type="text" formControlName="menteeMail" rows="6" required></textarea>
+                    <textarea matInput placeholder="Invite Email" type="text" formControlName="inviteMail" rows="6" required></textarea>
               
-                    <button mat-button *ngIf="this.firstFormGroup.get('menteeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('menteeMail')">
+                    <button mat-button *ngIf="this.firstFormGroup.get('inviteMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('inviteMail')">
                         <mat-icon>close</mat-icon>
                     </button>
                     
-                    <mat-error *ngIf="firstFormGroup.get('menteeMail').invalid">{{getMenteeMailErrorMessage()}}</mat-error>
+                    <mat-error *ngIf="firstFormGroup.get('inviteMail').invalid">{{getInviteMailErrorMessage()}}</mat-error>
                 </mat-form-field>
 
-                <h6>Custom Successful Registration Email(For Mentors)</h6>
+                <h6>Custom Registration Email Body</h6>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Mentor Welcome Email</mat-label>
+                    <mat-label>Registration Email</mat-label>
             
-                    <textarea matInput placeholder="Mentor Welcome Email" type="text" formControlName="mentorWelcomeMail" rows="6" required></textarea>
+                    <textarea matInput placeholder="Registation Email" type="text" formControlName="registrationMail" rows="6" required></textarea>
               
-                    <button mat-button *ngIf="this.firstFormGroup.get('mentorWelcomeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('mentorWelcomeMail')">
+                    <button mat-button *ngIf="this.firstFormGroup.get('registrationMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('registrationMail')">
                         <mat-icon>close</mat-icon>
                     </button>
                     
-                    <mat-error *ngIf="firstFormGroup.get('mentorWelcomeMail').invalid">{{getMentorWelcomeMailErrorMessage()}}</mat-error>
-                </mat-form-field>
-
-                <h6>Custom Successful Registration Email(For Mentees)</h6>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Mentee Welcome Email</mat-label>
-            
-                    <textarea matInput placeholder="Mentee Welcome Email" type="text" formControlName="menteeWelcomeMail" rows="6" required></textarea>
-              
-                    <button mat-button *ngIf="this.firstFormGroup.get('menteeWelcomeMail').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('menteeWelcomeMail')">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    
-                    <mat-error *ngIf="firstFormGroup.get('menteeWelcomeMail').invalid">{{getMenteeWelcomeMailErrorMessage()}}</mat-error>
+                    <mat-error *ngIf="firstFormGroup.get('registrationMail').invalid">{{getRegistrationMailErrorMessage()}}</mat-error>
                 </mat-form-field>
         
                   <div>

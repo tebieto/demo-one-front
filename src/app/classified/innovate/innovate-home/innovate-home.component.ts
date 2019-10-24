@@ -70,10 +70,8 @@ export class InnovateHomeComponent implements OnInit {
 
   prepareFormInputValidation(){
     this.firstFormGroup = this.formBuilder.group({
-      mentorMail: ['', [Validators.required, Validators.maxLength(500)]],
-      menteeMail: ['', [Validators.required, Validators.maxLength(500)]],
-      mentorWelcomeMail: ['', [Validators.required, Validators.maxLength(500)]],
-      menteeWelcomeMail: ['', [Validators.required, Validators.maxLength(500)]],
+      inviteMail: ['', [Validators.required, Validators.maxLength(500)]],
+      registrationMail: ['', [Validators.required, Validators.maxLength(500)]],
       maxMentee: ['', [Validators.required]],
       minIdea: ['', [Validators.required]],
     });
@@ -92,10 +90,8 @@ export class InnovateHomeComponent implements OnInit {
     let data ={
       "idea_cut_off": this.firstFormGroup.controls['minIdea'].value,
       "maximum_mentee": this.firstFormGroup.controls['maxMentee'].value,
-      "mentee_mail": this.firstFormGroup.controls['menteeMail'].value,
-      "mentee_registration_mail": this.firstFormGroup.controls['menteeWelcomeMail'].value,
-      "mentor_mail": this.firstFormGroup.controls['mentorMail'].value,
-      "mentor_registration_mail": this.firstFormGroup.controls['mentorWelcomeMail'].value,
+      "invitation_mail": this.firstFormGroup.controls['inviteMail'].value,
+      "registration_mail": this.firstFormGroup.controls['registrationMail'].value,
     }
     
     this.persistData(data)
@@ -130,14 +126,9 @@ export class InnovateHomeComponent implements OnInit {
   }
 
   populateForm(data) {
-
-        this.firstFormGroup.get('mentorMail').setValue(data.mentor_mail);
-    
-        this.firstFormGroup.get('mentorWelcomeMail').setValue(data.mentor_registration_mail);
-  
-        this.firstFormGroup.get('menteeMail').setValue(data.mentee_mail);
+        this.firstFormGroup.get('inviteMail').setValue(data.invitation_mail);
       
-        this.firstFormGroup.get('menteeWelcomeMail').setValue(data.mentee_registration_mail);
+        this.firstFormGroup.get('registrationMail').setValue(data.registration_mail);
       
         this.firstFormGroup.get('minIdea').setValue(data.idea_cut_off);
       
@@ -214,27 +205,15 @@ export class InnovateHomeComponent implements OnInit {
     return newArray
   }
 
-  getMentorMailErrorMessage() {
-    return this.firstFormGroup.controls['mentorMail'].errors.required ? 'Mentor Invite Mail is required' :
-    this.firstFormGroup.controls['mentorMail'].errors.maxlength ? 'Maximum length is 500 characters' :
+  getInviteMailErrorMessage() {
+    return this.firstFormGroup.controls['inviteMail'].errors.required ? 'Invitation Email body is required' :
+    this.firstFormGroup.controls['inviteMail'].errors.maxlength ? 'Maximum length is 500 characters' :
     '';
   }
 
-  getMentorWelcomeMailErrorMessage() {
-    return this.firstFormGroup.controls['mentorWelcomeMail'].errors.required ? 'Mentor Welcome Mail is required' :
-    this.firstFormGroup.controls['mentorWelcomeMail'].errors.maxlength ? 'Maximum length is 500 characters' :
-    '';
-  }
-
-  getMenteeMailErrorMessage() {
-    return this.firstFormGroup.controls['menteeMail'].errors.required ? 'Mentee Invite Mail is required' :
-    this.firstFormGroup.controls['menteeMail'].errors.maxlength ? 'Maximum length is 500 characters' :
-    '';
-  }
-
-   getMenteeWelcomeMailErrorMessage() {
-    return this.firstFormGroup.controls['menteeWelcomeMail'].errors.required ? 'Mentee Welcome Mail is required' :
-    this.firstFormGroup.controls['menteeWelcomeMail'].errors.maxlength ? 'Maximum length is 500 characters' :
+   getRegistrationMailErrorMessage() {
+    return this.firstFormGroup.controls['registrationMail'].errors.required ? 'Registraion EMail body is required' :
+    this.firstFormGroup.controls['registrationMail'].errors.maxlength ? 'Maximum length is 500 characters' :
     '';
   }
 
@@ -251,17 +230,11 @@ export class InnovateHomeComponent implements OnInit {
   
    clearFormField(field: string){
 
-    if(field=='mentorMail') {
-      this.firstFormGroup.get('mentorMail').setValue("");
+    if(field=='inviteMail') {
+      this.firstFormGroup.get('inviteMail').setValue("");
     }
-    if(field=='mentorWelcomeMail') {
-      this.firstFormGroup.get('mentorWelcomeMail').setValue("");
-    }
-    if(field=='menteeMail') {
-      this.firstFormGroup.get('menteeMail').setValue("");
-    }
-    if(field=='menteeWelcomeMail') {
-      this.firstFormGroup.get('menteeWelcomeMail').setValue("");
+    if(field=='registrationMail') {
+      this.firstFormGroup.get('registrationMail').setValue("");
     }
     if(field=='maxMentee') {
       this.firstFormGroup.get('maxMentee').setValue("");

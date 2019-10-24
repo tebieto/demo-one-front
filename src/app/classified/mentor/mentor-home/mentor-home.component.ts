@@ -416,7 +416,7 @@ export class MentorHomeComponent implements OnInit {
         (res)=>{
         if(res.code==200) {
           if(res.body) {
-            this.allNotifications = res.body
+            this.allNotifications = res.body.reverse()
             this.getUnreadNot(this.allNotifications)
           } else {  
           }

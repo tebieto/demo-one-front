@@ -438,9 +438,10 @@ export class MentorHomeComponent implements OnInit {
     data.forEach(x=> {
       if(x['type']=='idea') {
         x['link'] = '/dashboard/idea'
-      }
-      if(x['type']=='forum') {
+      }else if(x['type']=='forum') {
         x['link'] = '/dashboard/forum'
+      } else {
+        x['link'] = ''
       }
       if (x['unread']==true) {
         unReadNot.push(x)

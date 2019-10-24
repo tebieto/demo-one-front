@@ -186,7 +186,7 @@
               Forum
           </span>
           <span class="right-icons">
-            <mat-icon>refresh</mat-icon>
+            <mat-icon (click)="fetchForums()">refresh</mat-icon>
           </span>
         </div>
         <div class="search">
@@ -400,7 +400,7 @@
               Ideas
           </span>
           <span class="right-icons">
-            <mat-icon>refresh</mat-icon>
+            <mat-icon (click)=fetchIdeas()>refresh</mat-icon>
           </span>
         </div>
         <div class="search">
@@ -872,7 +872,9 @@
                 <button mat-button (click)="newTab(activatedIdea.attachment)"><mat-icon>play_for_work</mat-icon>DOWNLOAD PLAN</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
-                <button mat-button (click)="reviewIdea(activatedIdea)" class="bg-success"><mat-icon>check_circle_outline</mat-icon> I have reviewed this idea</button>
+                <mat-checkbox [(ngModel)]="activatedIdea['checked']">I have reviewed this Idea</mat-checkbox><br>
+                <button mat-button (click)="reviewIdea(activatedIdea)" class="bg-success" [class.hidden]="activatedIdea['checked']?false:true"><mat-icon>check_circle_outline</mat-icon> Continue</button>
+                <button mat-button class="text-grey" (click)="reviewIdea(activatedIdea)" [class.hidden]="activatedIdea['checked']?true:false"><mat-icon>check_circle_outline</mat-icon> Continue</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='reviewed'?false:true">
                 <button mat-button (click)="onApproveMessage(activatedIdea)" class="bg-success">	<mat-icon>done</mat-icon> APPROVE IDEA</button>

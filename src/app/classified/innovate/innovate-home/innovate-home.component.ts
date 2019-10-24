@@ -37,7 +37,7 @@ export class InnovateHomeComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('IDEAHUB|Admin')
+    this.titleService.setTitle('| Admin')
     this.prepareFormInputValidation()
     this.numberArray = this.fillNumberArray(100)
     this.validateUser()

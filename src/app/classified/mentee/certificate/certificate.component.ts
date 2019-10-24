@@ -55,7 +55,7 @@ export class CertificateComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('IDEAHUB|Admin')
+    this.titleService.setTitle('| Admin')
     this.validateUser()
     this.prepareFormInputValidation()
     this.numberArray = this.fillNumberArray(100)

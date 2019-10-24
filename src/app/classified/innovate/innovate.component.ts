@@ -40,7 +40,7 @@ export class InnovateComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.titleService.setTitle('IDEAHUB|Admin')
+    this.titleService.setTitle('| Admin')
     this.validateUser()
     this.fetchCustomData()
   }

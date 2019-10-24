@@ -728,6 +728,7 @@ export class MentorChatComponent implements OnInit {
 
           if(this.activatedIdea) {   
             this.activatedIdea['active'] = false;
+            this.activatedIdea['checked'] = false;
           }
 
           // Global deactivation
@@ -2464,6 +2465,11 @@ export class MentorChatComponent implements OnInit {
     }
 
     reviewIdea(id: number) {
+      if(!this.activatedIdea['checked']){
+        let notification = "Mark the check box to continue"
+        this.openSnackBar(notification, 'snack-error')
+        return
+      }
       this.activatedIdea['status']='reviewed'
     }
   

@@ -5,6 +5,7 @@
           <span class="idea-arrow-back" (click)="goBack()"><mat-icon>arrow_back</mat-icon></span>
           <span class="welcome-logo">{{profile.full_name}}'s Report</span>
           <span class="flexer"></span>
+          <app-shared-notification [id]="user.id"></app-shared-notification>
           <button mat-button [routerLink]="['/innovate']" class="logout" title="Home"><mat-icon>home</mat-icon> </button>
         </mat-toolbar-row>
     </mat-toolbar>

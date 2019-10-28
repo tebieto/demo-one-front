@@ -7,8 +7,8 @@
     <span class="special-logo" [routerLink]="'/mentee/home'"><img class="img-logo" src="/assets/images/app-logo.png" alt=""></span>
     <span class="flexer"></span>
     <app-shared-notification [id]="authUser.id"></app-shared-notification>
-    <div [routerLink]="'/mentee/home'" class="logout" title="Home"><mat-icon>home</mat-icon> </div>
-    <div (click)="logUserOut('You logged out')" class="logout chat-logout" title="Logout">Logout </div>
+    <div [routerLink]="'/mentee/home'" class="logout chat-nav" title="Home"><mat-icon>home</mat-icon> </div>
+    <div (click)="logUserOut('You logged out')" class="logout chat-logout chat-nav" title="Logout">Logout </div>
   </mat-toolbar-row>
 </mat-toolbar>
 

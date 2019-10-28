@@ -1112,6 +1112,18 @@ mat-toolbar-row span {
     color: #fff;
 }
 
+.chat-nav {
+    position: relative;
+    top: 5px !important;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.chat-logout {
+    position: relative;
+    top: 2px !important;
+}
+
 /* End of Chat Pages styles */
 
 .transparent {

@@ -21,13 +21,13 @@
               <ng-template matStepLabel>Basic Information</ng-template>
             
                 <mat-form-field appearance="outline">
-                    <mat-label>Contact Number</mat-label>
+                    <mat-label>Email</mat-label>
             
                     <button mat-button matPrefix mat-icon-button aria-label="Clear">
                         <mat-icon>email</mat-icon>
                     </button>
             
-                    <input matInput placeholder="e.g. 08059384928" type="number" formControlName="email" (keyup.enter)="onSubmit()"  required>
+                    <input matInput placeholder="john.doe@example.com" type="text" formControlName="email" (keyup.enter)="onSubmit()"  required>
               
                     <button mat-button *ngIf="this.firstFormGroup.get('email').value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFormField('email')">
                         <mat-icon>close</mat-icon>

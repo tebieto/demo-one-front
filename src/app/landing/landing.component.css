@@ -67,9 +67,13 @@ a button {
     margin-left: 10px;
  }
 
-.partner-logo {
-     width: 150px !important;
-     height: auto;
+.lsetf .partner-logo {
+     width: 250px !important;
+     height: 100px;
+ }
+ .gpi .partner-logo {
+     width: 100px;
+     height: 70px;
  }
 
  .lsetf .text,  .gpi .text{

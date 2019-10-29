@@ -39,7 +39,7 @@ export class SharedNotificationComponent implements OnChanges {
       if(type=='notification') {
       this.allNotifications.reverse().push(data)
       this.allNotifications.reverse()
-      this.notNumber+=1
+      this.getUnreadNot(this.allNotifications)
       this.hasNotification = true
       let url = '/mentor/home'
       this.userService.notifyMe(data, url)

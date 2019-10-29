@@ -131,6 +131,6 @@ mat-toolbar-row span {
 .idea-arrow-back {
     position: relative;
     top: 5px;
-    margin-right: 20px;
+    margin-right: 50px;
     cursor: pointer;
 }

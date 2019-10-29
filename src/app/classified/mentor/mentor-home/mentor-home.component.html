@@ -19,7 +19,7 @@
           <mat-menu #noty="matMenu" class="notification-tab">
               <h6>All Notifications</h6>
               <hr>
-              <button *ngFor="let item of allNotifications" mat-menu-item [class.unread-not]="item.unread" [routerLink]="['/mentor'+item.link]" title="just posted an Idea">
+              <button *ngFor="let item of allNotifications" mat-menu-item [class.unread-not]="item.unread" [routerLink]="['/mentor'+item.link]" [title]="item.sender+' '+item.action">
                 <span class="text-bold">{{item.sender}}</span> {{item.action}}
               </button>
               <h6 [class.hidden]="allNotifications.length>0?true:false">You currently have no notification</h6>

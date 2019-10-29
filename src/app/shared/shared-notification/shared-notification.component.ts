@@ -12,6 +12,7 @@ import { Config } from 'src/app/config';
 export class SharedNotificationComponent implements OnChanges {
 
   @Input('id') id: number
+  @Input('link') link: string
 
   subscription: Subscription
 

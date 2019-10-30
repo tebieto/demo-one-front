@@ -122,11 +122,6 @@ export class EditProgramComponent implements OnInit {
     '';
   }
 
-  getEmailErrorMessage() {
-    return this.firstFormGroup.controls['email'].errors.required ? 'Email is required' :
-    '';
-  }
-
   getPnameErrorMessage() {
     return this.secondFormGroup.controls['pname'].errors.required ? 'Programme name is required' :
     this.secondFormGroup.controls['pname'].errors.minlength ? 'Minimum character is 3' :
@@ -206,8 +201,6 @@ export class EditProgramComponent implements OnInit {
   }
 
   populateForm(data:object) {
-      this.firstFormGroup.get('email').setValue(data['email']);
-  
       this.firstFormGroup.get('about').setValue(data['about_me']);
   
       this.secondFormGroup.get('pname').setValue(data['programme_name']);
@@ -255,7 +248,7 @@ export class EditProgramComponent implements OnInit {
 
   let data ={
     "about_me": this.firstFormGroup.controls['about'].value,
-    "email": this.firstFormGroup.controls['email'].value,
+    "email": "",
     "linkedin": this.firstFormGroup.controls['linkedin'].value,
     "programme_name": this.secondFormGroup.controls['pname'].value,
     "description": this.secondFormGroup.controls['pdescription'].value,
@@ -301,7 +294,6 @@ gotoMentorPage(){
 
 prepareFormInputValidation(){
   this.firstFormGroup = this.formBuilder.group({
-    email: ['', [Validators.required]],
     about: ['', [Validators.required, Validators.minLength(10)]],
     linkedin: ['', [Validators.required]]
   });

@@ -275,6 +275,8 @@ persistData(data: Object){
 
       if(res.code==200) {
        this.gotoMentorPage()
+       let notification = 'Updated Successfully'
+       this.openSnackBar(notification, 'snack-success')
       }
 
   },

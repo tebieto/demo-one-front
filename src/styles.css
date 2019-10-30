@@ -1124,6 +1124,22 @@ mat-toolbar-row span {
     top: 2px !important;
 }
 
+.idea-title {
+    position: relative;
+    left: 5px;
+    text-align: justify;
+}
+
+.idea-image {
+    position: absolute;
+    top: 15px;
+}
+
+.idea-image-main {
+    position: absolute;
+    top: 15px !important;
+}
+
 /* End of Chat Pages styles */
 
 .transparent {

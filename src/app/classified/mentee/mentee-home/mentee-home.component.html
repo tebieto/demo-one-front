@@ -914,8 +914,11 @@
         <div class="right-side-body right-side-body-idea" (scroll)="onScroll($event)" #scrollToBottom>
   
             <div class="title">
-                <img [src]="activatedIdea.logo" alt="" [class.hidden]="activatedIdea.logo.length==0?true:false">
-                 <h4>{{activatedIdea.title}}</h4> 
+                <span [class.hidden]="activatedIdea.logo.length==0?false:true" class="fake-avatar idea-image" [title]="activatedIdea.title">
+                    <button mat-fab class="mat-elevation-z0">{{activatedIdea.title.slice(0,1)}}</button>
+                </span>
+                <img [src]="activatedIdea.logo" class="idea-image idea-image-main" alt="" [class.hidden]="activatedIdea.logo.length==0?true:false">
+                 <h4 class="idea-title">{{activatedIdea.title}}</h4> 
               </div>
       
               <div class="description">

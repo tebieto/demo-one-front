@@ -49,7 +49,7 @@ export class IdeasComponent implements OnInit {
   hasError: boolean;
   page="ideas"
   title='Pending Idea'
-  keyRole = 44
+  keyRole = 88
   optionalRole = 99
   overview = []
   cutOff = 50

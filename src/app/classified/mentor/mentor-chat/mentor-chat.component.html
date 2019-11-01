@@ -440,7 +440,7 @@
           </span>
           <br>
           <span class="user-message">
-           {{item.description.slice(0, 35)}} <span *ngIf="item.description.length>35">...</span>
+           {{item.summary.slice(0, 35)}} <span *ngIf="item.summary.length>35">...</span>
           </span>
           <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -481,8 +481,8 @@
             </span>
             <br>
             <span class="user-message">
-                <span [innerHTML]="replaceMatch(item.type, item.description.slice(0, 35))"></span>
-                <span *ngIf="item.description.length>35">...</span>
+                <span [innerHTML]="replaceMatch(item.type, item.summary.slice(0, 35))"></span>
+                <span *ngIf="item.summary.length>35">...</span>
               </span>
               <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -861,19 +861,19 @@
               <img [src]="activatedIdea.logo" class="idea-image idea-image-main" alt="" [class.hidden]="activatedIdea.logo.length==0?true:false">
                <h4 class="idea-title">{{activatedIdea.title}}</h4> 
             </div>
-    
+      
             <div class="description">
-                <h6>Description</h6> 
-                {{activatedIdea.description}} 
+                <h6>My Website</h6>
+                <a [href]="activatedIdea.url"></a> 
             </div>
     
             <div class="description">
                 <h6>Summary</h6> 
                 {{activatedIdea.summary}}
             </div>
-    
-            <div class="description">
-                <button mat-button (click)="newTab(activatedIdea.attachment)"><mat-icon>play_for_work</mat-icon>DOWNLOAD PLAN</button>
+            <hr>
+            <div class="description" [class.hidden]="activatedIdea.attachment.length==0?true:false">
+                <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
             </div>
             <div class="description" [class.hidden]="activatedIdea.status=='pending'?false:true">
                 <mat-checkbox [(ngModel)]="activatedIdea['checked']">I have reviewed this Idea</mat-checkbox><br>

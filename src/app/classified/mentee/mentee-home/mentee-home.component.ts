@@ -104,6 +104,7 @@ export class MenteeHomeComponent implements OnInit {
   isUploadingAvatar: boolean;
   newAvatar: any;
   previousAvatar: any;
+  hasMentor: boolean;
 
   constructor(
     private userService: UserService,
@@ -1483,10 +1484,10 @@ export class MenteeHomeComponent implements OnInit {
           industry: ['', [Validators.required]]
         });
         this.secondIdeaGroup = this._formBuilder.group({
-          description: ['', [Validators.required, Validators.minLength(20)]]
+          summary: ['', [Validators.required, Validators.minLength(20)]]
         });
         this.thirdIdeaGroup = this._formBuilder.group({
-          website: ['']
+          website: ['', []]
         });
       }
 
@@ -1732,8 +1733,10 @@ export class MenteeHomeComponent implements OnInit {
             }
       
             if(res.code==200) {
+              this.hasMentor = true;
               if(!res.body.mentor) {
                 //this.gotoHome()
+                this.hasMentor = false;
               }
               this.inspectRole(res.body.role, 'match')
               this.user = res.body.user
@@ -2046,7 +2049,7 @@ export class MenteeHomeComponent implements OnInit {
       if(!idea){return}
       idea['title'] = data['title'];
       idea['industry'] = data['industry'];
-      idea['description'] = data['description'];
+      idea['url'] = data['url'];
       idea['summary'] = data['summary'];
       idea['attachment'] = data['attachment'];
       idea['logo'] = data['logo'];
@@ -2508,8 +2511,8 @@ export class MenteeHomeComponent implements OnInit {
     fillIdeaForm(idea: object) {
       this.firstIdeaGroup.get('title').setValue(idea['title']);
       this.firstIdeaGroup.get('industry').setValue(idea['industry']);
-      this.secondIdeaGroup.get('description').setValue(idea['description']);
-      this.thirdIdeaGroup.get('summary').setValue(idea['summary']);
+      this.secondIdeaGroup.get('summary').setValue(idea['summary']);
+      this.thirdIdeaGroup.get('website').setValue(idea['website']);
       this.newIdeaPlan = idea['attachment'];
       this.newIdeaLogo = idea['logo'];
       this.gotoNewIdea('update')

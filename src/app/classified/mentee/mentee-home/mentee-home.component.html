@@ -419,7 +419,7 @@
       <!--When Search is Off-->
       <div *ngIf="!searchText" class="left-side-body" (scroll)="onLeftScroll($event)">
 
-          <div [class.hidden]="pendingIdea?true:false" class="user-list row" (click)="gotoNewIdea('new')">
+          <div [class.hidden]="pendingIdea || !hasMentor?true:false" class="user-list row" (click)="gotoNewIdea('new')">
           
               <div class="col-xs-6 user-avatar">
                 <button mat-fab class="add-button">
@@ -451,6 +451,22 @@
 
           </div>
 
+          <div [class.hidden]="hasMentor?true:false" class="user-list row">
+          
+              <div class="col-xs-6 user-avatar">
+                <button mat-fab class="add-button">
+                    <mat-icon>thumb_up_alt</mat-icon>
+                </button>
+              </div> 
+              
+              <div class="col-xs-6 user-content" [routerLink]="'/mentee/home'">
+                <span class="user-name add-text">
+                    Choose a mentor before posting Idea
+                </span> 
+              </div>
+
+          </div>
+
         <div class="not-available" *ngIf="ideas.length==0">You have not posted any Idea</div>
         <div class="user-list row" *ngFor="let item of ideas" [class.active]="item.active" (click)="fetchAllMessages(item.type, item.id)">
           
@@ -471,7 +487,7 @@
             </span>
             <br>
             <span class="user-message">
-             {{item.description.slice(0, 35)}} <span *ngIf="item.description.length>35">...</span>
+             {{item.summary.slice(0, 35)}} <span *ngIf="item.summary.length>35">...</span>
             </span>
             <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
             <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -518,8 +534,8 @@
               </span>
               <br>
               <span class="user-message">
-                  <span [innerHTML]="replaceMatch(item.type, item.description.slice(0, 35))"></span>
-                  <span *ngIf="item.description.length>35">...</span>
+                  <span [innerHTML]="replaceMatch(item.type, item.summary.slice(0, 35))"></span>
+                  <span *ngIf="item.summary.length>35">...</span>
                 </span>
                 <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
                 <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -615,7 +631,7 @@
                   <ng-template matStepLabel>Your Website</ng-template>
                   <mat-form-field appearance="outline">
                       <mat-label>Your Website</mat-label>
-                      <textarea matInput placeholder="http://example.org" rows="10" formControlName="website" required></textarea>
+                      <input matInput placeholder="http://example.org" rows="10" formControlName="website"/>
                       <mat-error *ngIf="thirdIdeaGroup.get('website').invalid">Website is required</mat-error>
                   </mat-form-field>
                   <div>
@@ -923,15 +939,15 @@
               </div>
       
               <div class="description">
-                  <h6>Summary</h6> 
-                  {{activatedIdea.summary}}
+                  <h6>My Website</h6> 
+                  <a [href]="activatedIdea.url"></a>
               </div>
       
               <div class="description">
-                  <h6>Website</h6> 
-                  {{activatedIdea.url}}
+                  <h6>Summary</h6> 
+                  {{activatedIdea.summary}}
               </div>
-      
+              <hr>
               <div class="description" [class.hidden]="activatedIdea.attachment.length==0?true:false">
                   <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
               </div>

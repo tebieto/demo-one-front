@@ -206,6 +206,8 @@ export class MenteeDashComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       if(!result){
+        let notification = 'Comment is required, try again...'
+        this.openSnackBar(notification, 'snack-error')
         return
       }
       this.openDialog(data, message, param, result)

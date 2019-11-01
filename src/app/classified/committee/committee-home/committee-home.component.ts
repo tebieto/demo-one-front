@@ -231,6 +231,21 @@ export class CommitteeHomeComponent implements OnInit {
       if(!result){
         return
       }
+
+      let notification = ''
+     
+      if(sheetData['msg'].length==0) {
+        notification = 'Comment is required, try again...'
+        this.openSnackBar(notification, 'snack-error')
+        return
+      }
+  
+      if(sheetData['score'].length==0) {
+        notification = 'Score is required, try again...'
+        this.openSnackBar(notification, 'snack-error')
+        return
+      }
+
       if(type=='approve') {   
         this.approveIdea(data['id'], sheetData)
       } else if(type=='reject') {

@@ -38,11 +38,12 @@ mat-toolbar-row span {
     position: relative;
     display: block;
     top: 250px;
-    width: 600px;
+    width: 450px;
     max-width: 80%;
-    background: transparent;
+    background: #00968734;
     color: #fff;
     margin: auto;
+    padding: 20px;
 }
 
 a button {
@@ -68,8 +69,8 @@ a button {
  }
 
 .lsetf .partner-logo {
-     width: 250px !important;
-     height: 100px;
+     width: 200px !important;
+     height: 70px;
  }
  .gpi .partner-logo {
      width: 100px;

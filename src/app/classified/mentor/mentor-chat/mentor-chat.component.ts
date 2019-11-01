@@ -2400,6 +2400,8 @@ export class MentorChatComponent implements OnInit {
     
       dialogRef.afterClosed().subscribe(result => {
         if(!result){
+          let notification = 'Comment is required, try again...'
+          this.openSnackBar(notification, 'snack-error')
           return
         }
         if(type=='approve') {
@@ -2431,6 +2433,7 @@ export class MentorChatComponent implements OnInit {
         if(!result){
           return
         }
+
         if(type=='approve') {   
           this.approveIdea(data['id'], mentorMessage)
         } else if(type=='reject') {

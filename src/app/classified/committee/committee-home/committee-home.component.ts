@@ -12,7 +12,7 @@ import { SharedDialogComponent } from 'src/app/shared/shared-dialog/shared-dialo
 
 export interface PeriodicElement {
   'title': string;
-  'description': string;
+  'summary': string;
   'id': number;
   'link': string;
   'status': string;
@@ -31,7 +31,7 @@ export class CommitteeHomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('csvUpload') csvUpload: ElementRef;
-  displayedColumns: string[] = ['title', 'description', 'id'];
+  displayedColumns: string[] = ['title', 'summary', 'id'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   
 
@@ -161,10 +161,10 @@ export class CommitteeHomeComponent implements OnInit {
     ELEMENT_DATA.splice(0, ELEMENT_DATA.length)
     data.forEach(idea=> {
       let encrypted = crypto.encrypt(idea, this.user['id'])
-      let element = {id:0, description:'', title: '', link: '', status: '', idea:{}}
+      let element = {id:0, summary:'', title: '', link: '', status: '', idea:{}}
       element['id']= idea['id']
       element['link'] = encrypted
-      element['description']= idea['description']
+      element['summary']= idea['summary']
       element['title'] = idea['title']
       element['status'] = idea['status']
       element['idea'] = idea

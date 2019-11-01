@@ -10,7 +10,7 @@ import { Asset as crypto} from 'src/app/asset';
 
 export interface PeriodicElement {
   'title': string;
-  'description': string;
+  'summary': string;
   'id': number;
   'link': string;
   'status': string;
@@ -31,7 +31,7 @@ export class IdeasComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('csvUpload') csvUpload: ElementRef;
   ideas: PeriodicElement[] = [];
-  displayedColumns: string[] = ['title', 'description','comment', 'score', 'id'];
+  displayedColumns: string[] = ['title', 'summary','comment', 'score', 'id'];
   dataSource = new MatTableDataSource(this.ideas);
   
 
@@ -186,12 +186,12 @@ export class IdeasComponent implements OnInit {
     this.ideas.splice(0, this.ideas.length)
     data.forEach(idea=> {
       let encrypted = crypto.encrypt(idea, this.user['id'])
-      let element = {id:0, description:'', title: '', comment: '', score: '', link: '', status: '', idea:{}}
+      let element = {id:0, summary:'', title: '', comment: '', score: '', link: '', status: '', idea:{}}
       element['id']= idea['id']
       element['score']= idea['committee_score']
       element['comment']= idea['committee_comment']
       element['link'] = encrypted
-      element['description']= idea['description']
+      element['summary']= idea['summary']
       element['title'] = idea['title']
       element['status'] = idea['status']
       element['idea'] = idea

@@ -27,8 +27,8 @@
         </div>
 
         <div class="description">
-            <h6>Description</h6> 
-            {{idea.description}} 
+            <h6>Website</h6> 
+            {{idea.url}} 
         </div>
 
         <div class="description">
@@ -36,7 +36,7 @@
             {{idea.summary}}
         </div>
 
-        <div class="description">
+        <div class="description" [class.hidden]="idea.attachment.length==0?true:false">
             <button mat-button (click)="newTab(idea.attachment)">DOWNLOAD BUSINESS PLAN</button>
         </div>
     

@@ -1461,8 +1461,8 @@ export class MenteeHomeComponent implements OnInit {
       clearEditable() {
       this.firstIdeaGroup.get('title').setValue("");
       this.firstIdeaGroup.get('industry').setValue("");
-      this.secondIdeaGroup.get('description').setValue("");
-      this.thirdIdeaGroup.get('summary').setValue("");
+      this.secondIdeaGroup.get('summary').setValue("");
+      this.thirdIdeaGroup.get('website').setValue("");
       this.newIdeaPlan = "";
       this.newIdeaLogo = "";
       this.editableIdea = 0
@@ -1486,7 +1486,7 @@ export class MenteeHomeComponent implements OnInit {
           description: ['', [Validators.required, Validators.minLength(20)]]
         });
         this.thirdIdeaGroup = this._formBuilder.group({
-          summary: ['', [Validators.required, Validators.minLength(20)]]
+          website: ['']
         });
       }
 
@@ -1569,8 +1569,8 @@ export class MenteeHomeComponent implements OnInit {
           'id': this.editableIdea,
           'title': this.firstIdeaGroup.controls['title'].value,
           'industry': this.firstIdeaGroup.controls['industry'].value,
-          'description': this.secondIdeaGroup.controls['description'].value,
-          'summary': this.thirdIdeaGroup.controls['summary'].value,
+          'summary': this.secondIdeaGroup.controls['summary'].value,
+          'url': this.thirdIdeaGroup.controls['website'].value,
           'attachment': this.newIdeaPlan,
           'logo': this.newIdeaLogo,
           'type': 'idea',
@@ -1578,15 +1578,9 @@ export class MenteeHomeComponent implements OnInit {
           'status': 'pending'
         }
 
-        if(data.title.length==0 || data.industry.length==0 || data.description.length==0 || data.summary.length==0 || data.attachment.length==0){      
+        if(data.title.length==0 || data.industry.length==0 || data.summary.length==0){      
           
-          let notification = "All fields are required"
-
-          if(data.attachment.length==0) {
-           notification = 'Business Plan is required'
-          } else if(data.logo.length==0) {
-            notification = "Logo is required"
-          }
+          let notification = "You have errors in your form"
 
           this.openSnackBar(notification, 'snack-error')
           return
@@ -1604,8 +1598,8 @@ export class MenteeHomeComponent implements OnInit {
           'industry': this.firstIdeaGroup.controls['industry'].value,
           'title': this.firstIdeaGroup.controls['title'].value,
           'logo': this.newIdeaLogo,
-          'description': this.secondIdeaGroup.controls['description'].value,
-          'summary': this.thirdIdeaGroup.controls['summary'].value,
+          'summary': this.secondIdeaGroup.controls['summary'].value,
+          'url': this.thirdIdeaGroup.controls['website'].value,
           'attachment': this.newIdeaPlan,
           status:"pending",
           active: false,
@@ -1647,8 +1641,8 @@ export class MenteeHomeComponent implements OnInit {
         } else if(type=='idea') {
           this.firstIdeaGroup.get('title').setValue('');
           this.firstIdeaGroup.get('industry').setValue('');
-          this.secondIdeaGroup.get('description').setValue('');
-          this.thirdIdeaGroup.get('summary').setValue('');
+          this.secondIdeaGroup.get('summary').setValue('');
+          this.thirdIdeaGroup.get('website').setValue('');
           this.newIdeaPlan = '';
           this.newIdeaLogo = '';
         }

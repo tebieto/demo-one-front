@@ -596,34 +596,35 @@
           </mat-step>
   
           <mat-step [stepControl]="secondIdeaGroup">
-            <form [formGroup]="secondIdeaGroup">
-                <ng-template matStepLabel>Description</ng-template>
-                <mat-form-field appearance="outline">
-                    <mat-label>Short Description</mat-label>
-                    <textarea matInput placeholder="Description" rows="10" formControlName="description" required></textarea>
-                    <mat-error *ngIf="secondIdeaGroup.get('description').invalid">Minimum Character is 20</mat-error>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
+              <form [formGroup]="secondIdeaGroup">
+                  <ng-template matStepLabel>Summary</ng-template>
+                  <mat-form-field appearance="outline">
+                      <mat-label>Summary</mat-label>
+                      <textarea matInput placeholder="Summary" rows="10" formControlName="summary" required></textarea>
+                      <mat-error *ngIf="secondIdeaGroup.get('summary').invalid">Minimum Character is 20</mat-error>
+                  </mat-form-field>
+                  <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                  </div>
+              </form>
+          </mat-step>
 
-        <mat-step [stepControl]="thirdIdeaGroup">
-            <form [formGroup]="thirdIdeaGroup">
-                <ng-template matStepLabel>Summary</ng-template>
-                <mat-form-field appearance="outline">
-                    <mat-label>Summary</mat-label>
-                    <textarea matInput placeholder="Summary" rows="10" formControlName="summary" required></textarea>
-                    <mat-error *ngIf="thirdIdeaGroup.get('summary').invalid">Minimum Character is 20</mat-error>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
+          <mat-step [stepControl]="thirdIdeaGroup">
+              <form [formGroup]="thirdIdeaGroup">
+                  <ng-template matStepLabel>Your Website</ng-template>
+                  <mat-form-field appearance="outline">
+                      <mat-label>Your Website</mat-label>
+                      <textarea matInput placeholder="http://example.org" rows="10" formControlName="website" required></textarea>
+                      <mat-error *ngIf="thirdIdeaGroup.get('website').invalid">Website is required</mat-error>
+                  </mat-form-field>
+                  <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                  </div>
+              </form>
+          </mat-step>
+
   
         <mat-step>
             <ng-template matStepLabel>Save</ng-template>
@@ -922,16 +923,16 @@
               </div>
       
               <div class="description">
-                  <h6>Description</h6> 
-                  {{activatedIdea.description}} 
-              </div>
-      
-              <div class="description">
                   <h6>Summary</h6> 
                   {{activatedIdea.summary}}
               </div>
       
               <div class="description">
+                  <h6>Website</h6> 
+                  {{activatedIdea.url}}
+              </div>
+      
+              <div class="description" [class.hidden]="activatedIdea.attachment.length==0?true:false">
                   <button mat-button (click)="newTab(activatedIdea.attachment)">DOWNLOAD BUSINESS PLAN</button>
               </div>
               <div class="description" [class.hidden]="activatedIdea.status=='approved'?false:true" class="text-success">

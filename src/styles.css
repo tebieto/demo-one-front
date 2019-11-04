@@ -1127,7 +1127,7 @@ mat-toolbar-row span {
 .idea-title {
     position: relative;
     left: 5px;
-    text-align: justify;
+    text-align: left;
 }
 
 .idea-image {

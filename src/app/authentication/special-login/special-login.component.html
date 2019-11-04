@@ -14,6 +14,10 @@
     </mat-form-field>
 
             <br>
+
+            <p class="policy">
+                By clicking Become {{params['roleString']}}, you agree to our <a href="https://www.my-gpisuite.com/terms-and-conditions/">Terms and Conditions</a>, <a href="https://www.my-gpisuite.com/privacy-policy-2/">Privacy Policy</a> and <a href="https://www.my-gpisuite.com/mobile-internet-safety/">Mobile Internet Safety Policy</a>. You may receive SMS and Email Notifications from us and can opt out any time.
+            </p>
           <button mat-button class="form-button" (click)="onSubmit()">
               <mat-icon *ngIf="persistingData"><mat-spinner diameter="20">
                 </mat-spinner></mat-icon>

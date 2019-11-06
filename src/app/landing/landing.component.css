@@ -35,7 +35,7 @@ mat-toolbar-row span {
     top: 250px;
     width: 450px;
     max-width: 80%;
-    background: #00968734;
+    background: #00968759;
     color: #fff;
     margin: auto;
     padding: 20px;
@@ -95,4 +95,13 @@ a button {
 button {
     font-size: 12px;
 }
+}
+
+#idea-market {
+    position: relative;
+    display: block;
+    top: 220px;
+    color:#fff;
+    text-align: center;
+    font-size: 80px;
 }

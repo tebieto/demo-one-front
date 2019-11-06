@@ -10,11 +10,6 @@
     background-size: cover;
 }
 
-.partner-logo {
-    width: 50px;
-    height: 50px;
-}
-
 mat-toolbar-row button {
     background: #11C7B3;
     color: #fff;
@@ -53,31 +48,51 @@ a button {
 
 .landing-bottom {
     position: relative;
-    top: 20px;
-    width: 100%;
-    padding: 10px;
+    top: 50px;
+    left: 0px;
+    max-width: 100%;
     margin: auto;
- }
+}
 
- .landing-bottom div{
-   margin-left: 5px;
-   width: 50%;
- }
+.landing-bottom, .footer-logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
- .landing-bottom img{
-    margin-left: 10px;
- }
 
-.lsetf .partner-logo {
-     width: 200px !important;
-     height: 70px;
- }
- .gpi .partner-logo {
-     width: 100px;
-     height: 70px;
- }
+.footer-logo {
+    margin: 0 20px;
+}
 
- .lsetf .text,  .gpi .text{
-     position: relative;
-     top: 20px;
- }
+.partner-logo {
+    margin: -10px 0 0 10px;
+    width: 120px;
+    height: 50px;
+}
+
+.gpi .partner-logo {
+    width: 100px;
+    height: 60px;
+}
+
+@media only screen and (max-width: 600px) {
+.text {
+    display: none;
+}
+.footer-logo {
+    margin: 0px;
+}
+.partner-logo {
+    margin: 2px;
+}
+
+.img-logo {
+    width: 100px;
+    height: auto;
+}
+
+button {
+    font-size: 12px;
+}
+}

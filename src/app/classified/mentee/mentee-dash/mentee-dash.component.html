@@ -8,8 +8,8 @@
               <mat-icon [matBadge]="notNumber" matBadgeColor="warn" class="badge"  [class.hidden]="!hasNotification">notifications</mat-icon>
               <mat-icon class="badge" [class.hidden]="hasNotification">notifications_none</mat-icon>
             </span>
-          <button mat-button [routerLink]="['/mentee/main']">Dashboard</button>
-          <button mat-button (click)="newTab(learnUrl)">Learn</button>
+          <button mat-button [routerLink]="['/mentee/main']" class="more-link">Dashboard</button>
+          <button mat-button (click)="newTab(learnUrl)" class="more-link">Learn</button>
           <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
               Menu  

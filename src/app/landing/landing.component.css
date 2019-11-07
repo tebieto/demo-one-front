@@ -105,3 +105,9 @@ button {
     text-align: center;
     font-size: 80px;
 }
+
+@media only screen and (max-width: 600px) {
+    #idea-market {
+        font-size: 45px;
+    }  
+}

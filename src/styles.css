@@ -96,7 +96,7 @@ html, body {
   }
 
   .form-button mat-spinner circle, .add-new mat-spinner circle {
-    stroke: #fff !important;
+    stroke: #FF7043 !important;
   }
 
   .page-loading mat-spinner circle {
@@ -1216,6 +1216,10 @@ mat-toolbar .badge {
     min-width: 400px !important;
 }
 
+.custom-menu {
+    overflow: hidden !important;
+}
+
 .notification-tab h6 {
     margin-left: 10px !important;
     color: rgba(0, 0, 0, 0.514) !important;
@@ -1223,6 +1227,10 @@ mat-toolbar .badge {
 
 .policy {
     font-size: 12px;
+}
+
+.on-mobile {
+    display: none !important;
 }
 
 @media only screen and (max-width: 600px) {
@@ -1247,11 +1255,27 @@ mat-toolbar .badge {
     .custom-page-title {
         display: none;
     }
+
+    .optional-text, .optional-icon {
+        display: none !important;
+    }
+
+    .on-mobile {
+        display:block !important
+    }
 }
 
 .chat-notify {
     position: relative;
     top: -4px;
+}
+
+
+
+.custom-shared-avatar {
+    position: relative !important;
+    left: 20px;
+    margin-bottom: 10px !important;
 }
 
 body {

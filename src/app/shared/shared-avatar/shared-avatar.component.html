@@ -6,7 +6,7 @@
     <img [class.hidden]="authUser.avatar.length>0?false:true" class="mat-elevation-z1" [src]="authUser.avatar" alt="" [matMenuTriggerFor]="user">
 
     <mat-menu #user="matMenu" class="mat-menu">
-        <button class="transparent">
+        <button class="transparent" (click)="$event.stopPropagation();" >
               <div [class.hidden]="authUser.avatar.length==0?false:true"class="fake-avatar" [title]="authUser.full_name">
                 <button mat-fab class="mat-elevation-z0">{{authUser.full_name.slice(0,1)}}</button>
               </div>

@@ -10,10 +10,10 @@
             </span>
           <button mat-button [routerLink]="['/mentee/main']" class="more-link">Dashboard</button>
           <button mat-button (click)="newTab(learnUrl)" class="more-link">Learn</button>
-          <app-shared-avatar [user]="user" *ngIf="user"></app-shared-avatar>
           <button mat-button [matMenuTriggerFor]="menu" aria-label="Menu">
-              Menu  
-              <mat-icon>arrow_drop_down</mat-icon>
+              <mat-icon class="on-mobile">more_vert</mat-icon>
+              <span class="optional-text">Menu</span>  
+              <mat-icon class="optional-icon">arrow_drop_down</mat-icon>
             </button>
             
             <mat-menu #noty="matMenu" class="notification-tab">
@@ -25,7 +25,8 @@
                 <h6 [class.hidden]="allNotifications.length>0?true:false">You currently have no notification</h6>
             </mat-menu>
 
-            <mat-menu #menu="matMenu">
+            <mat-menu #menu="matMenu" class="custom-menu">
+                <app-shared-avatar [user]="user" *ngIf="user" (click)="$event.stopPropagation();" class="custom-shared-avatar"></app-shared-avatar>
               <button mat-menu-item [routerLink]="['/mentee/certificate']" [class.hidden]="hasMentor?false:true">
                 Upload Certificates
               </button>

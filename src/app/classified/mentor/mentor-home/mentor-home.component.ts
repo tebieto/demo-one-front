@@ -58,6 +58,7 @@ export class MentorHomeComponent implements OnInit {
   hasMentor: boolean;
   profileCode: string
   learn = Config.mentorLearn;
+  marketAfrica = Config.marketAfrica
   user: object;
   hasError: boolean;
   keyRole = 55;

@@ -9,6 +9,7 @@ export class Config {
      static ipChecker = 'http://ip-api.com/json/';
      static mentorLearn = 'http://lagosinnovates.my-gpi.io/edu-courses/become-a-mentor/';
      static menteeLearn = 'http://lagosinnovates.my-gpi.io/courses/';
+     static marketAfrica = 'https://africa.my-gpi.com';
      static bearer = 'atala,'
      static isPublic = true;
 }

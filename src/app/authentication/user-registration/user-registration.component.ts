@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { RegisterService } from 'src/app/shared/authentication/register.service';
 import { Router } from '@angular/router';
-import { Config as config} from 'src/app/config';
+import { Config as config, Config} from 'src/app/config';
 
 let showConfirmError= false
 
@@ -154,6 +154,7 @@ export class UserRegistrationComponent implements OnInit {
 
   storeToken(token: string){
     localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
     return true
   }
 

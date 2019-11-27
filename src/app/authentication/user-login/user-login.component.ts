@@ -6,7 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LoginService } from 'src/app/shared/authentication/login.service';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { Router } from '@angular/router';
-import { Config as config} from 'src/app/config';
+import { Config as config, Config} from 'src/app/config';
 
 @Component({
   selector: 'app-user-login',
@@ -100,8 +100,9 @@ persistData(data: Object){
 }
 
 storeToken(token: string){
-  localStorage.setItem('token', token)
-  return true
+    localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
+    return true
 }
 
 redirectUser(role:any) {

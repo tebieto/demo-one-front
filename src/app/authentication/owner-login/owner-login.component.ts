@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/shared/authentication/login.service';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
+import { Config } from 'src/app/config';
 
 @Component({
   selector: 'app-owner-login',
@@ -93,8 +94,9 @@ persistData(data: Object){
 
 
 storeToken(token: string){
-  localStorage.setItem('token', token)
-  return true
+    localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
+    return true
 }
 
 redirectUser(role:any) {

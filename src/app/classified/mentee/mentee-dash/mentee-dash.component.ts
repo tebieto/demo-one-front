@@ -33,6 +33,7 @@ export class MenteeDashComponent implements OnInit {
   displayedColumns: string[] = ['name', 'about', 'data'];
   dataSource = new MatTableDataSource(this.mentorList);
   learnUrl = Config.menteeLearn
+  marketAfrica = Config.marketAfrica
   pendingMentor: boolean;
 
   applyFilter(filterValue: string) {

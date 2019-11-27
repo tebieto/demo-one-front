@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CustomErrorHandler as errorMessage} from 'src/app/custom-error-handler';
 import { LoginService } from 'src/app/shared/authentication/login.service';
+import { Config } from 'src/app/config';
 
 @Component({
   selector: 'app-admin-login',
@@ -92,7 +93,8 @@ persistData(data: Object){
 
 
 storeToken(token: string){
-  localStorage.setItem('token', token)
+    localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
   return true
 }
 

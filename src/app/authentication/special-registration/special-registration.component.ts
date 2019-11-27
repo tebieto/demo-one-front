@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import {Location} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService } from 'src/app/shared/authentication/register.service';
+import { Config } from 'src/app/config';
 
 let showConfirmError= false
 
@@ -149,6 +150,7 @@ export class SpecialRegistrationComponent implements OnInit {
   
   storeToken(token: string){
     localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
     return true
   }
 

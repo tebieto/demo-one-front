@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { RegisterService } from 'src/app/shared/authentication/register.service';
 import { CustomErrorHandler as errorMessage } from 'src/app/custom-error-handler';
 import { Subscription } from 'rxjs';
+import { Config } from 'src/app/config';
 
 let showConfirmError= false
 
@@ -152,6 +153,7 @@ export class OwnerRegistrationComponent implements OnInit {
   
   storeToken(token: string){
     localStorage.setItem('token', token)
+    document.cookie = 'token='+Config.bearer+''+token
     return true
   }
 

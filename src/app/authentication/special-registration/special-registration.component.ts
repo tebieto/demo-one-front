@@ -150,7 +150,7 @@ export class SpecialRegistrationComponent implements OnInit {
   
   storeToken(token: string){
     localStorage.setItem('token', token)
-    document.cookie = 'token='+Config.bearer+''+token
+    document.cookie = encodeURIComponent('token='+Config.bearer+''+token)
     return true
   }
 

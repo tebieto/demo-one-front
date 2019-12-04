@@ -1104,7 +1104,7 @@ export class MentorChatComponent implements OnInit {
           this.scrollTop = e['target']['scrollTop'] 
           this.scrollHeight = e['target']['scrollHeight']
           this.scrollOffset = e['target']['offsetHeight']
-          this.scrollHeight = this.scrollHeight - this.scrollOffset
+          this.scrollHeight = this.scrollHeight - this.scrollOffset - 1
 
           this.getPinnedIme(e)
 

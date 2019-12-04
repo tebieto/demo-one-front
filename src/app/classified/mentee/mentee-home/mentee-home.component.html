@@ -980,7 +980,7 @@
   
     </div>
 
-  <div class="right-side chat-welcome" *ngIf="!activeConversation && !activatedIdea">
+  <div class="right-side chat-welcome" *ngIf="!activeConversation && !activatedIdea" [class.hide-right]="!hideMobileLeft">
 
     <div class="chat-landing-image"></div>
     <div class="chat-introduction">

@@ -185,7 +185,6 @@ mat-toolbar-row span {
     left:0;
     width:30%;
     height:100%;
-
 }
 
 .right-side {
@@ -193,8 +192,10 @@ mat-toolbar-row span {
     top:0;
     right:0;
     width:70%;
-    height:100%;
+    height:100% !important;
     background: #fff;
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -210,11 +211,10 @@ mat-toolbar-row span {
 }
 
 .right-side-top {
-    position: absolute;
-    top: 0;
-    left:0;
+    position: relative;
     width: 100%;
-    min-height: 60px;
+    min-height: 70px;
+    max-height: 70px;
     background: #F5F5F5;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
@@ -222,16 +222,13 @@ mat-toolbar-row span {
 }
 
 .right-side-body {
-    position: absolute;
+    position: relative;
     opacity: 1;
-    top: 60px;
-    left:0;
     width: 100%;
-    height: 83%;
-    max-height: 83%;
+    flex-grow: 1;
     overflow-y: auto;
     background:#FFF3E0;
-    padding: 20px 10% 30px 10%;
+    padding:  0px 10px 0px 10px;
     overflow-wrap: break-word;
     /*
     background-image: url("/assets/images/background/chat-background.jpg");
@@ -240,11 +237,10 @@ mat-toolbar-row span {
 }
 
 .right-side-bottom {
-    position: absolute;
-    bottom: 0;
-    left:0;
+    position: relative;
     width: 100%;
-    min-height: 60px;
+    max-height: 70px;
+    min-height: 70px;
     background: #F5F5F5;
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
@@ -429,10 +425,9 @@ mat-toolbar-row span {
     position: relative;
     top: 20px;
     width: 400px;
-    height: 400px;;
-    max-height: auto;
+    height: 400px;
     margin: auto;
-    border-radius: 50%;
+    border-radius: 100%;
     background-image: url('/assets/images/cards/7.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -528,10 +523,11 @@ mat-toolbar-row span {
     float: right;
     width: 100%;
     height: 60px;
-    background: rgba(255, 255, 255, 0.192);
+    background: rgba(255, 255, 255, 0.055);
     color: #757575;
     font-weight: bold;
     padding-top: 5px;
+    text-align: center;
 }
 
 .unread-messages div {
@@ -626,7 +622,7 @@ mat-toolbar-row span {
 
 .pinned-time {
     position: absolute !important;
-    top: 62px;
+    top: 72px;
     background: transparent !important;
 }
 
@@ -658,16 +654,18 @@ mat-toolbar-row span {
 }
 
 .send-message {
-    display: block;
-    width: 85%;
-    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
     height: 70px;
 }
 
 .send-message mat-form-field {
     top: 0px;
-    width: 85% !important;
     margin: 0 10px 0 10px;
+    flex-grow: 1;
+    max-width: 80%;
 }
 
 .send-message mat-form-field input {
@@ -699,7 +697,7 @@ mat-toolbar-row span {
 
 .send-message button {
     position: relative;
-    top: -12px;
+    top: 15px;
 }
 
 .active-send-button {
@@ -767,7 +765,7 @@ mat-toolbar-row span {
 }
 
 .forum {
-    left: -500px !important;
+    left: -2000px !important;
     overflow: hidden;
     transition: left .2s;
     transition-delay: .1s;
@@ -937,7 +935,7 @@ mat-toolbar-row span {
     color: #fff !important;
     height: 50px !important;
     width: 50px !important;
-
+    border-radius: 100% !important;
 }
 
 .is-mobile .left-side {
@@ -954,20 +952,6 @@ mat-toolbar-row span {
 
 .is-mobile .hide-left {
     display: none;
-}
-
-.is-mobile .right-side-top{
-    width: 20
-}
-
-.is-mobile .right-side-body{
-    height: 100% !important;
-}
-
-.is-mobile .right-side-bottom{
-    position: absolute !important;
-    height: 5% !important;
-    bottom: 0px;
 }
 
 .is-mobile .send-message{
@@ -988,12 +972,6 @@ mat-toolbar-row span {
 .is-mobile .send-message mat-form-field input{
     position: relative;
     top: -10px;
-}
-
-
-.is-mobile .left-side {
-    max-width: 411px !important;
-    max-height: 731px !important;
 }
 
 .classified-user {
@@ -1181,10 +1159,6 @@ table {
     margin-left: 10px;
 }
 
-.auth-logo {
-    
-}
-
 mat-toolbar .badge {
     margin-right: 10px !important;
     margin-top: 5px !important;
@@ -1301,21 +1275,16 @@ body {
  }
 /*  Responsive design for chat system*/
 @media only screen and (max-width: 1325px) {
+    
     .left-side {
         width:40%;
-    
     }
     
     .right-side {
         width:60%;
-    
     }
 }
 
-.is-mobile .chat, .is-mobile .expand-left{
-min-height: 100% !important;
-min-width: 100%;
-}
 @media only screen and (max-width: 600px) {
     .user-list{
         display: flex;
@@ -1343,7 +1312,6 @@ min-width: 100%;
 /*End of responsive design for chat system*/
 
 .body {
-    min-width: 300px !important;
-    width: 300px !important;
+    min-width: 400px !important;
     overflow: scroll;
 }

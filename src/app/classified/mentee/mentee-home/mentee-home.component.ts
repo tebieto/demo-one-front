@@ -120,7 +120,7 @@ export class MenteeHomeComponent implements OnInit {
     public dialog: MatDialog,
     private loginService: LoginService
     ) {
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this.mobileQuery = media.matchMedia('(max-width: 1024px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
       backClick.onPopState(() => {
@@ -1172,7 +1172,7 @@ export class MenteeHomeComponent implements OnInit {
         scrollToChat(id: string) {
 
           let  el: HTMLElement = document.getElementById(id);
-        
+          
           try {
           this.bottomChat.nativeElement.scrollTop = el.offsetTop-20;
         } catch(err) { } 
@@ -2157,7 +2157,6 @@ export class MenteeHomeComponent implements OnInit {
       .subscribe(
           (res)=>{
           if(res.code==200) {
-
             if(res.ideas) {   
             this.ideaDatas = res.ideas;
             } else {

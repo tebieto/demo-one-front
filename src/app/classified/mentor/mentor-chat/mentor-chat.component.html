@@ -91,15 +91,15 @@
       
       <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
         <span class="user-name">
-            {{item.sender.name.slice(0, 25)}}
-            <span *ngIf="item.sender.name.length>25">...</span>
+            {{item.sender.name.slice(0, 12)}}
+            <span *ngIf="item.sender.name.length>12">...</span>
         </span> 
         <span class="latest-time">
           {{getLocalTime(item.latest.created_at)}}
         </span>
         <br>
         <span class="user-message">
-         {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
+         {{item.latest.message.slice(0, 30)}} <span *ngIf="item.latest.message.length>30">...</span>
          <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
@@ -138,14 +138,14 @@
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
           <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0,25))">
           </span>
-          <span *ngIf="item.sender.name.length>25">...</span> 
+          <span *ngIf="item.sender.name.length>12">...</span> 
           <span class="latest-time">
             {{getLocalTime(item.latest.created_at)}}
           </span>
           <br>
           <span class="user-message">
-              {{item.latest.message.slice(0, 35)}} 
-              <span *ngIf="item.latest.message.length>35">...</span>
+              {{item.latest.message.slice(0, 30)}} 
+              <span *ngIf="item.latest.message.length>30">...</span>
               <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
@@ -235,14 +235,14 @@
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
           <span class="user-name">
               {{item.sender.name.slice(0,25)}}
-              <span *ngIf="item.sender.name.length>25">...</span>
+              <span *ngIf="item.sender.name.length>12">...</span>
           </span> 
           <span class="latest-time">
             {{getLocalTime(item.latest.created_at)}}
           </span>
           <br>
           <span class="user-message">
-           {{item.latest.message.slice(0, 35)}} <span *ngIf="item.latest.message.length>35">...</span>
+           {{item.latest.message.slice(0, 30)}} <span *ngIf="item.latest.message.length>30">...</span>
            <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
@@ -279,16 +279,16 @@
             </div>
           
           <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
-            <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0, 25))">
+            <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0, 12))">
             </span> 
-            <span *ngIf="item.sender.name.length>25">...</span>
+            <span *ngIf="item.sender.name.length>12">...</span>
             <span class="latest-time">
               {{getLocalTime(item.latest.created_at)}}
             </span>
             <br>
             <span class="user-message">
-                {{item.latest.message.slice(0, 35)}} 
-                <span *ngIf="item.latest.message.length>35">...</span>
+                {{item.latest.message.slice(0, 30)}} 
+                <span *ngIf="item.latest.message.length>30">...</span>
                 <span class="message-status" *ngIf="item.latest.status=='sent' && item.latest.sender.id==authUser.id"><mat-icon>check</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
@@ -432,15 +432,15 @@
         
         <div class="col-xs-6 user-content">
           <span class="user-name">
-              {{item.title.slice(0, 25)}}
-              <span *ngIf="item.title.length>25">...</span>
+              {{item.title.slice(0, 12)}}
+              <span *ngIf="item.title.length>12">...</span>
           </span> 
           <span class="latest-time">
             {{getLocalTime(item.created_at)}}
           </span>
           <br>
           <span class="user-message">
-           {{item.summary.slice(0, 35)}} <span *ngIf="item.summary.length>35">...</span>
+           {{item.summary.slice(0, 30)}} <span *ngIf="item.summary.length>30">...</span>
           </span>
           <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -475,14 +475,14 @@
           <div class="col-xs-6 user-content">
             <span class="user-name" [innerHTML]="replaceMatch(item.type, item.title.slice(0,25))">
             </span> 
-            <span *ngIf="item.title.length>25">...</span>
+            <span *ngIf="item.title.length>12">...</span>
             <span class="latest-time">
               {{getLocalTime(item.created_at)}}
             </span>
             <br>
             <span class="user-message">
-                <span [innerHTML]="replaceMatch(item.type, item.summary.slice(0, 35))"></span>
-                <span *ngIf="item.summary.length>35">...</span>
+                <span [innerHTML]="replaceMatch(item.type, item.summary.slice(0, 30))"></span>
+                <span *ngIf="item.summary.length>30">...</span>
               </span>
               <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
@@ -864,7 +864,7 @@
       
             <div class="description">
                 <h6>My Website</h6>
-                <a [href]="activatedIdea.url"></a> 
+                <p>{{activatedIdea.url}}</p> 
             </div>
     
             <div class="description">

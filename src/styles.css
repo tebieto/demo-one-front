@@ -96,10 +96,10 @@ html, body {
   }
 
   .form-button mat-spinner circle, .add-new mat-spinner circle {
-    stroke: #FF7043 !important;
+    stroke: #fff !important;
   }
 
-  .page-loading mat-spinner circle {
+  .page-loading mat-spinner circle, .persist-button mat-spinner circle {
     stroke: #FF7043 !important;
   }
 
@@ -232,6 +232,7 @@ mat-toolbar-row span {
     overflow-y: auto;
     background:#FFF3E0;
     padding: 20px 10% 30px 10%;
+    overflow-wrap: break-word;
     /*
     background-image: url("/assets/images/background/chat-background.jpg");
     background-repeat: repeat;
@@ -1104,6 +1105,8 @@ mat-toolbar-row span {
 .right-side-body-idea .description {
     padding: 10px;
     margin-top: 20px;
+    text-align: left;
+    overflow-wrap: break-word;
 }
 
 
@@ -1121,6 +1124,7 @@ mat-toolbar-row span {
     position: relative;
     left: 5px;
     text-align: left;
+    overflow-wrap: break-word;
 }
 
 .idea-image {
@@ -1287,4 +1291,59 @@ body {
     background-repeat: repeat;
     background-size: cover;
     */
+}
+
+.user-list {
+    overflow: hidden;
+}
+.left-side-body {
+    top:100px;
+ }
+/*  Responsive design for chat system*/
+@media only screen and (max-width: 1325px) {
+    .left-side {
+        width:40%;
+    
+    }
+    
+    .right-side {
+        width:60%;
+    
+    }
+}
+
+.is-mobile .chat, .is-mobile .expand-left{
+min-height: 100% !important;
+min-width: 100%;
+}
+@media only screen and (max-width: 600px) {
+    .user-list{
+        display: flex;
+        flex-direction: column;
+    }
+    .not-available {
+       font-size: 12px;
+    }
+
+    .infos .right-icons button{
+      font-size: 10px;
+    }
+
+    .profile-card .right-button {
+        position: relative;
+        top:150px;
+        right: 10px;
+    }
+
+}
+
+.user-avatar img {
+    border-radius: 50% !important;
+}
+/*End of responsive design for chat system*/
+
+.body {
+    min-width: 300px !important;
+    width: 300px !important;
+    overflow: scroll;
 }

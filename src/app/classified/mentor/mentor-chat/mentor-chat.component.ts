@@ -115,7 +115,7 @@ export class MentorChatComponent implements OnInit {
     backClick: PlatformLocation,
     public dialog: MatDialog,
     ) {
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this.mobileQuery = media.matchMedia('(max-width: 1024px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
       backClick.onPopState(() => {

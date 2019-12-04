@@ -46,19 +46,19 @@
         <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          <td mat-cell *matCellDef="let element"> <div class="custom-td">{{element.email}} </div></td>
         </ng-container>
 
          <!-- Role Column -->
          <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef> Role </th>
-            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+            <td mat-cell *matCellDef="let element"> <div class="custom-td">{{element.role}} </div></td>
           </ng-container>
       
         <!-- Status Column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
-          <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+          <td mat-cell *matCellDef="let element"> <div class="custom-td">{{element.status}} </div></td>
         </ng-container>
       
         <!-- Data Column -->

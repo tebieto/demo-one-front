@@ -65,13 +65,13 @@
             <!-- Position Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name on Certificate</th>
-                <td mat-cell *matCellDef="let element" class="bold custom-grey underline"> {{element.name}} </td>
+                <td mat-cell *matCellDef="let element" class="bold custom-grey underline"> <div class="custom-td">{{element.name}} </div></td>
             </ng-container>
             
             <!-- Weight Column -->
             <ng-container matColumnDef="mentee">
                 <th mat-header-cell *matHeaderCellDef>Name of Mentee</th>
-                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.mentee}} </td>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.mentee}} </div></td>
             </ng-container>
             
             <!-- Symbol Column -->
@@ -113,19 +113,19 @@
               <!-- Name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name</th>
-                <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentor/mentee-profile/'+element.name.link]"> {{element.name.name}} </td>
+                <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentor/mentee-profile/'+element.name.link]"> <div class="custom-td">{{element.name.name}} </div></td>
               </ng-container>
             
               <!-- Email Column -->
               <ng-container matColumnDef="about">
                 <th mat-header-cell *matHeaderCellDef>Email</th>
-                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.about}} </td>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.about}} </div></td>
               </ng-container>
 
                <!-- Message Column -->
                <ng-container matColumnDef="msg">
                   <th mat-header-cell *matHeaderCellDef>Message</th>
-                  <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.message}} </td>
+                  <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.message}} </div></td>
                 </ng-container>
             
               <!-- Symbol Column -->
@@ -167,13 +167,13 @@
               <!-- Position Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name</th>
-                <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentor/mentee-profile/'+element.name.link]"> {{element.name.name}} </td>
+                <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="['/mentor/mentee-profile/'+element.name.link]"> <div class="custom-td">{{element.name.name}} </div></td>
               </ng-container>
             
               <!-- Weight Column -->
               <ng-container matColumnDef="about">
                 <th mat-header-cell *matHeaderCellDef>Email</th>
-                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.about}} </td>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.about}} </div></td>
               </ng-container>
             
               <!-- Symbol Column -->

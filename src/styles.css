@@ -112,6 +112,11 @@ html, body {
     font-size: 14px;
   }
 
+  td {
+      max-width: 100px;
+      word-wrap: break-word;
+  }
+
   .underline:hover {
     cursor: pointer;
     text-decoration: underline;

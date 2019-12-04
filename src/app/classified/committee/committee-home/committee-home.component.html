@@ -43,13 +43,13 @@
         <!-- Position Column -->
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef> Idea Title </th>
-          <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/committee/view/idea/'+ element.link"> {{element.title}} </td>
+          <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/committee/view/idea/'+ element.link"> <div class="custom-td">{{element.title}} </div></td>
         </ng-container>
       
         <!-- Weight Column -->
         <ng-container matColumnDef="summary">
           <th mat-header-cell *matHeaderCellDef>Summary </th>
-          <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.summary}} </td>
+          <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.summary}} </div></td>
         </ng-container>
       
         <!-- Symbol Column -->

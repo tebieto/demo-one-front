@@ -64,23 +64,23 @@
             <!-- Position Column -->
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef> Idea Title </th>
-              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/innovate/view/idea/'+ element.link"> {{element.title}} </td>
+              <td mat-cell *matCellDef="let element" class="bold custom-grey underline" [routerLink]="'/innovate/view/idea/'+ element.link"> <div class="custom-td">{{element.title}} </div></td>
             </ng-container>
           
             <!-- Weight Column -->
             <ng-container matColumnDef="summary">
               <th mat-header-cell *matHeaderCellDef>Short Description </th>
-              <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.summary}} </td>
+              <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.summary}} </div></td>
             </ng-container>
 
             <ng-container matColumnDef="comment">
                 <th mat-header-cell *matHeaderCellDef>Comment</th>
-                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.comment}} </td>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.comment}} </div></td>
               </ng-container>
 
             <ng-container matColumnDef="score">
                 <th mat-header-cell *matHeaderCellDef>Score </th>
-                <td mat-cell *matCellDef="let element" class="custom-grey"> {{element.score}} </td>
+                <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.score}} </div></td>
               </ng-container>
           
             <!-- Symbol Column -->

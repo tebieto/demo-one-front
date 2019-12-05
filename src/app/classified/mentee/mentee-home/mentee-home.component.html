@@ -665,12 +665,14 @@
                   <button><mat-icon><mat-spinner diameter="20"></mat-spinner></mat-icon></button>
                   <button></button>
                 </div>
+            </div>
+
+            <div class="dual-buttons">
                 <button mat-button [class.hidden]="newIdeaPlan.length>0?false:true" (click)="newTab(newIdeaPlan)">Preview Plan</button>
                 <button mat-button [class.hidden]="newIdeaLogo.length>0?false:true" (click)="newTab(newIdeaLogo)">Preview Logo</button>
-                
             </div>
   
-            <div>
+            <div class="dual-buttons">
                 <button mat-button matStepperPrevious>Review</button>
                 <button class="save-button" [class.hidden]="newIdeaLogo.length>0 && newIdeaPlan.length>0 ?false:true" mat-button (click)="postNew('idea'); stepper.reset()">Save Idea</button>
                 <button class="save-button" [class.hidden]="newIdeaLogo.length==0 || newIdeaPlan.length==0 ?false:true" mat-button (click)="postNew('idea');">Save Idea</button>

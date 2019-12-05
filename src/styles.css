@@ -904,6 +904,12 @@ mat-toolbar-row span {
     font-style: normal
 }
 
+.doc-upload-div, .dual-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .doc-upload-div .upload{
     width: 150px;
     height: 150px;

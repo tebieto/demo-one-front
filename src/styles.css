@@ -1,15 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Amiko|Gayathri&display=swap');
 
 html, body {
   background: #fff !important;
+}
+.sub-title, .idea-title {
+    font-family: 'Amiko', cursive;
+    font-weight: 500;
+}
+
+.user-name, .sender-name, th {
+    font-family: 'Gayathri', cursive !important;
 }
 
 .flexer {
     flex: 1 1 auto;
   }
 
-  .fixed-header {
+.fixed-header {
     position: fixed;
     background: #fff !important;
     color: #11C7B3 !important;
@@ -224,6 +233,8 @@ mat-toolbar-row span {
     border-bottom: 1px solid #eee;
     border-left: 1px solid #eee;
     z-index: 2;
+    display: flex;
+    align-items: center;
 }
 
 .right-side-body {
@@ -232,6 +243,7 @@ mat-toolbar-row span {
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;
+    overflow-x:hidden;
     background:#FFF3E0;
     padding:  0px 10px 0px 10px;
     overflow-wrap: break-word;
@@ -589,6 +601,7 @@ mat-toolbar-row span {
     float: right;
     color: #9E9E9E;
     z-index: 2;
+    margin-right:10px;
     display:none;
 }
 
@@ -662,6 +675,7 @@ mat-toolbar-row span {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-content: center;
     width: 100%;
     height: 70px;
 }
@@ -738,26 +752,25 @@ mat-toolbar-row span {
     font-weight: bold;
 }
 
-.right-side-bottom .reply-message {
+.bottom-reply-message {
     position: relative;
-    display: block;
-    width: 72%;
+    width: 80%;
     background: #EEEEEE;
     min-height: 80px;
-    margin: auto;
-    margin-top: 15px;
-    left: -17px;
-    padding: 10px;
     border-radius: 5px;
     border-left: 4px solid #11C7B3;
     font-size: 13px;
+    display: flex;
+    padding: 10px;
+    margin: 5px 10px 0px 50px;
 
 }
-
-.reply-message button {
-    position: absolute !important;
-    top: 15px;
-    right: -55px;
+.reply-message-container {
+    background: #F5F5F5;;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .reply-message .message div {
@@ -1151,7 +1164,7 @@ mat-toolbar-row span {
 }
 
 mat-toolbar button{
-    font-weight: bold !important;
+    font-weight: 500;
 }
 
 table {
@@ -1171,9 +1184,9 @@ table {
 }
 
 mat-toolbar .badge {
-    margin-right: 10px !important;
     margin-top: 5px !important;
-    font-size: 20px !important;
+    margin-right: 10px !important;
+    font-size: 18px !important;
     cursor: pointer;
 }
 
@@ -1315,14 +1328,53 @@ body {
         right: 10px;
     }
 
+    .sub-title, .idea-title {
+        font-size: large;
+    }
+
+    td {
+        font-size: small !important;
+    }
+
+    mat-toolbar .badge {
+        margin-top: 8px;
+        margin-left: 15px !important;
+    }
+
+}
+
+@media only screen and (max-width: 320px) {
+    .user-content .user-message, .user-content .latest-time {
+        font-size: 10px;
+    }
+    .user-content .user-name {
+        font-size: 15px;
+    }
 }
 
 .user-avatar img {
     border-radius: 50% !important;
 }
+
+.infos .sender-details .sender-name {
+    top: 0px !important
+}
+.right-side-body .title .idea-title {
+    top: 10px !important
+}
+
+.right-side-top .infos, .right-side-body .title, .sender-details {
+    display: flex !important;
+    align-items: center !important;
+}
+
 /*End of responsive design for chat system*/
 
 .body {
-    min-width: 400px !important;
+    min-width: 300px !important;
     overflow: scroll;
+}
+
+.welcome-logo[text] {
+    display: none !important;
 }

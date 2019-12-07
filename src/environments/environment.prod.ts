@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://6245a9ad.ngrok.io/v1/',
+  apiUrl: 'http://9739a59d.ngrok.io/v1/',
   pusher: {
     app_id: "854376",
     key: "f98387a285614536dac1",

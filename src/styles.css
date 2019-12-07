@@ -603,7 +603,7 @@ mat-toolbar-row span {
     font-weight: bold;
 }
 
-.user-content .more-option, .user-content .more-option-reverse, .pinned {
+.user-content .more-option, .user-content .more-option-focused, .pinned {
     float: right;
     color: #9E9E9E;
     z-index: 2;
@@ -611,11 +611,11 @@ mat-toolbar-row span {
     display:none;
 }
 
-.user-content .more-option-reverse {
+.user-content .more-option-focused {
     display:block !important;
 }
 
-.user-content:hover .more-option-reverse {
+.user-content:hover .more-option-focused {
     display:none !important;
 }
 
@@ -651,7 +651,7 @@ mat-toolbar-row span {
 }
 
 
-.message .more-option, .message .more-option-reverse{
+.message .more-option, .message .more-option-focused{
     position: absolute !important;
     top: 10px;
     right: 10px;
@@ -664,12 +664,12 @@ mat-toolbar-row span {
     display:none;
 }
 
-.message-right .more-option, .message-right .more-option-reverse{
+.message-right .more-option, .message-right .more-option-focused{
     background: #11C7B3 !important;
 }
 
 
-.message .more-option-reverse{
+.message .more-option-focused{
     display: block;
 }
 

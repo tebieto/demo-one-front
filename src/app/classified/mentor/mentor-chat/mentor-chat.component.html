@@ -91,8 +91,8 @@
       
       <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
         <span class="user-name">
-            {{item.sender.name.slice(0, 12)}}
-            <span *ngIf="item.sender.name.length>15">...</span>
+            {{item.sender.name.slice(0, 20)}}
+            <span *ngIf="item.sender.name.length>20">...</span>
         </span> 
         <span class="latest-time">
           {{getLocalTime(item.latest.created_at)}}
@@ -104,7 +104,7 @@
               <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
         </span>
-        <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+        <div class="more-option-focused" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
         <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
         <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
         <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
@@ -136,9 +136,9 @@
           </div>
         
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
-          <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0,15))">
+          <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0,20))">
           </span>
-          <span *ngIf="item.sender.name.length>15">...</span> 
+          <span *ngIf="item.sender.name.length>20">...</span> 
           <span class="latest-time">
             {{getLocalTime(item.latest.created_at)}}
           </span>
@@ -150,7 +150,7 @@
               <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
               <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
             </span>
-            <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="more-option-focused" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
             <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
             <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
             <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
@@ -234,8 +234,8 @@
         
         <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
           <span class="user-name">
-              {{item.sender.name.slice(0,15)}}
-              <span *ngIf="item.sender.name.length>15">...</span>
+              {{item.sender.name.slice(0,20)}}
+              <span *ngIf="item.sender.name.length>20">...</span>
           </span> 
           <span class="latest-time">
             {{getLocalTime(item.latest.created_at)}}
@@ -247,7 +247,7 @@
                 <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
           </span>
-          <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+          <div class="more-option-focused" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
           <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
@@ -279,9 +279,9 @@
             </div>
           
           <div class="col-xs-6 user-content" [class.unread]="item.latest.unread">
-            <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0, 12))">
+            <span class="user-name" [innerHTML]="replaceMatch(item.type, item.sender.name.slice(0, 20))">
             </span> 
-            <span *ngIf="item.sender.name.length>15">...</span>
+            <span *ngIf="item.sender.name.length>20">...</span>
             <span class="latest-time">
               {{getLocalTime(item.latest.created_at)}}
             </span>
@@ -293,7 +293,7 @@
                 <span class="message-status" *ngIf="item.latest.status=='delivered' && item.latest.sender.id==authUser.id"> <mat-icon>done_all</mat-icon> </span>
                 <span class="message-status" *ngIf="item.latest.status=='pending' && item.latest.sender.id==authUser.id"><mat-icon>watch_later</mat-icon></span>
               </span>
-              <div class="more-option-reverse" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="more-option-focused" *ngIf="senderMenu == item.sender.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.sender.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="unread-count"  *ngIf="item.latest.unread">{{item.unread_count}}</div>
               <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
@@ -442,7 +442,7 @@
           <span class="user-message">
            {{item.summary.slice(0, 20)}} <span *ngIf="item.summary.length>30">...</span>
           </span>
-          <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+          <div class="more-option-focused" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
           <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
 
@@ -484,7 +484,7 @@
                 <span [innerHTML]="replaceMatch(item.type, item.summary.slice(0, 20))"></span>
                 <span *ngIf="item.summary.length>30">...</span>
               </span>
-              <div class="more-option-reverse" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="more-option-focused" *ngIf="senderMenu == item.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="menu" (click)="menuOpened(item.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="pinned" *ngIf="item.pinned"><mat-icon>loyalty</mat-icon></div>
     
@@ -697,7 +697,7 @@
             <div class="sender-name you" *ngIf="message.type=='forum'">You</div>
             {{message.message}}
             
-            <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+            <div class="more-option-focused" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
             <div class="more-option" [matMenuTriggerFor]="messageMenu" (click)="messageMenuOpened(message.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
 
 
@@ -735,7 +735,7 @@
             <div class="sender-name" *ngIf="message.type=='forum'" (click)="startDirectConversation(message.sender.id)">{{message.sender.name}}</div>
             {{message.message}} 
 
-              <div class="more-option-reverse" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
+              <div class="more-option-focused" *ngIf="conversationMenu == message.id"><mat-icon>keyboard_arrow_down</mat-icon></div>
               <div class="more-option" [matMenuTriggerFor]="messageMenu" (click)="messageMenuOpened(message.id); $event.stopPropagation();"><mat-icon>keyboard_arrow_down</mat-icon></div>
               
               <span class="message-timing">

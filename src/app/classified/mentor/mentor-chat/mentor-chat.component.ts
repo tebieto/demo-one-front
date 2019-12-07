@@ -2182,9 +2182,9 @@ export class MentorChatComponent implements OnInit {
          replace = this.forumDatas
          
         found = replace.find(x=>{
-          return x.sender.id == data['forum_id']
+          return x.sender.id == data['sender_id']
         });
-        sender_id = data['forum_id']
+        sender_id = data['sender_id']
         }
 
         if(data['type']=='chat') {   
@@ -2199,6 +2199,7 @@ export class MentorChatComponent implements OnInit {
         if(!found) {
           return
         }
+        found['latest']['status'] = 'delivered';
         this.replaceNullMessage(data['id'], sender_id, data['message'], found )
 
       }

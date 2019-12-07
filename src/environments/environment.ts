@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:6700/v1/',
   pusher: {
-    app_id: "854376",
-    key: "f98387a285614536dac1",
-    secret: "7346415da3c712b8fdd5",
+    app_id: "854377",
+    key: "68708c88650e3fcf1a28",
+    secret: "6410a19f772cc041da3c",
     cluster: "eu",
   }
 };

@@ -251,7 +251,7 @@ mat-toolbar-row span {
     overflow-y: auto;
     overflow-x:hidden;
     background:#FFF3E0;
-    padding:  0px 10px 0px 10px;
+    padding:  0px 10px 15px 10px;
     overflow-wrap: break-word;
     /*
     background-image: url("/assets/images/background/chat-background.jpg");
@@ -1378,4 +1378,8 @@ body {
 .body {
     min-width: 300px !important;
     overflow: scroll;
+}
+
+.is-mobile .push-up {
+    margin-bottom : 10% !important;
 }

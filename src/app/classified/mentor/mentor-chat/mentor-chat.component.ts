@@ -30,7 +30,7 @@ export class MentorChatComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('imgUpload') imgUpload: ElementRef;
   @ViewChild('avatarUpload') avatarUpload: ElementRef;
-
+  pushUp = false;
   firstForumGroup: FormGroup;
   secondForumGroup: FormGroup;
   firstIdeaGroup: FormGroup;
@@ -697,6 +697,7 @@ export class MentorChatComponent implements OnInit {
 
 
         openChat(type:string, id: number) {
+            this.pushUp = false;
             this.hideMobileLeft = true
             this.ideaPanel = false;
             this.typedMessage = '';
@@ -879,10 +880,6 @@ export class MentorChatComponent implements OnInit {
 
                 //message['unread_count'] is to track before a conversation is clicked
                 this.activeConversation['unread_count'] = 0;
-
-                setTimeout(()=>{
-                  this.focusInput('')
-                },1)
 
           } 
 
@@ -1119,6 +1116,7 @@ export class MentorChatComponent implements OnInit {
             return
           }
           this.sendMessage.nativeElement.focus()
+          this.pushUp = true;
         }
 
 

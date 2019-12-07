@@ -669,7 +669,7 @@
 
   <!--Main Conversation Body-->
 
-    <div class="right-side-body" (scroll)="onScroll($event)" (keydown)="focusInput($event)" #scrollToBottom tabindex="1">
+    <div class="right-side-body" (scroll)="onScroll($event)"  #scrollToBottom tabindex="1">
 
       <div class="chat-message" *ngFor="let message of activeConversation.conversation">
 
@@ -784,7 +784,7 @@
 
     </div>
 
-  <div class="right-side-bottom">
+  <div class="right-side-bottom" [class.push-up]="pushUp">
 
 
       <div class="send-message">
@@ -795,7 +795,7 @@
           
         <mat-form-field appearance="outline" class="page-search-input">
           
-            <input #sendMessage matInput name="message" [(ngModel)]="typedMessage" placeholder="Type a message" autocomplete="off" (keyup.enter)="submitMessage()" autofocus>
+            <input #sendMessage matInput name="message" [(ngModel)]="typedMessage" placeholder="Type a message" autocomplete="off" (keyup.enter)="submitMessage()" (click)="pushUp=true" >
           
         </mat-form-field>
 

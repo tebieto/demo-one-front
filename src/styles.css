@@ -14,6 +14,11 @@ html, body {
     font-family: 'Gayathri', cursive !important;
 }
 
+mat-toolbar button {
+    
+    min-height: 100% !important;
+}
+
 .flexer {
     flex: 1 1 auto;
   }
@@ -139,11 +144,15 @@ html, body {
 
   /* For Chat Pages */
 
+mat-toolbar-row {
+    display: flex !important;
+    align-content: center !important;
+}
 
 mat-toolbar-row button {
     background: #11C7B3;
     color: #fff;
-    margin: 5px;
+    margin-left: 10px !important;
 }
 
 mat-toolbar-row span {
@@ -163,10 +172,8 @@ mat-toolbar-row span {
     background: #11C7B3 !important;
 }
 .special-logo {
-    color: #fff !important;
-    margin-left: -10px;
-    padding: 0px !important;
-    margin-bottom: 10px;
+    position: relative;
+    left: 0px;
 }
 .special-logo mat-icon {
     font-size: 15px !important;
@@ -175,10 +182,10 @@ mat-toolbar-row span {
 
 .app-card {
     position:fixed;
-    top: 50px;
+    top: 60px;
     right: 0;
     left:0;
-    width:98%;
+    width:99%;
     margin-right:auto;
     margin-left: auto;
     height:91%;
@@ -190,7 +197,6 @@ mat-toolbar-row span {
 .logout {
     color:#fff !important;
     cursor: pointer;
-    margin-right: 12px;
 }
 
 .left-side {
@@ -1117,11 +1123,6 @@ mat-toolbar-row span {
     color: #fff;
 }
 
-.chat-nav {
-    margin-left: 10px;
-    font-weight: bold;
-}
-
 .idea-title {
     position: relative;
     left: 5px;
@@ -1204,7 +1205,7 @@ mat-toolbar .badge {
 
 .welcome-logo {
  position: relative;
- left: -20px !important; 
+ left: 0px !important; 
 }
 
 .auth-footer {
@@ -1215,7 +1216,8 @@ mat-toolbar .badge {
 .notification-tab {
     height: 500px !important;
     width: 400px !important;
-    min-width: 400px !important;
+    max-width: 90% !important;
+    margin: 0 10px 0 10px;
 }
 
 .custom-menu {
@@ -1265,11 +1267,6 @@ mat-toolbar .badge {
     .on-mobile {
         display:block !important
     }
-}
-
-.chat-notify {
-    position: relative;
-    top: -4px;
 }
 
 
@@ -1337,7 +1334,7 @@ body {
     }
 
     mat-toolbar .badge {
-        margin-top: 8px;
+        margin-top: 7px !important;
         margin-left: 15px !important;
     }
 
@@ -1370,11 +1367,15 @@ body {
 
 /*End of responsive design for chat system*/
 
+
+/* For Profile Pages*/
+
+.profile-header .user-name {
+    margin: 10px 0px 10px 0px;
+}
+
+/* End of For Profile Pages*/
 .body {
     min-width: 300px !important;
     overflow: scroll;
-}
-
-.welcome-logo[text] {
-    display: none !important;
 }

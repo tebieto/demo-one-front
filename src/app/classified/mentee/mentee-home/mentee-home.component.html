@@ -7,7 +7,7 @@
     <span class="special-logo" [routerLink]="'/mentee/home'"><img class="img-logo" src="/assets/images/app-logo.png" alt=""></span>
     <span class="flexer"></span>
     <app-shared-notification [id]="authUser.id" link="/mentee" class="chat-notify"></app-shared-notification>
-    <div [routerLink]="'/mentee/home'" class="logout chat-nav" title="Home"><mat-icon>home</mat-icon> </div>
+    <button mat-button [routerLink]="'/mentee/home'" class="logout chat-nav" title="Home"><mat-icon>home</mat-icon></button>
   </mat-toolbar-row>
 </mat-toolbar>
 

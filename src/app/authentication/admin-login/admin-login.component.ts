@@ -29,7 +29,7 @@ export class AdminLoginComponent implements OnInit {
     this.titleService.setTitle('IDEAHUB| Admin Login')
   }
 
-  email = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(200) ]);
+  email = new FormControl('', [Validators.required ]);
   password = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   getEmailErrorMessage() {

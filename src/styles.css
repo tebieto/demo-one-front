@@ -1383,3 +1383,7 @@ body {
 .is-mobile .push-up {
     margin-bottom : 10% !important;
 }
+
+.see-more {
+    cursor: pointer !important
+}

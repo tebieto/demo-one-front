@@ -29,7 +29,7 @@
              <!-- Weight Column -->
              <ng-container matColumnDef="about">
                <th mat-header-cell *matHeaderCellDef>About</th>
-               <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.about}} </div></td>
+               <td mat-cell *matCellDef="let element" class="custom-grey"> <div class="custom-td">{{element.about.slice(0,200)}} <span *ngIf="element.about.length>200" class="text-success see-more">... <span [routerLink]="['/innovate/mentor-profile/'+element.data]">read more</span> </span> </div></td>
              </ng-container>
            
              <!-- Symbol Column -->

@@ -242,6 +242,9 @@ export class MenteeHomeComponent implements OnInit {
         available = this.conversations.find(c=>{
           return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
         });
+        if(!available) {
+          this.startNewDirect(data, 'init', data['message'], 'delivered', false, true)
+        }
         } else if(data['type']=="forum") { 
           available = this.forums.find(c=>{
             return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
@@ -1664,13 +1667,13 @@ export class MenteeHomeComponent implements OnInit {
           this.openChat('chat', id)
         } else if(!isStarted) {
           
-          this.startNewDirect(isValid, 'clicked')
+          this.startNewDirect(isValid, 'clicked', "Start Chat with "+ isValid['sender'].name, 'void', true, false)
       
         }
       }
 
 
-      startNewDirect(data: object, type: string) {
+      startNewDirect(data: object, type: string, newMessage: string, newStatus: string, isVoid: boolean, isUnread: boolean) {
         let now = this.utcNow()
         let newDirect = {
           sender: {
@@ -1694,11 +1697,11 @@ export class MenteeHomeComponent implements OnInit {
                 name: this.authUser.name,
                 avatar: this.authUser.avatar
               },
-              message: "Start Chat with "+ data['sender'].name,
+              message: newMessage,
               created_at: now,
-              status: 'void',
-              void: true,
-              unread: false,
+              status: newStatus,
+              void: isVoid,
+              unread: isUnread,
               starred: false,
               parent: 0,
               type: 'chat'

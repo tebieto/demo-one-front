@@ -264,7 +264,7 @@ export class MentorChatComponent implements OnInit {
             newChat['sender']['id'] = x['id']
             newChat['sender']['name'] = x['full_name']+"(Your Mentee)"
             newChat['sender']['avatar'] = x['image']
-            this.startNewDirect(newChat, 'init')
+            this.startNewDirect(newChat, 'init', "Start Chat with "+ newChat['sender']['name'], 'void', true, false)
           });
           this.isConnecting = false;
         }
@@ -275,6 +275,9 @@ export class MentorChatComponent implements OnInit {
         available = this.conversations.find(c=>{
           return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
         });
+        if(!available) {
+          this.startNewDirect(data, 'init', data['message'], 'delivered', false, true)
+        }
         } else if(data['type']=="forum") { 
           available = this.forums.find(c=>{
             return (c.sender.id == data['sender_id'] && c.recipient.id==data['recipient_id'])
@@ -1644,13 +1647,13 @@ export class MentorChatComponent implements OnInit {
           this.openChat('chat', id)
         } else if(!isStarted) {
           
-          this.startNewDirect(isValid, 'clicked')
+          this.startNewDirect(isValid, 'clicked', "Start Chat with "+ isValid['sender'].name, 'void', true, false)
       
         }
       }
 
 
-      startNewDirect(data: object, type: string) {
+      startNewDirect(data: object, type: string, newMessage, newStatus, isVoid, isUnread) {
         let now = this.utcNow()
         let newDirect = {
           sender: {
@@ -1674,11 +1677,11 @@ export class MentorChatComponent implements OnInit {
                 name: this.authUser.name,
                 avatar: this.authUser.avatar
               },
-              message: "Start Chat with "+ data['sender'].name,
+              message: newMessage,
               created_at: now,
-              status: 'void',
-              void: true,
-              unread: false,
+              status: newStatus,
+              void: isVoid,
+              unread: isUnread,
               starred: false,
               parent: 0,
               type: 'chat'

@@ -153,7 +153,7 @@ export class AdminRegistrationComponent implements OnInit {
   
   storeToken(token: string){
     localStorage.setItem('token', token)
-    document.cookie = encodeURIComponent('token='+Config.bearer+''+token)
+    document.cookie = "token="+token+'; domain=my-gpi.com';
     return true
   }
 
